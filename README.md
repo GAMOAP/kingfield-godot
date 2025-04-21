@@ -19,6 +19,6 @@ Git user attention
 
 3. Install Godot.
 
-4. Import 
+4. Open Godot, import project ./kingfield-godot/poject.godot
 
 
