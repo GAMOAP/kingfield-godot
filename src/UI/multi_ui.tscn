@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk6vtu20dh8nm"]
+
+[ext_resource type="Script" path="res://src/UI/multi_ui.gd" id="1_qk6fc"]
+
+[node name="multi_UI" type="Node2D"]
+script = ExtResource("1_qk6fc")
+
+[node name="login_menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="login_menu"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 448.0
+offset_right = 768.0
+offset_bottom = 832.0
+
+[node name="email" type="TextEdit" parent="login_menu/Panel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 32.0
+offset_right = 448.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 24
+text = "Email"
+
+[node name="password" type="TextEdit" parent="login_menu/Panel"]
+offset_left = 64.0
+offset_top = 112.0
+offset_right = 448.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 24
+text = "Password"
+
+[node name="password_confirm" type="TextEdit" parent="login_menu/Panel"]
+offset_left = 64.0
+offset_top = 176.0
+offset_right = 448.0
+offset_bottom = 224.0
+theme_override_font_sizes/font_size = 24
+text = "confirm password"
+
+[node name="confirm" type="Button" parent="login_menu/Panel"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 256.0
+offset_right = 352.0
+offset_bottom = 320.0
+theme_override_font_sizes/font_size = 32
+text = "Sign up"
+
+[node name="change_panel" type="Button" parent="login_menu/Panel"]
+offset_left = 128.0
+offset_top = 336.0
+offset_right = 384.0
+offset_bottom = 368.0
+text = "Login
+"
+
+[connection signal="button_down" from="login_menu/Panel/confirm" to="." method="_on_confirm_button_down"]
+[connection signal="button_down" from="login_menu/Panel/change_panel" to="." method="_on_change_panel_button_down"]
