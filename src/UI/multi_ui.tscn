@@ -14,51 +14,35 @@ offset_bottom = 40.0
 [node name="Panel" type="Panel" parent="login_menu"]
 layout_mode = 0
 offset_left = 256.0
-offset_top = 448.0
+offset_top = 464.0
 offset_right = 768.0
-offset_bottom = 832.0
+offset_bottom = 688.0
 
-[node name="email" type="TextEdit" parent="login_menu/Panel"]
+[node name="UsernameInput" type="LineEdit" parent="login_menu/Panel"]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 32.0
 offset_right = 448.0
 offset_bottom = 80.0
 theme_override_font_sizes/font_size = 24
-text = "Email"
+placeholder_text = "username"
+alignment = 1
 
-[node name="password" type="TextEdit" parent="login_menu/Panel"]
-offset_left = 64.0
-offset_top = 112.0
-offset_right = 448.0
-offset_bottom = 160.0
-theme_override_font_sizes/font_size = 24
-text = "Password"
-
-[node name="password_confirm" type="TextEdit" parent="login_menu/Panel"]
-offset_left = 64.0
-offset_top = 176.0
-offset_right = 448.0
-offset_bottom = 224.0
-theme_override_font_sizes/font_size = 24
-text = "confirm password"
-
-[node name="confirm" type="Button" parent="login_menu/Panel"]
+[node name="SubmitButton" type="Button" parent="login_menu/Panel"]
 layout_mode = 0
 offset_left = 160.0
-offset_top = 256.0
+offset_top = 128.0
 offset_right = 352.0
-offset_bottom = 320.0
+offset_bottom = 192.0
 theme_override_font_sizes/font_size = 32
-text = "Sign up"
+text = "Submit"
 
-[node name="change_panel" type="Button" parent="login_menu/Panel"]
-offset_left = 128.0
-offset_top = 336.0
-offset_right = 384.0
-offset_bottom = 368.0
-text = "Login
-"
+[node name="FeedbackLabel" type="Label" parent="login_menu/Panel"]
+layout_mode = 0
+offset_top = 240.0
+offset_right = 512.0
+offset_bottom = 263.0
 
-[connection signal="button_down" from="login_menu/Panel/confirm" to="." method="_on_confirm_button_down"]
-[connection signal="button_down" from="login_menu/Panel/change_panel" to="." method="_on_change_panel_button_down"]
+[connection signal="text_changed" from="login_menu/Panel/UsernameInput" to="." method="_on_username_text_changed"]
+[connection signal="text_submitted" from="login_menu/Panel/UsernameInput" to="." method="_on_username_input_text_submitted"]
+[connection signal="button_down" from="login_menu/Panel/SubmitButton" to="." method="_on_confirm_button_down"]

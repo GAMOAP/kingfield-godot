@@ -1,41 +1,41 @@
 extends Node2D
 
-var _email = ""
-var _password = ""
-var _password_confim = ""
-var _panel = "Sign up"
+var username = ""
+var _last_valid_text := ""
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _on_username_text_changed(new_text: String) -> void:
+	var regex = RegEx.new()
+	regex.compile("^[a-zA-Z0-9]{0,12}$")  # Allow up to 12 letters or numbers
+	
+	if regex.search(new_text):
+		_last_valid_text = new_text
+		$login_menu/Panel/UsernameInput.add_theme_color_override("font_color", Color.WHITE)
+	else:
+		$login_menu/Panel/UsernameInput.text = _last_valid_text
+		$login_menu/Panel/UsernameInput.add_theme_color_override("font_color", Color.RED)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+func _on_username_input_text_submitted(input_text: String) -> void:
+	validate_username(input_text)
 
 func _on_confirm_button_down() -> void:
-	_email = $login_menu/Panel/email.text
-	_password = $login_menu/Panel/password.text
-	if _panel == "Sign up":
-		_password_confim = $login_menu/Panel/password_confirm.text
-	
-	elif _panel == "Login":
-		pass
-	
+	var input_text = $login_menu/Panel/UsernameInput.text.strip_edges()  # Get the username without spaces
+	validate_username(input_text)
 
-
-func _on_change_panel_button_down() -> void:
-	print(_panel)
-	if _panel == "Sign up":
-		$login_menu/Panel/password_confirm.visible = false
-		$login_menu/Panel/change_panel.text = "Sign up"
-		$login_menu/Panel/confirm.text = "Login"
-		_panel = "Login"
+func validate_username(input_text: String) -> void:
+	var regex = RegEx.new()
+	regex.compile("^[a-zA-Z0-9]{6,12}$")  # Min 6, max 12, alphanumerics only
 	
-	elif _panel == "Login":
-		$login_menu/Panel/password_confirm.visible = true
-		$login_menu/Panel/change_panel.text = "Login"
-		$login_menu/Panel/confirm.text = "Sign up"
-		_panel = "Sign up"
+	if not regex.search(input_text):
+		$login_menu/Panel/UsernameInput.add_theme_color_override("font_color", Color.RED)
+	else:
+		username = input_text
+		var result = await ServerConnection.authenticate_async()
+		if result == OK:
+			connect_to_server()
+		else:
+			$login_menu/Panel/FeedbackLabel.text = result
+
+func connect_to_server() -> void:
+	print ("connected !!!")
+	pass
