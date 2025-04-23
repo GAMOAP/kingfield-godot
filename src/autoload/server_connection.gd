@@ -12,14 +12,15 @@ var _socket : NakamaSocket
 
 
 func authenticate_async() -> int:
-	var result := OK
 	var new_session: NakamaSession = await _client.authenticate_device_async(_device_id)
-	if not new_session.is_exception():
-		_session = new_session
+	if new_session.is_exception():
+		DebugConsole.log("An error occurred: %s" % _session, DebugConsole.LogLevel.ERROR)
+		return new_session.get_exception().status_code
 	else:
-		result = new_session.get_exception().status_code
-	return result
-	
+		DebugConsole.log("Successfully authenticated: %s" % _session)
+		_session = new_session
+		return OK
+
 func connect_to_server_async() -> int:
 	_socket = Nakama.create_socket_from(_client)
 	var result: NakamaAsyncResult = await  _socket.connect_async(_session)
@@ -33,6 +34,29 @@ func connect_to_server_async() -> int:
 		
 		return OK
 	return ERR_CANT_CONNECT
+
+func get_user_account_async() -> Dictionary:
+	var account = await _client.get_account_async(_session)
+	if account.is_exception():
+		DebugConsole.log("Account recovery error: %s" % account)
+		return {}
+	else:
+		var user = account.user
+		var user_info = {
+			"user_id": user.id,
+			"username": user.username,
+		}
+		return user_info
+
+func update_user_account_async(
+	username: String = ""
+) -> void:
+	var update_result = await _client.update_account_async(
+		_session,
+		username
+	)
+	if update_result.is_exception():
+		DebugConsole.log("Error updating account : %s" % update_result)
 
 func join_world_async() -> Dictionary:
 	var world: NakamaAPI.ApiRpc = await _client.rpc_async(_session,"get_world_id", "")

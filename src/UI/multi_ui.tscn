@@ -1,24 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk6vtu20dh8nm"]
+[gd_scene load_steps=3 format=3 uid="uid://bk6vtu20dh8nm"]
 
-[ext_resource type="Script" path="res://src/UI/multi_ui.gd" id="1_qk6fc"]
+[ext_resource type="Script" path="res://src/UI/connexion_panel.gd" id="1_k6u05"]
+[ext_resource type="Script" path="res://src/UI/user_panel.gd" id="2_11jab"]
 
 [node name="multi_UI" type="Node2D"]
-script = ExtResource("1_qk6fc")
 
-[node name="login_menu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Panel" type="Panel" parent="login_menu"]
-layout_mode = 0
+[node name="connexionPanel" type="Panel" parent="."]
 offset_left = 256.0
 offset_top = 464.0
 offset_right = 768.0
 offset_bottom = 688.0
+script = ExtResource("1_k6u05")
 
-[node name="UsernameInput" type="LineEdit" parent="login_menu/Panel"]
+[node name="UsernameInput" type="LineEdit" parent="connexionPanel"]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 32.0
@@ -28,7 +22,7 @@ theme_override_font_sizes/font_size = 24
 placeholder_text = "username"
 alignment = 1
 
-[node name="SubmitButton" type="Button" parent="login_menu/Panel"]
+[node name="SubmitButton" type="Button" parent="connexionPanel"]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 128.0
@@ -37,12 +31,27 @@ offset_bottom = 192.0
 theme_override_font_sizes/font_size = 32
 text = "Submit"
 
-[node name="FeedbackLabel" type="Label" parent="login_menu/Panel"]
+[node name="FeedbackLabel" type="Label" parent="connexionPanel"]
 layout_mode = 0
-offset_top = 240.0
-offset_right = 512.0
-offset_bottom = 263.0
+offset_left = -240.0
+offset_top = 528.0
+offset_right = 752.0
+offset_bottom = 551.0
 
-[connection signal="text_changed" from="login_menu/Panel/UsernameInput" to="." method="_on_username_text_changed"]
-[connection signal="text_submitted" from="login_menu/Panel/UsernameInput" to="." method="_on_username_input_text_submitted"]
-[connection signal="button_down" from="login_menu/Panel/SubmitButton" to="." method="_on_confirm_button_down"]
+[node name="UserPanel" type="Panel" parent="."]
+offset_left = 736.0
+offset_top = 32.0
+offset_right = 992.0
+offset_bottom = 96.0
+script = ExtResource("2_11jab")
+
+[node name="UserName" type="Label" parent="UserPanel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 48.0
+
+[connection signal="text_changed" from="connexionPanel/UsernameInput" to="connexionPanel" method="_on_username_input_text_changed"]
+[connection signal="text_submitted" from="connexionPanel/UsernameInput" to="connexionPanel" method="_on_username_input_text_submitted"]
+[connection signal="button_down" from="connexionPanel/SubmitButton" to="connexionPanel" method="_on_submit_button_button_down"]

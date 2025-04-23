@@ -16,3 +16,9 @@ position = Vector2(512, 256)
 texture = ExtResource("2_6le3c")
 
 [node name="multi_UI" parent="." instance=ExtResource("3_h1uey")]
+
+[node name="DebugConsole" type="RichTextLabel" parent="."]
+offset_left = 32.0
+offset_top = 960.0
+offset_right = 512.0
+offset_bottom = 1024.0
