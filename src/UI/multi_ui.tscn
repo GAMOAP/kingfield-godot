@@ -1,17 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk6vtu20dh8nm"]
+[gd_scene load_steps=5 format=3 uid="uid://bk6vtu20dh8nm"]
 
 [ext_resource type="Script" path="res://src/UI/multi_ui.gd" id="1_44wpv"]
+[ext_resource type="Texture2D" uid="uid://w63dh7re0als" path="res://assets/game_screen/btn_start_normal.png" id="2_fp8oi"]
+[ext_resource type="Texture2D" uid="uid://fv4lbxsoa4v7" path="res://assets/game_screen/btn_start_pressed.png" id="3_qfuop"]
+[ext_resource type="Texture2D" uid="uid://cw668ug1kcg07" path="res://assets/game_screen/btn_start_hover.png" id="4_lafaj"]
 
 [node name="multi_UI" type="Node2D"]
 script = ExtResource("1_44wpv")
 
-[node name="connexionPanel" type="Panel" parent="."]
+[node name="ConnexionPanel" type="Panel" parent="."]
 offset_left = 256.0
 offset_top = 464.0
 offset_right = 768.0
 offset_bottom = 688.0
 
-[node name="UsernameInput" type="LineEdit" parent="connexionPanel"]
+[node name="UsernameInput" type="LineEdit" parent="ConnexionPanel"]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 32.0
@@ -21,7 +24,7 @@ theme_override_font_sizes/font_size = 24
 placeholder_text = "username"
 alignment = 1
 
-[node name="SubmitButton" type="Button" parent="connexionPanel"]
+[node name="SubmitButton" type="Button" parent="ConnexionPanel"]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 128.0
@@ -32,6 +35,7 @@ disabled = true
 text = "Submit"
 
 [node name="UserPanel" type="Panel" parent="."]
+visible = false
 offset_left = 736.0
 offset_top = 32.0
 offset_right = 992.0
@@ -47,6 +51,16 @@ theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="text_changed" from="connexionPanel/UsernameInput" to="." method="_on_username_input_text_changed"]
-[connection signal="text_submitted" from="connexionPanel/UsernameInput" to="." method="_on_username_input_text_submitted"]
-[connection signal="button_down" from="connexionPanel/SubmitButton" to="." method="_on_submit_button_button_down"]
+[node name="ButtonStart" type="TextureButton" parent="."]
+visible = false
+offset_left = 368.0
+offset_top = 352.0
+offset_right = 656.0
+offset_bottom = 672.0
+texture_normal = ExtResource("2_fp8oi")
+texture_pressed = ExtResource("3_qfuop")
+texture_hover = ExtResource("4_lafaj")
+
+[connection signal="text_changed" from="ConnexionPanel/UsernameInput" to="." method="_on_username_input_text_changed"]
+[connection signal="text_submitted" from="ConnexionPanel/UsernameInput" to="." method="_on_username_input_text_submitted"]
+[connection signal="button_down" from="ConnexionPanel/SubmitButton" to="." method="_on_submit_button_button_down"]
