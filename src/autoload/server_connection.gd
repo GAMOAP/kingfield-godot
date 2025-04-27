@@ -9,20 +9,26 @@ var _session : NakamaSession
 var _client := Nakama.create_client(KEY, "31.207.39.111", 7350, "http")
 
 var _socket : NakamaSocket
+var _match_id : String
+var _matchmaker_ticket : String
 
 
-func authenticate_async() -> int:
+# ----------------------------
+# CONNECT AND AUTENTICATION
+# ----------------------------
+func authenticate_async() -> String:
 	var new_session: NakamaSession = await _client.authenticate_device_async(_device_id)
 	if new_session.is_exception():
 		DebugConsole.log("An error occurred: %s" % new_session.get_exception().status_code, DebugConsole.LogLevel.ERROR)
-		return new_session.get_exception().status_code
+		return "ERROR"
 	else:
 		_session = new_session
 		DebugConsole.log("Server connection established.")
-		return OK
-
-func is_new_session() -> bool:
-	return _session.created
+		
+		if _session.created :
+			return "NEW_SESSION"
+		else :
+			return "OK"
 
 func connect_to_server_async() -> int:
 	_socket = Nakama.create_socket_from(_client)
@@ -32,33 +38,79 @@ func connect_to_server_async() -> int:
 		_socket.closed.connect(_on_Socket_closed)
 		_socket.received_error.connect(_on_Socket_received_error)
 		
-		_socket.received_match_presence.connect(_on_match_presence)
-		_socket.received_match_state.connect(_on_match_state)
+		_socket.received_matchmaker_matched.connect(_on_matchmaker_matched)
+		_socket.received_match_state.connect(_on_match_data_received)
 		
 		return OK
 	return ERR_CANT_CONNECT
 
-func join_world_async() -> Dictionary:
-	var world: NakamaAPI.ApiRpc = await _client.rpc_async(_session,"get_world_id", "")
-	return {}
-	
-
 func _on_Socket_connected() -> void:
-	pass
+	DebugConsole.log("Socket connected.")
 
-func _on_Socket_closed() -> void:
+func _on_Socket_closed(code: int, reason: String) -> void:
+	DebugConsole.log("Socket closed. Code : %s | Raison : %s" % [code, reason],DebugConsole.LogLevel.WARNING)
+	_match_id = ""
+	_matchmaker_ticket = ""
 	_socket = null
 
 func _on_Socket_received_error() -> void:
-	pass
+	DebugConsole.log("Socket received_error.",DebugConsole.LogLevel.ERROR)
 
-func _on_match_presence(presence : NakamaRTAPI.MatchPresenceEvent):
-	print(presence)
+# ----------------------------
+# MATCH MAKING
+# ----------------------------
+func start_matchmaking():
+	# Matchmaking criteria
+	var query = "*"
+	var min_players = 2
+	var max_players = 2
+	
+	var matchmaking_ticket_obj : NakamaRTAPI.MatchmakerTicket = await _socket.add_matchmaker_async(
+		query,
+		min_players,
+		max_players
+	)
+	if matchmaking_ticket_obj.is_exception() :
+		DebugConsole.log("Erreur matchmaking : %s" % matchmaking_ticket_obj.exception,DebugConsole.LogLevel.ERROR)
+	else :
+		_matchmaker_ticket = matchmaking_ticket_obj.ticket
+		DebugConsole.log("waiting for the opponent... %s" % _matchmaker_ticket)
 
-func _on_match_state(state : NakamaRTAPI.MatchData):
-	print("data is : " + str(state.data))
+func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
+	DebugConsole.log("Match found !")
+	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
+	_match_id = match.match_id
+	emit_signal("MATCH_FOUND")
 
-# USER ACCOUNT==================================================================
+func send_turn(turn_data: Dictionary) -> void:
+	if not _match_id:
+		push_error("No active match.")
+		return
+		
+	var op_code: int = 1
+	var json: String = JSON.stringify(turn_data)
+	await _socket.send_match_data_async(_match_id, op_code, json.to_utf8_buffer())
+
+func _on_match_data_received(
+	p_match_id: String,
+	p_user_id: String,
+	p_op_code: int,
+	p_data: PackedByteArray,
+	p_reliable: bool
+) -> void:
+	if p_op_code == 1:
+		var decoded: Dictionary = JSON.parse_string(p_data.get_string_from_utf8())
+		emit_signal("turn_received", p_user_id, decoded)
+
+func leave_match() -> void:
+	if _socket and _match_id:
+		await _socket.leave_match_async(_match_id)
+	if _socket:
+		await _socket.close_async()
+		
+# ----------------------------
+# USER ACCOUNT
+# ----------------------------
 func get_user_account_async() -> Dictionary:
 	var account = await _client.get_account_async(_session)
 	if account.is_exception():

@@ -6,10 +6,12 @@ var _userdata := {}
 var _last_valid_text := ""
 
 func _ready() -> void:
+	ServerConnection.connect("MATCH_FOUND", Callable(self, "_on_match_found"))
+	
 	var result = await ServerConnection.authenticate_async()
-	if result == OK:
+	if result != "ERROR":
 		$ConnexionPanel/SubmitButton.disabled = false
-		if not ServerConnection.is_new_session():
+		if result != "NEW_SESSION":
 			_userdata = await ServerConnection.get_user_account_async()
 			$ConnexionPanel/UsernameInput.text = _userdata.username
 			$ConnexionPanel/SubmitButton.text =  "Login"
@@ -53,3 +55,21 @@ func user_connected(username) -> void:
 	$ButtonStart.visible = true
 	
 	multi_UI_action.emit("user_connected")
+
+
+func _on_button_start_pressed() -> void:
+	var result = await ServerConnection.connect_to_server_async()
+	if result == OK :
+		$ButtonStart.visible = false
+		ServerConnection.start_matchmaking()
+
+
+func _on_send_data_button_pressed() -> void:
+	var new_data = $SendTurn/Data.text
+	var data : Dictionary = {
+		"data": new_data
+	}
+	ServerConnection.send_turn(data)
+
+func _on_match_found():
+	$SendTurn.visible = true
