@@ -4,6 +4,7 @@ extends Node
 const KEY := "defaultkey"
 
 var _device_id = OS.get_unique_id()
+var args = OS.get_cmdline_args()
 
 var _session : NakamaSession
 var _client := Nakama.create_client(KEY, "31.207.39.111", 7350, "http")
@@ -12,11 +13,18 @@ var _socket : NakamaSocket
 var _match_id : String
 var _matchmaker_ticket : String
 
+var opponent_data : Dictionary = {}
+
+signal match_found
 
 # ----------------------------
 # CONNECT AND AUTENTICATION
 # ----------------------------
 func authenticate_async() -> String:
+	# set gotot instance device ID
+	for arg in args:
+		_device_id = arg.replace("--device_id=", "")
+	
 	var new_session: NakamaSession = await _client.authenticate_device_async(_device_id)
 	if new_session.is_exception():
 		DebugConsole.log("An error occurred: %s" % new_session.get_exception().status_code, DebugConsole.LogLevel.ERROR)
@@ -74,13 +82,25 @@ func start_matchmaking():
 		DebugConsole.log("Erreur matchmaking : %s" % matchmaking_ticket_obj.exception,DebugConsole.LogLevel.ERROR)
 	else :
 		_matchmaker_ticket = matchmaking_ticket_obj.ticket
-		DebugConsole.log("waiting for the opponent... %s" % _matchmaker_ticket)
+		DebugConsole.log("waiting for the opponent... match : %s" % _matchmaker_ticket)
 
 func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 	DebugConsole.log("Match found !")
+	
 	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
 	_match_id = match.match_id
-	emit_signal("MATCH_FOUND")
+	
+	for matched_user in matched.users :
+		print(matched_user.presence.user_id)
+		#if presence.get("user_id") != _session.user_id:
+			#
+			#opponent_data = {
+				#"user_id": presence.get("user_id"),
+				#"username": presence.get("username")
+			#}
+			#DebugConsole.log("Opponent id : %s" % opponent_data.get("user_id"))
+	
+	match_found.emit()
 
 func send_turn(turn_data: Dictionary) -> void:
 	if not _match_id:

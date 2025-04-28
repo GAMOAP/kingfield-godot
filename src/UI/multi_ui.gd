@@ -2,11 +2,14 @@ extends Node2D
 
 signal multi_UI_action(message: String)
 
-var _userdata := {}
+var _userdata := {
+	"user_id": "",
+	"username": "",
+}
 var _last_valid_text := ""
 
 func _ready() -> void:
-	ServerConnection.connect("MATCH_FOUND", Callable(self, "_on_match_found"))
+	ServerConnection.match_found.connect(_on_match_found)
 	
 	var result = await ServerConnection.authenticate_async()
 	if result != "ERROR":
@@ -45,8 +48,8 @@ func validate_username(input_text: String) -> void:
 
 func user_connected(username) -> void:
 	if _userdata.username != username:
-			_userdata.username = username
-			ServerConnection.update_user_account_async(username)
+		_userdata.username = username
+		ServerConnection.update_user_account_async(username)
 	
 	$ConnexionPanel.visible = false
 	$UserPanel.visible = true
@@ -73,3 +76,4 @@ func _on_send_data_button_pressed() -> void:
 
 func _on_match_found():
 	$SendTurn.visible = true
+	$OpponentPanel.visible = true
