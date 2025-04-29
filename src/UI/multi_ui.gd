@@ -2,23 +2,27 @@ extends Node2D
 
 signal multi_UI_action(message: String)
 
-var _userdata := {
-	"user_id": "",
-	"username": "",
-}
+var _userdata := {}
 var _last_valid_text := ""
 
+# ----------------------------
+# SERVER CONNECTION
+# ----------------------------
 func _ready() -> void:
 	ServerConnection.match_found.connect(_on_match_found)
+	ServerConnection.turn_received.connect(_on_receive_data)
 	
 	var result = await ServerConnection.authenticate_async()
 	if result != "ERROR":
-		$ConnexionPanel/SubmitButton.disabled = false
+		_userdata = await ServerConnection.get_user_account_async()
 		if result != "NEW_SESSION":
-			_userdata = await ServerConnection.get_user_account_async()
 			$ConnexionPanel/UsernameInput.text = _userdata.username
 			$ConnexionPanel/SubmitButton.text =  "Login"
+		$ConnexionPanel.visible = true
 
+# ----------------------------
+# USERNAME VALIDATION
+# ----------------------------
 func _on_username_input_text_changed(new_text: String) -> void:
 	var regex = RegEx.new()
 	regex.compile("^[a-zA-Z0-9]{0,16}$")  # Allow up to 12 letters or numbers
@@ -46,8 +50,11 @@ func validate_username(input_text: String) -> void:
 	else:
 		user_connected(input_text)
 
+# ----------------------------
+# USER CONNECTED
+# ----------------------------
 func user_connected(username) -> void:
-	if _userdata.username != username:
+	if _userdata.username != username :
 		_userdata.username = username
 		ServerConnection.update_user_account_async(username)
 	
@@ -55,18 +62,28 @@ func user_connected(username) -> void:
 	$UserPanel.visible = true
 	$UserPanel/UserName.text = username
 	
-	$ButtonStart.visible = true
+	$ButtonStartFight.visible = true
 	
 	multi_UI_action.emit("user_connected")
 
-
-func _on_button_start_pressed() -> void:
+# ----------------------------
+# START FIGHT
+# ----------------------------
+func _on_button_start_fight_pressed() -> void:
 	var result = await ServerConnection.connect_to_server_async()
 	if result == OK :
-		$ButtonStart.visible = false
+		$ButtonStartFight.visible = false
 		ServerConnection.start_matchmaking()
 
+func _on_match_found():
+	$SendTurn.visible = true
+	$OpponentPanel.visible = true
+	$OpponentPanel/OpponentName.add_theme_color_override("font_color", Color.RED)
+	$OpponentPanel/OpponentName.text = ServerConnection.opponent_data.username
 
+# ----------------------------
+# SEND DATA
+# ----------------------------
 func _on_send_data_button_pressed() -> void:
 	var new_data = $SendTurn/Data.text
 	var data : Dictionary = {
@@ -74,6 +91,6 @@ func _on_send_data_button_pressed() -> void:
 	}
 	ServerConnection.send_turn(data)
 
-func _on_match_found():
-	$SendTurn.visible = true
-	$OpponentPanel.visible = true
+func _on_receive_data(turn_data : Dictionary) -> void:
+	$SendTurn/ReceivedData. text = turn_data.data
+	

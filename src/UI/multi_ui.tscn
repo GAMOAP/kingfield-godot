@@ -8,7 +8,18 @@
 [node name="multi_UI" type="Node2D"]
 script = ExtResource("1_44wpv")
 
+[node name="ButtonStartFight" type="TextureButton" parent="."]
+visible = false
+offset_left = 368.0
+offset_top = 272.0
+offset_right = 656.0
+offset_bottom = 592.0
+texture_normal = ExtResource("2_fp8oi")
+texture_pressed = ExtResource("3_qfuop")
+texture_hover = ExtResource("4_lafaj")
+
 [node name="ConnexionPanel" type="Panel" parent="."]
+visible = false
 offset_left = 256.0
 offset_top = 464.0
 offset_right = 768.0
@@ -31,7 +42,6 @@ offset_top = 128.0
 offset_right = 352.0
 offset_bottom = 192.0
 theme_override_font_sizes/font_size = 32
-disabled = true
 text = "Submit"
 
 [node name="UserPanel" type="Panel" parent="."]
@@ -68,44 +78,45 @@ theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonStart" type="TextureButton" parent="."]
-visible = false
-offset_left = 368.0
-offset_top = 272.0
-offset_right = 656.0
-offset_bottom = 592.0
-texture_normal = ExtResource("2_fp8oi")
-texture_pressed = ExtResource("3_qfuop")
-texture_hover = ExtResource("4_lafaj")
-
 [node name="SendTurn" type="Panel" parent="."]
 visible = false
-offset_left = 256.0
-offset_top = 464.0
-offset_right = 768.0
-offset_bottom = 688.0
+offset_left = 208.0
+offset_top = 384.0
+offset_right = 848.0
+offset_bottom = 528.0
 
 [node name="Data" type="LineEdit" parent="SendTurn"]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 32.0
-offset_right = 448.0
-offset_bottom = 80.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 464.0
+offset_bottom = 64.0
 theme_override_font_sizes/font_size = 24
 placeholder_text = "data"
 alignment = 1
 
 [node name="SendDataButton" type="Button" parent="SendTurn"]
 layout_mode = 0
-offset_left = 160.0
-offset_top = 128.0
-offset_right = 352.0
-offset_bottom = 192.0
-theme_override_font_sizes/font_size = 32
+offset_left = 480.0
+offset_top = 16.0
+offset_right = 624.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 24
 text = "Send data"
 
+[node name="ReceivedData" type="Label" parent="SendTurn"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 624.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 24
+text = "recevied data"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="ButtonStartFight" to="." method="_on_button_start_fight_pressed"]
 [connection signal="text_changed" from="ConnexionPanel/UsernameInput" to="." method="_on_username_input_text_changed"]
 [connection signal="text_submitted" from="ConnexionPanel/UsernameInput" to="." method="_on_username_input_text_submitted"]
 [connection signal="button_down" from="ConnexionPanel/SubmitButton" to="." method="_on_submit_button_button_down"]
-[connection signal="pressed" from="ButtonStart" to="." method="_on_button_start_pressed"]
 [connection signal="pressed" from="SendTurn/SendDataButton" to="." method="_on_send_data_button_pressed"]

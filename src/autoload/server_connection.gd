@@ -15,7 +15,8 @@ var _matchmaker_ticket : String
 
 var opponent_data : Dictionary = {}
 
-signal match_found
+signal match_found()
+signal turn_received(turn_data: Dictionary)
 
 # ----------------------------
 # CONNECT AND AUTENTICATION
@@ -47,7 +48,7 @@ func connect_to_server_async() -> int:
 		_socket.received_error.connect(_on_Socket_received_error)
 		
 		_socket.received_matchmaker_matched.connect(_on_matchmaker_matched)
-		_socket.received_match_state.connect(_on_match_data_received)
+		_socket.received_match_state.connect(_on_match_state)
 		
 		return OK
 	return ERR_CANT_CONNECT
@@ -91,37 +92,37 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 	_match_id = match.match_id
 	
 	for matched_user in matched.users :
-		print(matched_user.presence.user_id)
-		#if presence.get("user_id") != _session.user_id:
-			#
-			#opponent_data = {
-				#"user_id": presence.get("user_id"),
-				#"username": presence.get("username")
-			#}
-			#DebugConsole.log("Opponent id : %s" % opponent_data.get("user_id"))
+		var userdata = matched_user.presence
+		if userdata.user_id != _session.user_id:
+			opponent_data = {
+				"user_id": userdata.user_id,
+				"username": userdata.username
+			}
+			DebugConsole.log("Opponent id : %s" % opponent_data.get("user_id"))
 	
 	match_found.emit()
 
+# ----------------------------
+# SEND/RECEIVED DATA
+# ----------------------------
 func send_turn(turn_data: Dictionary) -> void:
 	if not _match_id:
-		push_error("No active match.")
+		DebugConsole.log("No active match.", DebugConsole.LogLevel.ERROR)
 		return
 		
 	var op_code: int = 1
-	var json: String = JSON.stringify(turn_data)
-	await _socket.send_match_data_async(_match_id, op_code, json.to_utf8_buffer())
+	await _socket.send_match_state_async(_match_id, op_code, JSON.stringify(turn_data))
 
-func _on_match_data_received(
-	p_match_id: String,
-	p_user_id: String,
-	p_op_code: int,
-	p_data: PackedByteArray,
-	p_reliable: bool
-) -> void:
-	if p_op_code == 1:
-		var decoded: Dictionary = JSON.parse_string(p_data.get_string_from_utf8())
-		emit_signal("turn_received", p_user_id, decoded)
+func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
+	print("MATCH_STATE_RECEIVED")
+	
+	if match_state.op_code == 1:
+		var turn_data = JSON.parse_string(match_state.data)
+		turn_received.emit(turn_data)
 
+# ----------------------------
+# USER ACCOUNT
+# ----------------------------
 func leave_match() -> void:
 	if _socket and _match_id:
 		await _socket.leave_match_async(_match_id)
