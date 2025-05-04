@@ -1,15 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgfggaj24dx4a"]
+[gd_scene load_steps=8 format=3 uid="uid://cgfggaj24dx4a"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_27ehg"]
 [ext_resource type="Texture2D" uid="uid://bdv7dq58g5vip" path="res://assets/game_screen/background.png" id="1_dbrkr"]
 [ext_resource type="Texture2D" uid="uid://dwbtwo41k3n53" path="res://assets/game_screen/logo.png" id="2_6le3c"]
-[ext_resource type="PackedScene" uid="uid://bk6vtu20dh8nm" path="res://src/UI/multi_ui.tscn" id="3_h1uey"]
-[ext_resource type="Script" path="res://src/autoload/server_connection.gd" id="5_vv8hi"]
+[ext_resource type="Script" path="res://src/autoload/user_data.gd" id="3_3lidg"]
+[ext_resource type="PackedScene" uid="uid://bk6vtu20dh8nm" path="res://src/container/multiplayer_ui.tscn" id="3_h1uey"]
+[ext_resource type="Script" path="res://src/autoload/server_management.gd" id="5_vv8hi"]
+[ext_resource type="PackedScene" uid="uid://cy7ifg3eiha37" path="res://src/container/library.tscn" id="6_wal3g"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_27ehg")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="ServerManagement" type="Node" parent="."]
+script = ExtResource("5_vv8hi")
+
+[node name="UserData" type="Node" parent="."]
+script = ExtResource("3_3lidg")
+
+[node name="Background" type="TextureRect" parent="."]
 offset_right = 1024.0
 offset_bottom = 1024.0
 texture = ExtResource("1_dbrkr")
@@ -18,13 +26,15 @@ texture = ExtResource("1_dbrkr")
 position = Vector2(512, 256)
 texture = ExtResource("2_6le3c")
 
-[node name="multi_UI" parent="." instance=ExtResource("3_h1uey")]
+[node name="Library" parent="." instance=ExtResource("6_wal3g")]
+visible = false
 
-[node name="DebugConsole" type="RichTextLabel" parent="."]
+[node name="MultiplayerUI" parent="." instance=ExtResource("3_h1uey")]
+
+[node name="Console" type="RichTextLabel" parent="."]
 offset_left = 32.0
 offset_top = 928.0
 offset_right = 992.0
-offset_bottom = 992.0
-
-[node name="server_connection" type="Node" parent="."]
-script = ExtResource("5_vv8hi")
+offset_bottom = 990.0
+scroll_following = true
+tab_size = 1

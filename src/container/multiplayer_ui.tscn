@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://bk6vtu20dh8nm"]
 
-[ext_resource type="Script" path="res://src/UI/multi_ui.gd" id="1_44wpv"]
+[ext_resource type="Script" path="res://src/container/multiplayer_ui.gd" id="1_44wpv"]
 [ext_resource type="Texture2D" uid="uid://w63dh7re0als" path="res://assets/game_screen/btn_start_normal.png" id="2_fp8oi"]
 [ext_resource type="Texture2D" uid="uid://fv4lbxsoa4v7" path="res://assets/game_screen/btn_start_pressed.png" id="3_qfuop"]
 [ext_resource type="Texture2D" uid="uid://cw668ug1kcg07" path="res://assets/game_screen/btn_start_hover.png" id="4_lafaj"]
 
-[node name="multi_UI" type="Node2D"]
+[node name="Multiplayer_UI" type="Node2D"]
 script = ExtResource("1_44wpv")
 
 [node name="ButtonStartFight" type="TextureButton" parent="."]

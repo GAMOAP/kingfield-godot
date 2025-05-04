@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cy7ifg3eiha37"]
+
+[ext_resource type="Texture2D" uid="uid://fs515smhqnyh" path="res://assets/game_screen/library_bg.png" id="1_cvwsl"]
+
+[node name="Library" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 256.0
+offset_top = 128.0
+offset_right = 768.0
+offset_bottom = 640.0
+texture = ExtResource("1_cvwsl")

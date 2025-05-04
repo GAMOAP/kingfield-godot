@@ -1,10 +1,9 @@
 extends Node
 
+enum ReadPermissions { NO_READ, OWNER_READ, PUBLIC_READ }
+enum WritePermissions {NO_WRITE, OWNER_WRITE}
 
 const KEY := "defaultkey"
-
-var _device_id = OS.get_unique_id()
-var args = OS.get_cmdline_args()
 
 var _session : NakamaSession
 var _client := Nakama.create_client(KEY, "31.207.39.111", 7350, "http")
@@ -22,17 +21,13 @@ signal turn_received(turn_data: Dictionary)
 # CONNECT AND AUTENTICATION
 # ----------------------------
 func authenticate_async() -> String:
-	# set gotot instance device ID
-	for arg in args:
-		_device_id = arg.replace("--device_id=", "")
-	
-	var new_session: NakamaSession = await _client.authenticate_device_async(_device_id)
+	var new_session: NakamaSession = await _client.authenticate_device_async(UserData.get_device_id())
 	if new_session.is_exception():
-		DebugConsole.log("An error occurred: %s" % new_session.get_exception().status_code, DebugConsole.LogLevel.ERROR)
+		Console.log("An error occurred: %s" % new_session.get_exception().status_code, Console.LogLevel.ERROR)
 		return "ERROR"
 	else:
 		_session = new_session
-		DebugConsole.log("Server connection established.")
+		Console.log("Server connection established.")
 		
 		if _session.created :
 			return "NEW_SESSION"
@@ -54,16 +49,16 @@ func connect_to_server_async() -> int:
 	return ERR_CANT_CONNECT
 
 func _on_Socket_connected() -> void:
-	DebugConsole.log("Socket connected.")
+	Console.log("Socket connected.")
 
 func _on_Socket_closed(code: int, reason: String) -> void:
-	DebugConsole.log("Socket closed. Code : %s | Raison : %s" % [code, reason],DebugConsole.LogLevel.WARNING)
+	Console.log("Socket closed. Code : %s | Raison : %s" % [code, reason],Console.LogLevel.WARNING)
 	_match_id = ""
 	_matchmaker_ticket = ""
 	_socket = null
 
 func _on_Socket_received_error() -> void:
-	DebugConsole.log("Socket received_error.",DebugConsole.LogLevel.ERROR)
+	Console.log("Socket received_error.",Console.LogLevel.ERROR)
 
 # ----------------------------
 # MATCH MAKING
@@ -80,13 +75,13 @@ func start_matchmaking():
 		max_players
 	)
 	if matchmaking_ticket_obj.is_exception() :
-		DebugConsole.log("Erreur matchmaking : %s" % matchmaking_ticket_obj.exception,DebugConsole.LogLevel.ERROR)
+		Console.log("Erreur matchmaking : %s" % matchmaking_ticket_obj.exception,Console.LogLevel.ERROR)
 	else :
 		_matchmaker_ticket = matchmaking_ticket_obj.ticket
-		DebugConsole.log("waiting for the opponent... match : %s" % _matchmaker_ticket)
+		Console.log("waiting for the opponent... match : %s" % _matchmaker_ticket)
 
 func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
-	DebugConsole.log("Match found !")
+	Console.log("Match found !")
 	
 	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
 	_match_id = match.match_id
@@ -98,7 +93,7 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 				"user_id": userdata.user_id,
 				"username": userdata.username
 			}
-			DebugConsole.log("Opponent id : %s" % opponent_data.get("user_id"))
+			Console.log("Opponent id : %s" % opponent_data.get("user_id"))
 	
 	match_found.emit()
 
@@ -107,35 +102,33 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 # ----------------------------
 func send_turn(turn_data: Dictionary) -> void:
 	if not _match_id:
-		DebugConsole.log("No active match.", DebugConsole.LogLevel.ERROR)
+		Console.log("No active match.", Console.LogLevel.ERROR)
 		return
 		
 	var op_code: int = 1
 	await _socket.send_match_state_async(_match_id, op_code, JSON.stringify(turn_data))
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
-	print("MATCH_STATE_RECEIVED")
-	
 	if match_state.op_code == 1:
 		var turn_data = JSON.parse_string(match_state.data)
 		turn_received.emit(turn_data)
 
 # ----------------------------
-# USER ACCOUNT
+# LEAVE MATCH
 # ----------------------------
 func leave_match() -> void:
 	if _socket and _match_id:
 		await _socket.leave_match_async(_match_id)
 	if _socket:
 		await _socket.close_async()
-		
+
 # ----------------------------
 # USER ACCOUNT
 # ----------------------------
 func get_user_account_async() -> Dictionary:
 	var account = await _client.get_account_async(_session)
 	if account.is_exception():
-		DebugConsole.log("Account recovery error: %s" % account)
+		Console.log("Account recovery error: %s" % account)
 		return {}
 	else:
 		var user = account.user
@@ -153,4 +146,32 @@ func update_user_account_async(
 		username
 	)
 	if update_result.is_exception():
-		DebugConsole.log("Error updating account : %s" % update_result)
+		Console.log("Error updating account : %s" % update_result)
+
+# ----------------------------
+# USER STORAGE
+# ----------------------------
+func write_player_team(team:= {}) -> void:
+	var result: NakamaAsyncResult = await _client.write_storage_objects_async(_session,
+	[
+		NakamaWriteStorageObject.new(
+			"player_data",
+			"team",
+			ReadPermissions.OWNER_READ,
+			WritePermissions.OWNER_WRITE,
+			JSON.stringify({team = team}),
+			""
+		)
+	])
+	if result.is_exception():
+		Console.log("Write player data error : %" % result, Console.LogLevel.ERROR)
+
+func load_player_team() -> Dictionary:
+	var team:= {}
+	var storage_objects: NakamaAPI.ApiStorageObjects = await  _client.read_storage_objects_async(
+		_session,[NakamaStorageObjectId.new("player_data", "team", _session.user_id)]
+	)
+	if storage_objects.objects:
+		team = JSON.parse_string(storage_objects.objects[0].value).result.team
+	
+	return team
