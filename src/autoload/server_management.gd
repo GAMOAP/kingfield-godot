@@ -151,27 +151,26 @@ func update_user_account_async(
 # ----------------------------
 # USER STORAGE
 # ----------------------------
-func write_player_team(team:= {}) -> void:
+func write_player_data(key: String, value:= {}) -> void:
 	var result: NakamaAsyncResult = await _client.write_storage_objects_async(_session,
 	[
 		NakamaWriteStorageObject.new(
 			"player_data",
-			"team",
+			key,
 			ReadPermissions.OWNER_READ,
 			WritePermissions.OWNER_WRITE,
-			JSON.stringify({team = team}),
+			JSON.stringify({data = value}),
 			""
 		)
 	])
 	if result.is_exception():
 		Console.log("Write player data error : %" % result, Console.LogLevel.ERROR)
 
-func load_player_team() -> Dictionary:
-	var team:= {}
+func load_player_data(key: String) -> Dictionary:
 	var storage_objects: NakamaAPI.ApiStorageObjects = await  _client.read_storage_objects_async(
-		_session,[NakamaStorageObjectId.new("player_data", "team", _session.user_id)]
+		_session,[NakamaStorageObjectId.new("player_data", key, _session.user_id)]
 	)
 	if storage_objects.objects:
-		team = JSON.parse_string(storage_objects.objects[0].value).result.team
-	
-	return team
+		var decoded :Dictionary = JSON.parse_string(storage_objects.objects[0].value).data
+		return decoded
+	return {}
