@@ -13,5 +13,4 @@ func _on_multi_UI_action(UI_action) -> void :
 	print(UI_action)
 	if UI_action == "user_connected" :
 		$Logo.visible = false
-		$Characters.visible = true
-		UserData.get_user_team()
+		$Characters.init_user_team()

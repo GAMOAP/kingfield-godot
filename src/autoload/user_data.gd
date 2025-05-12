@@ -30,8 +30,8 @@ func get_user_team() -> Dictionary :
 		for char in Global.CHARS :
 			var char_stuff : Dictionary
 			for card in Global.CARDS :
-				var sign : String = Global.BREEDS[randi() % Global.BREEDS.size()]
-				var ascending : String = Global.BREEDS[randi() % Global.BREEDS.size()]
+				var sign : int = randi() % Global.BREEDS.size()
+				var ascending : int = randi() % Global.BREEDS.size()
 				var card_type : Dictionary = {
 					"sign": sign,
 					"ascending": ascending

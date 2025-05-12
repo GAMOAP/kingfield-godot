@@ -1,16 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dhd1nrywuvnay"]
+[gd_scene load_steps=15 format=3 uid="uid://dhd1nrywuvnay"]
 
 [ext_resource type="Script" path="res://src/object/char.gd" id="1_jgqhi"]
-[ext_resource type="Shader" path="res://src/shaders/board_spots_outline.gdshader" id="2_gofqw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rk80h"]
 radius = 32.0
 height = 94.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tn1l2"]
-shader = ExtResource("2_gofqw")
-shader_parameter/line_colour = Color(0, 0, 0, 1)
-shader_parameter/line_thickness = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wgbol"]
 load_path = "res://.godot/imported/front_leg.png-272d15d3e55c9e5b01c1e4905e62c091.ctex"
@@ -501,7 +495,6 @@ position = Vector2(0, -40)
 scale = Vector2(0.5, 0.5)
 
 [node name="char_display" type="CanvasGroup" parent="Sprite2D"]
-material = SubResource("ShaderMaterial_tn1l2")
 
 [node name="front_leg" type="Sprite2D" parent="Sprite2D/char_display"]
 position = Vector2(-30, 84)

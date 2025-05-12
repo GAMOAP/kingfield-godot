@@ -24,7 +24,6 @@ offset_bottom = 1024.0
 texture = ExtResource("1_dbrkr")
 
 [node name="Characters" parent="." instance=ExtResource("5_kmr3t")]
-visible = false
 
 [node name="Library" parent="." instance=ExtResource("6_wal3g")]
 visible = false
