@@ -44,33 +44,25 @@ func _set_selected(value):
 func set_texture(card : String, sign : int = 0, asscending : int = 0) -> void :
 	match card :
 		"breed" :
-			$Sprite2D/char_display/head.hframes = sign
-			$Sprite2D/char_display/face.hframes = sign
-			$Sprite2D/char_display/hand.hframes = sign
+			$Sprite2D/char_display/head.frame = sign
+			$Sprite2D/char_display/face.frame = sign
+			$Sprite2D/char_display/hand.frame = sign
 		"job" :
-			$Sprite2D/char_display/head.hframes = asscending
-			$Sprite2D/char_display/face.hframes = asscending
-			$Sprite2D/char_display/hand.hframes = asscending
+			pass
 		"helmet" :
-			$Sprite2D/char_display/helmet.hframes = sign
-			$Sprite2D/char_display/helmet.vframes = asscending
+			$Sprite2D/char_display/helmet.frame = sign
 		"item" :
 			pass
 		"armor" :
-			$Sprite2D/char_display/armor.hframes = sign
-			$Sprite2D/char_display/armor.vframes = asscending
-			$Sprite2D/char_display/arm.hframes = sign
-			$Sprite2D/char_display/arm.vframes = asscending
+			$Sprite2D/char_display/armor.frame = sign
+			$Sprite2D/char_display/arm.frame = sign
 		"move" :
-			$Sprite2D/char_display/front_leg.hframes = sign
-			$Sprite2D/char_display/front_leg.vframes = asscending
-			$Sprite2D/char_display/back_leg.hframes = sign
-			$Sprite2D/char_display/back_leg.vframes = asscending
+			$Sprite2D/char_display/front_leg.frame = sign
+			$Sprite2D/char_display/back_leg.frame = sign
 		"spell" :
 			pass
 		"weapon" :
-			$Sprite2D/char_display/weapon.hframes = sign
-			$Sprite2D/char_display/weapon.vframes = asscending
+			$Sprite2D/char_display/weapon.frame = sign
 		"object" :
 			pass
 		_:

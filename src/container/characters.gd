@@ -29,9 +29,12 @@ func init_user_team() -> void :
 	var user_data = await UserData.get_user_team()
 	$user_team.visible = true
 	for char in _chars:
-		for card in Global.CARDS :
-			var sign = user_data[char.name][card]["sign"]
-			var ascending = user_data[char.name][card]["ascending"]
+		if char.team == char.TEAM.USER:
+			for card in Global.CARDS :
+				var sign = user_data[char.name][card]["sign"]
+				var ascending = user_data[char.name][card]["ascending"]
+				print(char.name,card,sign,ascending)
+				char.set_texture(card, sign, ascending)
 
 func unselect_all():
 	for char_temp in _chars:

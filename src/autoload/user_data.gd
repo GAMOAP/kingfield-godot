@@ -24,17 +24,17 @@ func set_device_id() ->void:
 # ----------------------------
 # USER TEAM
 # ----------------------------
-func get_user_team() -> Dictionary :
+func get_user_team() -> Dictionary:
 	_team = await ServerManagement.load_player_data("team")
 	if _team == {} :
-		for char in Global.CHARS :
+		for char in Global.TEAM:
 			var char_stuff : Dictionary
 			for card in Global.CARDS :
 				var sign : int = randi() % Global.BREEDS.size()
-				var ascending : int = randi() % Global.BREEDS.size()
+				var ascending : int = 0 #randi() % Global.BREEDS.size()
 				var card_type : Dictionary = {
-					"sign": sign,
-					"ascending": ascending
+					"sign" : sign,
+					"ascending" : ascending
 				}
 				char_stuff[card] = card_type
 			_team[char] = char_stuff
@@ -42,9 +42,9 @@ func get_user_team() -> Dictionary :
 	
 	return _team
 
-func set_user_team(char: = "", card: = "", sign: = "", ascending: = "") -> void :
-	if char != "" && card != "" && sign != "" && ascending != "" :
-		_team[char][card]["sing"] = sign
+func set_user_team(char: String = "", card: String = "", sign: Global.BREEDS = 0, ascending: Global.BREEDS = 0) -> void:
+	if char != "" && card != "":
+		_team[char][card]["sign"] = sign
 		_team[char][card]["ascending"] = ascending
 	ServerManagement.write_player_data("team", _team)
 	
