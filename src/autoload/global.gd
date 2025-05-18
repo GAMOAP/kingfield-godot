@@ -2,6 +2,11 @@ extends Node
 
 const VOID : int = -1
 
+const GRID_SIZE := Vector2(5, 5)
+const CELL_SIZE := Vector2(128, 128)
+
+enum SIDE {USER, OPPONENT}
+
 enum BREEDS {WATER, AIR, GROUND, FIRE, FOREST, MECA, DAY, NIGHT, TIME}
 
 const TEAM : Array = ["side_left", "center_left", "king", "center_right", "side_right"]

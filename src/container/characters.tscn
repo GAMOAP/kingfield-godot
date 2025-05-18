@@ -11,18 +11,23 @@ visible = false
 
 [node name="side_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(256, 256)
+team = 1
 
 [node name="center_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(384, 256)
+team = 1
 
 [node name="king" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(512, 256)
+team = 1
 
 [node name="center_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(640, 256)
+team = 1
 
 [node name="side_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(768, 256)
+team = 1
 
 [node name="user_team" type="Node2D" parent="."]
 visible = false

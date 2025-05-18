@@ -9,8 +9,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _on_multi_UI_action(UI_action) -> void :
-	print(UI_action)
-	if UI_action == "user_connected" :
-		$Logo.visible = false
-		$Characters.init_user_team()
+func _on_multi_UI_action(UI_action, data :={}) -> void :
+	print("=============UI_Action ===========%s" % UI_action)
+	match UI_action:
+		"user_connected" :
+			$Logo.visible = false
+			$Characters.init_team(Global.SIDE.USER)
+			$Blocks_field.show_block_row(4)
+		"match_found" :
+			$Characters.init_team(Global.SIDE.OPPONENT, data["opponent_data"]["user_id"])

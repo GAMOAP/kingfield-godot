@@ -12,9 +12,7 @@ var _socket : NakamaSocket
 var _match_id : String
 var _matchmaker_ticket : String
 
-var opponent_data : Dictionary = {}
-
-signal match_found()
+signal match_found(match_data: Dictionary)
 signal turn_received(turn_data: Dictionary)
 
 # ----------------------------
@@ -85,17 +83,20 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 	
 	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
 	_match_id = match.match_id
+	var match_data := {}
 	
 	for matched_user in matched.users :
 		var userdata = matched_user.presence
 		if userdata.user_id != _session.user_id:
-			opponent_data = {
-				"user_id": userdata.user_id,
-				"username": userdata.username
+			match_data = {
+				"opponent_data": {
+					"user_id": userdata.user_id,
+					"username": userdata.username
+				}
 			}
-			Console.log("Opponent id : %s" % opponent_data.get("user_id"))
+			Console.log("Opponent id : %s" % match_data["opponent_data"]["user_id"])
 	
-	match_found.emit()
+	match_found.emit(match_data)
 
 # ----------------------------
 # SEND/RECEIVED DATA
@@ -151,13 +152,13 @@ func update_user_account_async(
 # ----------------------------
 # USER STORAGE
 # ----------------------------
-func write_player_data(key: String, value:= {}) -> void:
+func write_player_data(key: String, value:= {}, read_permision:= ReadPermissions.OWNER_READ) -> void:
 	var result: NakamaAsyncResult = await _client.write_storage_objects_async(_session,
 	[
 		NakamaWriteStorageObject.new(
 			"player_data",
 			key,
-			ReadPermissions.OWNER_READ,
+			read_permision,
 			WritePermissions.OWNER_WRITE,
 			JSON.stringify({data = value}),
 			""
@@ -166,9 +167,9 @@ func write_player_data(key: String, value:= {}) -> void:
 	if result.is_exception():
 		Console.log("Write player data error : %" % result, Console.LogLevel.ERROR)
 
-func load_player_data(key: String) -> Dictionary:
+func load_player_data(key: String, user_id:= _session.user_id) -> Dictionary:
 	var storage_objects: NakamaAPI.ApiStorageObjects = await  _client.read_storage_objects_async(
-		_session,[NakamaStorageObjectId.new("player_data", key, _session.user_id)]
+		_session,[NakamaStorageObjectId.new("player_data", key, user_id)]
 	)
 	if storage_objects.objects:
 		var decoded :Dictionary = JSON.parse_string(storage_objects.objects[0].value).data

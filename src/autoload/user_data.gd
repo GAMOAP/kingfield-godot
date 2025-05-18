@@ -46,5 +46,5 @@ func set_user_team(char: String = "", card: String = "", sign: Global.BREEDS = 0
 	if char != "" && card != "":
 		_team[char][card]["sign"] = sign
 		_team[char][card]["ascending"] = ascending
-	ServerManagement.write_player_data("team", _team)
+	ServerManagement.write_player_data("team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
 	

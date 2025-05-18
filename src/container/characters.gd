@@ -25,15 +25,22 @@ func _on_char_clicked(char_name, char_team):
 		else:
 			char.is_selected = false
 
-func init_user_team() -> void :
-	var user_data = await UserData.get_user_team()
-	$user_team.visible = true
+func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
+	var user_data = {}
+	if team == Global.SIDE.USER:
+		user_data = await UserData.get_user_team()
+		$user_team.visible = true
+	elif team == Global.SIDE.OPPONENT:
+		user_data =  await ServerManagement.load_player_data("team", user_id)
+		$opponent_team.visible = true
+		pass
+	
 	for char in _chars:
-		if char.team == char.TEAM.USER:
+		if char.team == team:
 			for card in Global.CARDS :
 				var sign = user_data[char.name][card]["sign"]
 				var ascending = user_data[char.name][card]["ascending"]
-				print(char.name,card,sign,ascending)
+
 				char.set_texture(card, sign, ascending)
 
 func unselect_all():

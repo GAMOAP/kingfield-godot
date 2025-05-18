@@ -1,6 +1,6 @@
 extends Node2D
 
-signal multi_UI_action(message: String)
+signal multi_UI_action(message: String, data: Dictionary)
 
 var _userdata := {}
 var _last_valid_text := ""
@@ -75,11 +75,13 @@ func _on_button_start_fight_pressed() -> void:
 		$ButtonStartFight.visible = false
 		ServerManagement.start_matchmaking()
 
-func _on_match_found():
+func _on_match_found(match_data):
 	$SendTurn.visible = true
 	$OpponentPanel.visible = true
 	$OpponentPanel/OpponentName.add_theme_color_override("font_color", Color.RED)
-	$OpponentPanel/OpponentName.text = ServerManagement.opponent_data.username
+	$OpponentPanel/OpponentName.text = match_data["opponent_data"]["username"]
+	
+	multi_UI_action.emit("match_found", match_data)
 
 # ----------------------------
 # SEND/RECEIVE DATA

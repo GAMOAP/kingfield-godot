@@ -10,6 +10,10 @@ signal block_clicked(block_id)
 
 func _ready() -> void:
 	name = "Block_%d_%d" % [grid_position.x, grid_position.y]
-
+	$BlockQuarter_0.frame_coords.y = randi() % 3
+	$BlockQuarter_1.frame_coords.y = randi() % 3
+	$BlockQuarter_2.frame_coords.y = randi() % 3
+	$BlockQuarter_3.frame_coords.y = randi() % 3
+	
 func _set_block() -> void:
 	pass
