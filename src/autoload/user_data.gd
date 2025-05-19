@@ -4,6 +4,7 @@ var _device_id : String
 var _args = OS.get_cmdline_args()
 
 var _team: Dictionary = {}
+var _used_cards: Array = []
 
 
 func _ready() -> void:
@@ -30,12 +31,22 @@ func get_user_team() -> Dictionary:
 		for char in Global.TEAM:
 			var char_stuff : Dictionary
 			for card in Global.CARDS :
-				var sign : int = randi() % Global.BREEDS.size()
-				var ascending : int = 0 #randi() % Global.BREEDS.size()
-				var card_type : Dictionary = {
-					"sign" : sign,
-					"ascending" : ascending
-				}
+				var is_card_used:= true
+				var card_type:= {}
+				while is_card_used == true:
+					var sign: int = randi() % Global.BREEDS.size()
+					var ascending: int = 0 #randi() % Global.BREEDS.size()
+					card_type = {
+						"type" : card,
+						"sign" : sign,
+						"ascending" : ascending
+					}
+					var is_used = false
+					for card_tested in _used_cards:
+						if card_tested["type"] == card && card_tested["sign"] == sign && card_tested["ascending"] == ascending:
+							is_used = true
+					is_card_used = is_used
+				_used_cards.append(card_type)
 				char_stuff[card] = card_type
 			_team[char] = char_stuff
 		set_user_team()

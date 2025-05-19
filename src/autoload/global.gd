@@ -5,6 +5,8 @@ const VOID : int = -1
 const GRID_SIZE := Vector2(5, 5)
 const CELL_SIZE := Vector2(128, 128)
 
+const NBR_BLOCK_VAR := 3
+
 enum SIDE {USER, OPPONENT}
 
 enum BREEDS {WATER, AIR, GROUND, FIRE, FOREST, MECA, DAY, NIGHT, TIME}

@@ -18,7 +18,7 @@ func _create_blocks():
 		for col in range(grid_size.y):
 			var block_temp = block.instantiate()
 			var pos = Vector2(col, row)
-			block_temp.name = "Block_" + str(col) + "_" + str(row)
+			block_temp.name = "block_" + str(col) + "_" + str(row)
 			block_temp.grid_position = pos
 			block_temp.position = pos * block_size
 			block_temp.visible = false
@@ -29,8 +29,7 @@ func _create_blocks():
 func show_block_row(row:= 5) -> void:
 	for block in get_children():
 		for col in range(grid_size.y):
-			var temp_name = "Block_" + str(col) + "_" + str(row)
-			print(block.name, temp_name)
+			var temp_name = "block_" + str(col) + "_" + str(row)
 			if block.name == temp_name:
 				block.visible = true
 

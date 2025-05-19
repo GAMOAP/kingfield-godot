@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4t1bnbcekbwt"
-path="res://.godot/imported/blocks.png-d0d9742e10ec988fd4010dc463019213.ctex"
+uid="uid://dmnrem441lqk8"
+path="res://.godot/imported/btn_lib_left_normal.png-8154470e0e323157e025ed25d5aa215e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/block/blocks.png"
-dest_files=["res://.godot/imported/blocks.png-d0d9742e10ec988fd4010dc463019213.ctex"]
+source_file="res://assets/game_screen/btn_lib_left_normal.png"
+dest_files=["res://.godot/imported/btn_lib_left_normal.png-8154470e0e323157e025ed25d5aa215e.ctex"]
 
 [params]
 

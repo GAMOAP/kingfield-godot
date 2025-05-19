@@ -96,3 +96,11 @@ func _on_send_data_button_pressed() -> void:
 func _on_receive_data(turn_data : Dictionary) -> void:
 	$SendTurn/ReceivedData. text = turn_data.data
 	
+# ----------------------------
+# STOP
+# ----------------------------
+func start() -> void:
+	$ButtonStartFight.visible = true
+
+func stop() -> void:
+	$ButtonStartFight.visible = false

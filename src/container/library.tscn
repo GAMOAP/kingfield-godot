@@ -1,12 +1,50 @@
-[gd_scene load_steps=2 format=3 uid="uid://cy7ifg3eiha37"]
+[gd_scene load_steps=9 format=3 uid="uid://cy7ifg3eiha37"]
 
-[ext_resource type="Texture2D" uid="uid://fs515smhqnyh" path="res://assets/game_screen/library_bg.png" id="1_cvwsl"]
+[ext_resource type="Texture2D" uid="uid://cxcsnio1irqik" path="res://assets/game_screen/library_bg.png" id="1_cvwsl"]
+[ext_resource type="Script" path="res://src/container/library.gd" id="1_m8i58"]
+[ext_resource type="Texture2D" uid="uid://df2wwmys230i4" path="res://assets/game_screen/btn_close_normal.png" id="2_dmiu3"]
+[ext_resource type="Texture2D" uid="uid://detid3s88f7lk" path="res://assets/game_screen/btn_close_pressed.png" id="3_ssooj"]
+[ext_resource type="Texture2D" uid="uid://dmnrem441lqk8" path="res://assets/game_screen/btn_lib_left_normal.png" id="4_xanut"]
+[ext_resource type="Texture2D" uid="uid://bmwdolcbv0ygn" path="res://assets/game_screen/btn_lib_left_pressed.png" id="5_mn4i2"]
+[ext_resource type="Texture2D" uid="uid://dte82dntqpuwc" path="res://assets/game_screen/btn_lib_right_normal.png" id="6_afi7l"]
+[ext_resource type="Texture2D" uid="uid://dtf6uaj00q0kg" path="res://assets/game_screen/btn_lib_right_pressed.png" id="7_wvtty"]
 
 [node name="Library" type="Node2D"]
+script = ExtResource("1_m8i58")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 256.0
-offset_top = 128.0
-offset_right = 768.0
-offset_bottom = 640.0
+[node name="background" type="TextureRect" parent="."]
+visible = false
+offset_left = 192.0
+offset_top = 112.0
+offset_right = 816.0
+offset_bottom = 624.0
 texture = ExtResource("1_cvwsl")
+
+[node name="btn_close" type="TextureButton" parent="background"]
+layout_mode = 0
+offset_left = 480.0
+offset_top = -16.0
+offset_right = 528.0
+offset_bottom = 36.0
+texture_normal = ExtResource("2_dmiu3")
+texture_pressed = ExtResource("3_ssooj")
+
+[node name="btn_left" type="TextureButton" parent="background"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 200.0
+offset_right = 96.0
+offset_bottom = 280.0
+texture_normal = ExtResource("4_xanut")
+texture_pressed = ExtResource("5_mn4i2")
+
+[node name="btn_right" type="TextureButton" parent="background"]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 200.0
+offset_right = 608.0
+offset_bottom = 280.0
+texture_normal = ExtResource("6_afi7l")
+texture_pressed = ExtResource("7_wvtty")
+
+[connection signal="pressed" from="background/btn_close" to="." method="_on_btn_close_pressed"]

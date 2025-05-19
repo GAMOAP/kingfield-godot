@@ -22,6 +22,7 @@ func _on_char_clicked(char_name, char_team):
 	for char in _chars:
 		if char.name == char_name && char.team == char_team:
 			char.is_selected = true
+			char_selected.emit(char_name)
 		else:
 			char.is_selected = false
 

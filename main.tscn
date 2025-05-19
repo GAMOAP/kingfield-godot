@@ -29,14 +29,13 @@ position = Vector2(256, 256)
 
 [node name="Characters" parent="." instance=ExtResource("5_kmr3t")]
 
+[node name="MultiplayerUI" parent="." instance=ExtResource("3_h1uey")]
+
 [node name="Library" parent="." instance=ExtResource("6_wal3g")]
-visible = false
 
 [node name="Logo" type="Sprite2D" parent="."]
 position = Vector2(512, 256)
 texture = ExtResource("2_6le3c")
-
-[node name="MultiplayerUI" parent="." instance=ExtResource("3_h1uey")]
 
 [node name="Console" type="RichTextLabel" parent="."]
 offset_left = 32.0

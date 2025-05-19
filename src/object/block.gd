@@ -9,11 +9,10 @@ signal block_clicked(block_id)
 
 
 func _ready() -> void:
-	name = "Block_%d_%d" % [grid_position.x, grid_position.y]
-	$BlockQuarter_0.frame_coords.y = randi() % 3
-	$BlockQuarter_1.frame_coords.y = randi() % 3
-	$BlockQuarter_2.frame_coords.y = randi() % 3
-	$BlockQuarter_3.frame_coords.y = randi() % 3
+	name = "block_%d_%d" % [grid_position.x, grid_position.y]
+	for block_quarter in get_children():
+		if block_quarter is Sprite2D:
+			block_quarter.frame_coords.y = randi() % (block_quarter.vframes -1)
 	
 func _set_block() -> void:
 	pass
