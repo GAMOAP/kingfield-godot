@@ -28,7 +28,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 func _set_selected(value):
 	is_selected = value
 	if is_selected:
-		$Sprite2D/char_display.scale = Vector2(1.2, 1.2)
+		$Sprite2D/char_display.scale = Vector2(1.1, 1.1)
 		outline.set("shader_parameter/line_thickness", 2)
 		outline.set("shader_parameter/line_colour", Color(1,0,0)) #color red
 	else :

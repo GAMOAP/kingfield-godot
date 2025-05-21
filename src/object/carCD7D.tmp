@@ -9,57 +9,59 @@
 [ext_resource type="Texture2D" uid="uid://bo8nrjhll1rce" path="res://assets/card/UI/slots.png" id="6_6ax1v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5r3"]
-size = Vector2(104, 140)
+size = Vector2(64, 96)
 
 [node name="card" type="Node2D"]
 script = ExtResource("1_7j0fe")
+mana = 5
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_iv5r3")
 
-[node name="back_card" type="Sprite2D" parent="."]
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+
+[node name="back_card" type="Sprite2D" parent="CanvasGroup"]
 texture = ExtResource("1_rf2nd")
 hframes = 9
 frame = 6
 
-[node name="image" type="Sprite2D" parent="."]
+[node name="image" type="Sprite2D" parent="CanvasGroup"]
 texture = ExtResource("2_rnmpv")
 hframes = 9
 frame = 6
 
-[node name="board" type="Sprite2D" parent="."]
+[node name="board" type="Sprite2D" parent="CanvasGroup"]
 position = Vector2(40, -56)
 texture = ExtResource("3_dfpm6")
 
-[node name="crystal" type="Sprite2D" parent="."]
+[node name="crystal" type="Sprite2D" parent="CanvasGroup"]
 position = Vector2(-48, -72)
 texture = ExtResource("4_8aakp")
 hframes = 3
 frame = 2
 
-[node name="number" type="Sprite2D" parent="crystal"]
+[node name="number" type="Sprite2D" parent="CanvasGroup/crystal"]
 texture = ExtResource("5_cowo3")
 hframes = 13
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="Node2D" parent="CanvasGroup"]
 position = Vector2(0, 56)
 
-[node name="slot1" type="Sprite2D" parent="Node2D"]
+[node name="slot1" type="Sprite2D" parent="CanvasGroup/Node2D"]
 position = Vector2(2, 8)
 texture = ExtResource("6_6ax1v")
 hframes = 9
 vframes = 3
 
-[node name="slot2" type="Sprite2D" parent="Node2D"]
+[node name="slot2" type="Sprite2D" parent="CanvasGroup/Node2D"]
 position = Vector2(38, 8)
 texture = ExtResource("6_6ax1v")
 hframes = 9
 vframes = 3
 
-[node name="slot3" type="Sprite2D" parent="Node2D"]
+[node name="slot3" type="Sprite2D" parent="CanvasGroup/Node2D"]
 position = Vector2(-34, 8)
 texture = ExtResource("6_6ax1v")
 hframes = 9
@@ -67,5 +69,3 @@ vframes = 3
 
 [node name="board_spots" type="CanvasGroup" parent="."]
 position = Vector2(40, -56)
-
-[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

@@ -15,10 +15,10 @@ script = ExtResource("1_m8i58")
 
 [node name="background" type="TextureRect" parent="."]
 visible = false
-offset_left = 200.0
-offset_top = 128.0
-offset_right = 824.0
-offset_bottom = 640.0
+offset_left = 192.0
+offset_top = 112.0
+offset_right = 816.0
+offset_bottom = 624.0
 texture = ExtResource("1_cvwsl")
 
 [node name="btn_close" type="TextureButton" parent="background"]
@@ -48,42 +48,47 @@ offset_bottom = 280.0
 texture_normal = ExtResource("6_afi7l")
 texture_pressed = ExtResource("7_wvtty")
 
-[node name="cards" type="Node2D" parent="background"]
+[node name="card1" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(184, 80)
+scale = Vector2(0.6, 0.6)
+type = 7
+mana = 13
+slot1 = 0
+slot2 = 1
+
+[node name="card2" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(312, 80)
+scale = Vector2(0.6, 0.6)
+type = 3
+sign = 3
+
+[node name="card3" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(440, 80)
+scale = Vector2(0.6, 0.6)
+
+[node name="card4" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(184, 240)
+scale = Vector2(0.6, 0.6)
+
+[node name="card5" parent="background" instance=ExtResource("9_rnxjj")]
 position = Vector2(312, 240)
-
-[node name="card1" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(-128, -160)
 scale = Vector2(0.6, 0.6)
 
-[node name="card2" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(0, -160)
+[node name="card6" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(440, 240)
 scale = Vector2(0.6, 0.6)
 
-[node name="card3" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(128, -160)
+[node name="card7" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(184, 400)
 scale = Vector2(0.6, 0.6)
 
-[node name="card4" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(-128, 0)
+[node name="card8" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(312, 400)
 scale = Vector2(0.6, 0.6)
 
-[node name="card5" parent="background/cards" instance=ExtResource("9_rnxjj")]
+[node name="card9" parent="background" instance=ExtResource("9_rnxjj")]
+position = Vector2(440, 400)
 scale = Vector2(0.6, 0.6)
-
-[node name="card6" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(128, 0)
-scale = Vector2(0.6, 0.6)
-
-[node name="card7" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(-128, 160)
-scale = Vector2(0.6, 0.6)
-
-[node name="card8" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(0, 160)
-scale = Vector2(0.6, 0.6)
-
-[node name="card9" parent="background/cards" instance=ExtResource("9_rnxjj")]
-position = Vector2(128, 160)
-scale = Vector2(0.6, 0.6)
+type = 1
 
 [connection signal="pressed" from="background/btn_close" to="." method="_on_btn_close_pressed"]
