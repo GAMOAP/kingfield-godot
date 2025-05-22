@@ -24,6 +24,10 @@ func _ready() -> void:
 # USERNAME VALIDATION
 # ----------------------------
 func _on_username_input_text_changed(new_text: String) -> void:
+	if $ConnexionPanel/UsernameInput.text != "admin":
+		$ConnexionPanel/PasswordInput.text = ""
+		$ConnexionPanel/PasswordInput.visible = false
+		
 	var regex = RegEx.new()
 	regex.compile("^[a-zA-Z0-9]{0,16}$")  # Allow up to 12 letters or numbers
 	
@@ -37,18 +41,38 @@ func _on_username_input_text_changed(new_text: String) -> void:
 func _on_username_input_text_submitted(input_text: String) -> void:
 	validate_username(input_text)
 
+func _on_password_input_text_submitted(new_text: String) -> void:
+	var input_text = $ConnexionPanel/UsernameInput.text.strip_edges()  # Get the username without spaces
+	validate_username(input_text)
+
 func _on_submit_button_button_down() -> void:
 	var input_text = $ConnexionPanel/UsernameInput.text.strip_edges()  # Get the username without spaces
 	validate_username(input_text)
 
 func validate_username(input_text: String) -> void:
-	var regex = RegEx.new()
-	regex.compile("^[a-zA-Z0-9]{6,16}$")  # Min 6, max 12, alphanumerics only
-	
-	if not regex.search(input_text):
-		$ConnexionPanel/UsernameInput.add_theme_color_override("font_color", Color.RED)
+	if input_text == "admin":
+		admin_connection()
 	else:
-		user_connected(input_text)
+		var regex = RegEx.new()
+		regex.compile("^[a-zA-Z0-9]{6,16}$")  # Min 6, max 12, alphanumerics only
+		if not regex.search(input_text):
+			$ConnexionPanel/UsernameInput.add_theme_color_override("font_color", Color.RED)
+		else:
+			user_connected(input_text)
+
+# ----------------------------
+# ADMIN CONNECTION
+# ----------------------------
+func admin_connection() -> void:
+	if $ConnexionPanel/PasswordInput.text != "":
+		var password: String = $ConnexionPanel/PasswordInput.text
+		var username: String = "admin"
+		var result = await ServerManagement.authenticate_admin_async(username, password)
+		if result != "ERROR":
+			_userdata = await ServerManagement.get_user_account_async()
+			user_connected(username)
+	else:
+		$ConnexionPanel/PasswordInput.visible = true
 
 # ----------------------------
 # USER CONNECTED

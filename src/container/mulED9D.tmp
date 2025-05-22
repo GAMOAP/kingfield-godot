@@ -44,8 +44,6 @@ offset_bottom = 128.0
 theme_override_font_sizes/font_size = 24
 placeholder_text = "username"
 alignment = 1
-secret = true
-secret_character = "*"
 
 [node name="SubmitButton" type="Button" parent="ConnexionPanel"]
 layout_mode = 0

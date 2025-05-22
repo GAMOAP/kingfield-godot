@@ -32,6 +32,18 @@ func authenticate_async() -> String:
 		else :
 			return "OK"
 
+func authenticate_admin_async(username: String, password: String) -> String:
+	print("admin_connect")
+	var email := username + "@gamoap.com"
+	var admin_session = await _client.authenticate_email_async(email, password, username, false)
+	if admin_session.is_exception():
+		Console.log("An error occurred: %s" % admin_session.get_exception().status_code, Console.LogLevel.ERROR)
+		return "ERROR"
+	else:
+		_session = admin_session
+		Console.log("Server connection established as admin.")
+		return "OK"
+
 func connect_to_server_async() -> int:
 	_socket = Nakama.create_socket_from(_client)
 	var result: NakamaAsyncResult = await _socket.connect_async(_session)

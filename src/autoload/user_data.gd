@@ -6,6 +6,8 @@ var _args = OS.get_cmdline_args()
 var _team: Dictionary = {}
 var _used_cards: Array = []
 
+var _card_index: Dictionary = {}
+
 
 func _ready() -> void:
 	set_device_id()
@@ -58,4 +60,7 @@ func set_user_team(char: String = "", card: String = "", sign: Global.BREEDS = 0
 		_team[char][card]["sign"] = sign
 		_team[char][card]["ascending"] = ascending
 	ServerManagement.write_player_data("team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
-	
+
+func get_cards_index() -> Dictionary:
+	_team = await ServerManagement.load_admin_data("card_index")
+	return _card_index
