@@ -22,7 +22,10 @@ var _card_outline
 
 @export var is_selected = false:
 	set = _set_selected
-	
+
+func _ready() -> void:
+	set_card(0)
+
 func set_card(type, sign = 0, ascending = 0) -> void:
 	_type = type
 	_sign = sign
@@ -38,7 +41,7 @@ func set_card(type, sign = 0, ascending = 0) -> void:
 	set_slots()
 
 func set_backcard(value) -> void:
-	$back_card.fame = value	
+	$back_card.fame = value
 
 func set_mana(value) -> void:
 	if value >= 12:

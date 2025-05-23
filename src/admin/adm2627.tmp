@@ -1,0 +1,197 @@
+[gd_scene load_steps=7 format=3 uid="uid://cf1iwagepdnpq"]
+
+[ext_resource type="Script" path="res://src/admin/admin_card_board.gd" id="1_c6qtp"]
+[ext_resource type="Script" path="res://src/admin/spot.gd" id="2_gyldc"]
+[ext_resource type="Texture2D" uid="uid://b4650oqk3q3is" path="res://assets/card/UI/direction.png" id="3_whsye"]
+[ext_resource type="Texture2D" uid="uid://dmnelr106toq6" path="res://assets/card/UI/chess_board.png" id="4_6xik1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6wxhe"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ouoky"]
+size = Vector2(16, 16)
+
+[node name="admin_card_board" type="Node2D" groups=["drop_case"]]
+script = ExtResource("1_c6qtp")
+
+[node name="case_image" type="Sprite2D" parent="."]
+position = Vector2(48, 48)
+texture = ExtResource("4_6xik1")
+
+[node name="case" type="Area2D" parent="case_image" groups=["drop_case"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case2" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case2"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case3" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(16, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case3"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case4" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(16, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case4"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case5" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case5"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case6" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(0, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case6"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case7" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case7"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case8" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-16, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case8"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case9" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-16, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case9"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case10" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(0, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case10"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case11" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(16, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case11"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case12" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(32, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case12"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case13" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(32, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case13"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case14" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(32, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case14"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case15" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(32, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case15"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case16" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case16"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case17" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(16, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case17"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case18" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(0, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case18"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case19" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-16, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case19"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case20" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case20"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case21" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-32, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case21"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case22" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-32, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case22"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case23" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-32, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case23"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case24" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-32, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case24"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="case25" type="Area2D" parent="case_image" groups=["drop_case"]]
+position = Vector2(-16, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="case_image/case25"]
+shape = SubResource("RectangleShape2D_6wxhe")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 104.0
+offset_top = 64.0
+offset_right = 125.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 14
+text = "←"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 128.0
+offset_top = 64.0
+offset_right = 149.0
+offset_bottom = 92.0
+theme_override_font_sizes/font_size = 14
+text = "→"
+
+[node name="spot" type="Area2D" parent="."]
+position = Vector2(128, 32)
+script = ExtResource("2_gyldc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spot"]
+shape = SubResource("RectangleShape2D_ouoky")
+
+[node name="spot_image" type="Sprite2D" parent="spot"]
+texture = ExtResource("3_whsye")
+hframes = 3
+vframes = 3
+frame = 7

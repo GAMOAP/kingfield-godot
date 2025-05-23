@@ -13,7 +13,6 @@ func _ready() -> void:
 		var type = Global.CARD_TYPE.BREED
 		var sign = card.get_index()
 		var ascending = 0
-		print("CARD_",type, sign )
 		card.set_card(type, sign, ascending)
 		card.card_clicked.connect(_on_card_clicked)
 
