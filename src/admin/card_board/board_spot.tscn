@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bhveoaeuhni70"]
 
-[ext_resource type="Script" path="res://src/admin/board_spot.gd" id="1_l2ess"]
+[ext_resource type="Script" path="res://src/admin/card_board/board_spot.gd" id="1_l2ess"]
 [ext_resource type="Texture2D" uid="uid://b4650oqk3q3is" path="res://assets/card/UI/direction.png" id="2_8spwe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alkft"]
@@ -16,4 +16,3 @@ shape = SubResource("RectangleShape2D_alkft")
 texture = ExtResource("2_8spwe")
 hframes = 3
 vframes = 3
-frame = 8

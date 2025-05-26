@@ -88,6 +88,6 @@ position = Vector2(128, 160)
 scale = Vector2(0.6, 0.6)
 
 [node name="admin_cards" parent="background" instance=ExtResource("10_77vcg")]
-position = Vector2(-128, -112)
+position = Vector2(-176, -112)
 
 [connection signal="pressed" from="background/btn_close" to="." method="_on_btn_close_pressed"]

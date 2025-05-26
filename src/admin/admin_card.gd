@@ -13,3 +13,18 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func _on_submit_pressed() -> void:
+	var card := {
+		"type" : $Panel/type/card_type.text,
+		"sign" : $Panel/sign/card_sign.text,
+		"ascendent" : $Panel/ascendent/card_ascendent.text,
+		"mana" : $Panel/mana/SpinBox.value,
+		"slot_1" : $Panel/slot_1/slot_1_list.get_item_text($Panel/slot_1/slot_1_list.selected),
+		"slot_2" : $Panel/slot_2/slot_2_list.get_item_text($Panel/slot_1/slot_1_list.selected),
+		"slot_3" : $Panel/slot_3/slot_3_list.get_item_text($Panel/slot_1/slot_1_list.selected),
+		"board" : $Panel/admin_card_board.get_spot_list()
+	}
+	print(card)
+	
+	

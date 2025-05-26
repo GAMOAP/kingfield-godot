@@ -13,8 +13,8 @@ func _ready() -> void:
 		var type = Global.CARD_TYPE.BREED
 		var sign = card.get_index()
 		var ascending = 0
-		card.set_card(type, sign, ascending)
-		card.card_clicked.connect(_on_card_clicked)
+		#card.set_card(type, sign, ascending)
+		#card.card_clicked.connect(_on_card_clicked)
 
 func start() -> void:
 	$background.visible = true

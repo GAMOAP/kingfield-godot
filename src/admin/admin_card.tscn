@@ -1,15 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7mpnwebe0w8j"]
 
 [ext_resource type="Script" path="res://src/admin/admin_card.gd" id="1_2q8v2"]
-[ext_resource type="PackedScene" uid="uid://cf1iwagepdnpq" path="res://src/admin/admin_card_board.tscn" id="2_e5hee"]
+[ext_resource type="PackedScene" uid="uid://cf1iwagepdnpq" path="res://src/admin/card_board/admin_card_board.tscn" id="2_e5hee"]
 
 [node name="admin_card" type="Node2D"]
 position = Vector2(8, 8)
 script = ExtResource("1_2q8v2")
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 184.0
-offset_bottom = 304.0
+offset_right = 208.0
+offset_bottom = 320.0
+
+[node name="admin_card_board" parent="Panel" instance=ExtResource("2_e5hee")]
+position = Vector2(16, 184)
 
 [node name="type" type="Label" parent="Panel"]
 layout_mode = 0
@@ -76,9 +79,9 @@ text = "mana
 
 [node name="SpinBox" type="SpinBox" parent="Panel/mana"]
 layout_mode = 0
-offset_left = 48.0
+offset_left = 64.0
 offset_top = -1.0
-offset_right = 131.063
+offset_right = 147.063
 offset_bottom = 30.0
 scale = Vector2(0.6, 0.6)
 max_value = 12.0
@@ -95,9 +98,9 @@ text = "slot_1
 
 [node name="slot_1_list" type="OptionButton" parent="Panel/slot_1"]
 layout_mode = 0
-offset_left = 48.0
+offset_left = 64.0
 offset_top = -4.0
-offset_right = 160.0
+offset_right = 176.0
 offset_bottom = 16.0
 theme_override_font_sizes/font_size = 10
 
@@ -113,9 +116,9 @@ text = "slot_2
 
 [node name="slot_2_list" type="OptionButton" parent="Panel/slot_2"]
 layout_mode = 0
-offset_left = 48.0
+offset_left = 64.0
 offset_top = -4.0
-offset_right = 160.0
+offset_right = 176.0
 offset_bottom = 16.0
 theme_override_font_sizes/font_size = 10
 
@@ -131,20 +134,19 @@ text = "slot_3
 
 [node name="slot_3_list" type="OptionButton" parent="Panel/slot_3"]
 layout_mode = 0
-offset_left = 48.0
+offset_left = 64.0
 offset_top = -4.0
-offset_right = 160.0
+offset_right = 176.0
 offset_bottom = 16.0
 theme_override_font_sizes/font_size = 10
 
-[node name="Button" type="Button" parent="Panel"]
+[node name="Submit" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 112.0
-offset_top = 272.0
-offset_right = 176.0
-offset_bottom = 294.0
+offset_left = 72.0
+offset_top = 288.0
+offset_right = 136.0
+offset_bottom = 310.0
 theme_override_font_sizes/font_size = 10
 text = "submit"
 
-[node name="admin_card_board" parent="." instance=ExtResource("2_e5hee")]
-position = Vector2(16, 176)
+[connection signal="pressed" from="Panel/Submit" to="." method="_on_submit_pressed"]
