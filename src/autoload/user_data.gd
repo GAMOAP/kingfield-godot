@@ -8,6 +8,7 @@ var _used_cards: Array = []
 
 var _card_index: Dictionary = {}
 
+var is_admin := false
 
 func _ready() -> void:
 	set_device_id()

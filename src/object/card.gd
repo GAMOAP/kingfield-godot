@@ -24,14 +24,14 @@ var _card_outline
 	set = _set_selected
 
 func _ready() -> void:
-	set_card(0)
+	is_selected = false
 
 func set_card(type, sign = 0, ascending = 0) -> void:
 	_type = type
 	_sign = sign
 	_ascending = ascending
 	
-	is_selected = false
+	
 	
 	_set_obj_texture($image, "res://assets/card/"+Global.CARDS[type]+".png")
 	$image.frame_coords.x = sign

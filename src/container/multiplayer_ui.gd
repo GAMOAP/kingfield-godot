@@ -71,6 +71,7 @@ func admin_connection() -> void:
 		if result != "ERROR":
 			_userdata = await ServerManagement.get_user_account_async()
 			user_connected(username)
+			UserData.is_admin = true
 	else:
 		$ConnexionPanel/PasswordInput.visible = true
 
