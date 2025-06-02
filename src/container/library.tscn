@@ -87,3 +87,5 @@ position = Vector2(128, 160)
 scale = Vector2(0.6, 0.6)
 
 [connection signal="pressed" from="background/btn_close" to="." method="_on_btn_close_pressed"]
+[connection signal="pressed" from="background/btn_left" to="." method="_on_btn_left_pressed"]
+[connection signal="pressed" from="background/btn_right" to="." method="_on_btn_right_pressed"]

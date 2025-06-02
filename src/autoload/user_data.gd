@@ -3,7 +3,7 @@ extends Node
 var _device_id : String
 var _args = OS.get_cmdline_args()
 
-var _team: Dictionary = {}
+var _team: Dictionary
 var _used_cards: Array = []
 
 var _card_index: Dictionary = {}
@@ -29,7 +29,9 @@ func set_device_id() ->void:
 # USER TEAM
 # ----------------------------
 func get_user_team() -> Dictionary:
-	_team = await ServerManagement.load_player_data("team")
+	print(_team)
+	if not _team:
+		_team = await ServerManagement.load_data("player_data", "team")
 	if _team == {} :
 		for char in Global.TEAM:
 			var char_stuff : Dictionary
@@ -56,12 +58,30 @@ func get_user_team() -> Dictionary:
 	
 	return _team
 
-func set_user_team(char: String = "", card: String = "", sign: Global.BREEDS = 0, ascending: Global.BREEDS = 0) -> void:
+func set_user_team(char := "", card := "", sign: Global.BREEDS = 0, ascending: Global.BREEDS = 0) -> void:
 	if char != "" && card != "":
 		_team[char][card]["sign"] = sign
 		_team[char][card]["ascending"] = ascending
-	ServerManagement.write_player_data("team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
+	ServerManagement.write_data("player_data", "team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
 
-func get_cards_index() -> Dictionary:
-	_team = await ServerManagement.load_admin_data("card_index")
+
+# ----------------------------
+#  ADMIN CARDS INDEX
+# ----------------------------
+func get_card_data(type: Global.CARD_TYPE, sign: Global.BREEDS, ascending: Global.BREEDS = 0) -> Dictionary:
+	if _card_index == {}:
+		_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
+		if _card_index == {}:
+			for card_type in Global.CARDS.size():
+				var cards_sign := {}
+				for card_sign in Global.BREEDS.size():
+					var card_ascending = 0
+					var data = {}
+					cards_sign[card_sign] = data
+				_card_index[card_type] = cards_sign
 	return _card_index
+
+func set_cards_index(type := "", sign: Global.BREEDS = 0, ascending: Global.BREEDS = 0, data := {}) -> void :
+	if type != "":
+		_card_index[type][sign] = data
+	ServerManagement.write_data("global_data", "cards", _card_index, ServerManagement.ReadPermissions.PUBLIC_READ)

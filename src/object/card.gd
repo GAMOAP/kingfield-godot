@@ -3,19 +3,17 @@ extends Node2D
 
 signal card_clicked(type, sign, ascending)
 
-@export var _type := Global.CARD_TYPE.MOVE
-@export var _sign := Global.BREEDS.DAY
-@export var _ascending := Global.BREEDS.DAY
+@export var _type: Global.CARD_TYPE
+@export var _sign: Global.BREEDS
+@export var _ascending: Global.BREEDS
 
-@export var _mana := 0
+@export var _mana: int
 
-@export var _board := [
-	{"start" : [0, 0], "ends" : [1, 3, 5, 7]},
-]
+@export var _board: Dictionary
 
-@export var _slot1 := Global.SLOTS.MOVE
-@export var _slot2 := Global.SLOTS.MOVE
-@export var _slot3 := Global.SLOTS.MOVE
+@export var _slot1: Global.SLOTS
+@export var _slot2: Global.SLOTS
+@export var _slot3: Global.SLOTS
 
 var _spot_outline
 var _card_outline
@@ -26,22 +24,43 @@ var _card_outline
 func _ready() -> void:
 	is_selected = false
 
-func set_card(type, sign = 0, ascending = 0) -> void:
+func set_card(type, sign, ascending) -> void:
+	var card_data = await UserData.get_card_data(type, sign)
 	_type = type
 	_sign = sign
 	_ascending = ascending
 	
+	if card_data.get("rarity"):
+		set_mana(card_data["rarity"])
 	
+	set_texture()
 	
-	_set_obj_texture($image, "res://assets/card/"+Global.CARDS[type]+".png")
-	$image.frame_coords.x = sign
-	$image.frame_coords.y = ascending
+	if card_data.get("mana"):
+		set_mana(card_data["mana"])
+	else:
+		$crystal.visible = false
 	
-	set_board()
-	set_slots()
+	if card_data.get("board"):
+		set_board(card_data["board"])
+	else:
+		$board.visible = false
+		$board_spots.visible = false
+	
+	for slot_nbr in 3:
+		var slot_path := "Node2D/slot%d" % (slot_nbr + 1)
+		var slot = get_node(slot_path)
+		if card_data.get(slot.name):
+			set_slots(slot,card_data[slot])
+		else:
+			slot.visible = false
 
 func set_backcard(value) -> void:
 	$back_card.fame = value
+
+func set_texture() -> void:
+	_set_obj_texture($image, "res://assets/card/"+Global.CARDS[_type]+".png")
+	$image.frame_coords.x = _sign
+	$image.frame_coords.y = _ascending
 
 func set_mana(value) -> void:
 	if value >= 12:
@@ -52,12 +71,10 @@ func set_mana(value) -> void:
 		value = _mana
 	$crystal/number.frame = _mana
 
-func set_slots() -> void:
-	$Node2D/slot1.frame = _slot1
-	$Node2D/slot2.frame = _slot2
-	$Node2D/slot3.frame = _slot3
+func set_slots(slot, value) -> void:
+	slot.frame =value
 
-func set_board():
+func set_board(board):
 	if not _spot_outline :
 		_spot_outline = ShaderMaterial.new()
 		_spot_outline.shader = load("res://src/shaders/outline.gdshader")

@@ -1,5 +1,7 @@
 extends Node
 
+const ADMIN_ID := "5f33af8a-bd9a-418f-8787-0dbf6118702f"
+
 const VOID : int = -1
 
 const GRID_SIZE := Vector2(5, 5)
@@ -10,6 +12,7 @@ const NBR_BLOCK_VAR := 3
 enum SIDE {USER, OPPONENT}
 
 enum BREEDS {WATER, AIR, GROUND, FIRE, FOREST, MECA, DAY, NIGHT, TIME}
+enum ASC_BREEDS {}
 
 enum CARD_TYPE {BREED, JOB, HELMET, ITEM, ARMOR, MOVE, SPELL, WEAPON, OBJECT}
 

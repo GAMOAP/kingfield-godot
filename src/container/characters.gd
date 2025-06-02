@@ -32,7 +32,7 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 		user_data = await UserData.get_user_team()
 		$user_team.visible = true
 	elif team == Global.SIDE.OPPONENT:
-		user_data =  await ServerManagement.load_player_data("team", user_id)
+		user_data =  await ServerManagement.load_data("team", user_id)
 		$opponent_team.visible = true
 		pass
 	
