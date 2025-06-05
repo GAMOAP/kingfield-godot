@@ -12,9 +12,6 @@ var _socket : NakamaSocket
 var _match_id : String
 var _matchmaker_ticket : String
 
-signal match_found(match_data: Dictionary)
-signal turn_received(turn_data: Dictionary)
-
 # ----------------------------
 # CONNECT AND AUTENTICATION
 # ----------------------------
@@ -108,7 +105,7 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 			}
 			Console.log("Opponent id : %s" % match_data["opponent_data"]["user_id"])
 	
-	match_found.emit(match_data)
+	EventManager.emit_match_found(match_data)
 
 # ----------------------------
 # SEND/RECEIVED DATA
@@ -124,7 +121,7 @@ func send_turn(turn_data: Dictionary) -> void:
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 	if match_state.op_code == 1:
 		var turn_data = JSON.parse_string(match_state.data)
-		turn_received.emit(turn_data)
+		EventManager.emit_turn_received(turn_data)
 
 # ----------------------------
 # LEAVE MATCH

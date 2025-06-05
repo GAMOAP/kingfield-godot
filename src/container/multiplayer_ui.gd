@@ -1,6 +1,5 @@
 extends Node2D
 
-signal multi_UI_action(message: String, data: Dictionary)
 
 var _userdata := {}
 var _last_valid_text := ""
@@ -9,8 +8,8 @@ var _last_valid_text := ""
 # SERVER CONNECTION
 # ----------------------------
 func _ready() -> void:
-	ServerManagement.match_found.connect(_on_match_found)
-	ServerManagement.turn_received.connect(_on_receive_data)
+	EventManager.match_found.connect(_on_match_found)
+	EventManager.turn_received.connect(_on_receive_data)
 	
 	var result = await ServerManagement.authenticate_async()
 	if result != "ERROR":
@@ -89,7 +88,7 @@ func user_connected(username) -> void:
 	
 	$ButtonStartFight.visible = true
 	
-	multi_UI_action.emit("user_connected")
+	EventManager.emit_multi_UI_action("user_connected")
 
 # ----------------------------
 # START FIGHT
@@ -106,7 +105,7 @@ func _on_match_found(match_data):
 	$OpponentPanel/OpponentName.add_theme_color_override("font_color", Color.RED)
 	$OpponentPanel/OpponentName.text = match_data["opponent_data"]["username"]
 	
-	multi_UI_action.emit("match_found", match_data)
+	EventManager.emit_multi_UI_action("match_found", match_data)
 
 # ----------------------------
 # SEND/RECEIVE DATA

@@ -29,59 +29,72 @@ func set_device_id() ->void:
 # USER TEAM
 # ----------------------------
 func get_user_team() -> Dictionary:
-	print(_team)
 	if not _team:
 		_team = await ServerManagement.load_data("player_data", "team")
 	if _team == {} :
 		for char in Global.TEAM:
 			var char_stuff : Dictionary
-			for card in Global.CARDS :
+			for type in Global.CARD_TYPE.size():
 				var is_card_used:= true
-				var card_type:= {}
+				var card_id := ""
 				while is_card_used == true:
 					var sign: int = randi() % Global.BREEDS.size()
 					var ascending: int = 0 #randi() % Global.BREEDS.size()
-					card_type = {
-						"type" : card,
-						"sign" : sign,
-						"ascending" : ascending
-					}
+					card_id = str(type) + str(sign) + str(ascending)
 					var is_used = false
-					for card_tested in _used_cards:
-						if card_tested["type"] == card && card_tested["sign"] == sign && card_tested["ascending"] == ascending:
+					for card_id_tested in _used_cards:
+						if card_id_tested == card_id:
 							is_used = true
 					is_card_used = is_used
-				_used_cards.append(card_type)
-				char_stuff[card] = card_type
+				_used_cards.append(card_id)
+				char_stuff[type] = card_id
 			_team[char] = char_stuff
 		set_user_team()
 	
 	return _team
 
-func set_user_team(char := "", card := "", sign: Global.BREEDS = 0, ascending: Global.BREEDS = 0) -> void:
-	if char != "" && card != "":
-		_team[char][card]["sign"] = sign
-		_team[char][card]["ascending"] = ascending
+func set_user_team(char := "", card_id := "") -> void:
+	if char != "" && card_id != "":
+		var card = card_id.to_int() / 100
+		_team[char][card] = card_id
 	ServerManagement.write_data("player_data", "team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
-
 
 # ----------------------------
 #  ADMIN CARDS INDEX
 # ----------------------------
-func get_card_data(type: Global.CARD_TYPE, sign: Global.BREEDS, ascending: Global.BREEDS = 0) -> Dictionary:
-	if _card_index == {}:
-		_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
+func get_card_data(card_id) -> Dictionary:
+	if not _card_index:
+		#_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
 		if _card_index == {}:
-			for card_type in Global.CARDS.size():
-				var cards_sign := {}
-				for card_sign in Global.BREEDS.size():
-					var card_ascending = 0
-					var data = {}
-					cards_sign[card_sign] = data
-				_card_index[card_type] = cards_sign
-	return _card_index
+			_card_index = _create_card_index()
+	return _card_index[card_id]
 
-func set_cards_index(type := "", sign: Global.BREEDS = 0, ascending: Global.BREEDS = 0, data := {}) -> void :
-	if type != "":
-		_card_index[type][sign] = data
+func get_card_identity(card_id) -> Dictionary:
+	var int_id = card_id.to_int()
+	var type = int_id / 100
+	var sign = (int_id - type * 100) / 10
+	var ascending = int_id - (type + sign)
+	return {
+		"type" : type,
+		"sign" : sign,
+		"ascending" : ascending,
+	}
+
+func set_cards_index(card_id, data := {}) -> void :
+	_card_index[card_id]["data"] = data
 	ServerManagement.write_data("global_data", "cards", _card_index, ServerManagement.ReadPermissions.PUBLIC_READ)
+
+func _create_card_index() -> Dictionary:
+	var index := {}
+	for type in Global.CARDS.size():
+		for sign in Global.BREEDS.size():
+			for ascending in Global.BREEDS.size():
+				var id = str(type) + str(sign) + str(ascending)
+				index[id] = {
+					"id" : id,
+					"type" : type,
+					"sign" : sign,
+					"ascending" : ascending,
+					"data" : {},
+				}
+	return index

@@ -1,6 +1,5 @@
 extends Node2D
 
-signal char_clicked(char_name, char_team)
 
 @export var grid_position: Vector2
 @export var is_selected = false:
@@ -8,6 +7,8 @@ signal char_clicked(char_name, char_team)
 
 enum TEAM {USER, OPPONENT}
 @export var team = TEAM.USER
+
+var _char_data := {}
 
 var outline 
 
@@ -23,7 +24,7 @@ func _ready() -> void:
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			char_clicked.emit(name, team)
+			EventManager.emit_char_clicked(name, team, _char_data)
 
 func _set_selected(value):
 	is_selected = value
@@ -41,29 +42,39 @@ func _set_selected(value):
 		outline.set("shader_parameter/line_thickness", 1)
 		outline.set("shader_parameter/line_colour", Color(0,0,0)) #color black
 
-func set_texture(card : String, sign : int = 0, asscending : int = 0) -> void :
+func init_char(char_data: Dictionary) -> void:
+	_char_data = char_data
+	for card_id in _char_data:
+		_set_texture(_char_data[card_id])
+	
+
+func _set_texture(card_id := "") -> void :
+	var card_identity = UserData.get_card_identity(card_id)
+	var card = card_identity["type"]
+	var sign = card_identity["sign"]
+	var ascending = card_identity["ascending"]
 	match card :
-		"breed" :
+		0 : #BREED
 			$Sprite2D/char_display/head.frame = sign
 			$Sprite2D/char_display/face.frame = sign
 			$Sprite2D/char_display/hand.frame = sign
-		"job" :
+		1 : #JOB
 			pass
-		"helmet" :
+		2 : #HELMET
 			$Sprite2D/char_display/helmet.frame = sign
-		"item" :
+		3 : #ITEM
 			pass
-		"armor" :
+		4 : #ARMOR
 			$Sprite2D/char_display/armor.frame = sign
 			$Sprite2D/char_display/arm.frame = sign
-		"move" :
+		5 : #MOVE
 			$Sprite2D/char_display/front_leg.frame = sign
 			$Sprite2D/char_display/back_leg.frame = sign
-		"spell" :
+		6 : #SPELL
 			pass
-		"weapon" :
+		7 : #WEAPON
 			$Sprite2D/char_display/weapon.frame = sign
-		"object" :
+		9 : #OBJECT
 			pass
 		_:
 			pass

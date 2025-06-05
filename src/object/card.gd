@@ -1,7 +1,6 @@
 extends Node2D
 
-
-signal card_clicked(type, sign, ascending)
+var _card_id := ""
 
 @export var _type: Global.CARD_TYPE
 @export var _sign: Global.BREEDS
@@ -23,15 +22,18 @@ var _card_outline
 
 func _ready() -> void:
 	is_selected = false
+	visible = false
 
-func set_card(type, sign, ascending) -> void:
-	var card_data = await UserData.get_card_data(type, sign)
-	_type = type
-	_sign = sign
-	_ascending = ascending
+func set_card(card_id) -> void:
+	_card_id = card_id
+	var card_data = await UserData.get_card_data(card_id)
+	var card_identity = UserData.get_card_identity(card_id)
+	_type = card_identity["type"]
+	_sign = card_identity["sign"]
+	_ascending = card_identity["ascending"]
 	
 	if card_data.get("rarity"):
-		set_mana(card_data["rarity"])
+		set_backcard(card_data["rarity"])
 	
 	set_texture()
 	
@@ -53,6 +55,7 @@ func set_card(type, sign, ascending) -> void:
 			set_slots(slot,card_data[slot])
 		else:
 			slot.visible = false
+	visible = true
 
 func set_backcard(value) -> void:
 	$back_card.fame = value
@@ -110,14 +113,17 @@ func _set_obj_texture(obj, texture_path :String):
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			card_clicked.emit(_type, _sign, _ascending)
+			EventManager.emit_card_clicked(_card_id)
 
 func _set_selected(value):
 	is_selected = value
 	if is_selected:
-		$".".scale = Vector2(1, 1)
+		$".".scale = Vector2(0.8, 0.8)
 	else :
 		$".".scale = Vector2(0.6, 0.6)
+
+func get_card_id() -> String:
+	return _card_id
 
 func get_card_attributes() -> Dictionary:
 	var attributes := {

@@ -1,19 +1,20 @@
 @tool
 extends Node2D
 
-signal library_action(action)
-signal card_selected(card_type, char_sign, char_ascending)
+var _library_page := [0, 0]
 
 var _admin_card
 
-var _library_page := [0, 0]
-
 var _cards: Array
+
+var _char_selected_data := {}
 
 func _ready() -> void:
 	$background.visible = false
+	EventManager.card_clicked.connect(_on_card_clicked)
+	EventManager.char_clicked.connect(_on_char_clicked)
 
-func start() -> void:
+func open() -> void:
 	$background.visible = true
 	init_cards(_library_page[0])
 	if UserData.is_admin == true :
@@ -29,25 +30,29 @@ func stop() -> void:
 
 func init_cards(page := Global.CARD_TYPE.BREED) -> void:
 	_library_page[0] = page
-	var _cards = $background/cards.get_children()
+	_cards = $background/cards.get_children()
 	
 	for card in _cards:
-		var type = _library_page[0]
-		var sign = card.get_index()
-		var ascending = 0
-		card.set_card(type, sign, ascending)
-		card.card_clicked.connect(_on_card_clicked)
+		var card_id = str(_library_page[0]) + str(card.get_index()) + str(0)
+		card.set_card(card_id)
 
-func _on_btn_close_pressed() -> void:
-	library_action.emit("stop")
-
-func _on_card_clicked(card_type, char_sign, char_ascending):
+func select_card(card_id) -> void:
 	for card in _cards:
-		if card.type == card_type && card.sign == char_sign && card.ascending == char_ascending:
+		if card.get_card_id() == card_id:
 			card.is_selected = true
-			card_selected.emit(card_type, char_sign, char_ascending)
 		else:
 			card.is_selected = false
+
+func _on_char_clicked(name: String, team: int, cards: Dictionary) -> void:
+	var card_select_id = cards[str(_library_page[0])]
+	for card in _cards:
+		pass
+
+func _on_btn_close_pressed() -> void:
+	EventManager.emit_library("close")
+
+func _on_card_clicked(card_id)-> void:
+	select_card(card_id)
 
 
 func _on_btn_left_pressed() -> void:
