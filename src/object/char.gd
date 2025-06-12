@@ -52,7 +52,7 @@ func _set_texture(card_id := "") -> void :
 	var card_identity = UserData.get_card_identity(card_id)
 	var card = card_identity["type"]
 	var sign = card_identity["sign"]
-	var ascending = card_identity["ascending"]
+	var ascendant = card_identity["ascendant"]
 	match card :
 		0 : #BREED
 			$Sprite2D/char_display/head.frame = sign

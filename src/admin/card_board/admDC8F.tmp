@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://cf1iwagepdnpq"]
+
+[ext_resource type="Script" path="res://src/admin/card_board/admin_card_board.gd" id="1_c6qtp"]
+[ext_resource type="Texture2D" uid="uid://dmnelr106toq6" path="res://assets/card/UI/chess_board.png" id="4_6xik1"]
+
+[node name="admin_card_board" type="Node2D"]
+script = ExtResource("1_c6qtp")
+
+[node name="case_image" type="Sprite2D" parent="."]
+position = Vector2(40, 40)
+texture = ExtResource("4_6xik1")
+
+[node name="slot_container" type="Node2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="spot_container" type="Node2D" parent="."]
+
+[node name="Btn_left" type="Button" parent="."]
+offset_left = 104.0
+offset_top = 56.0
+offset_right = 128.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 14
+text = "←"
+metadata/_edit_use_anchors_ = true
+
+[node name="Btn_right" type="Button" parent="."]
+offset_left = 144.0
+offset_top = 56.0
+offset_right = 168.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 14
+text = "→"
+metadata/_edit_use_anchors_ = true
+
+[node name="Btn_remove" type="Button" parent="."]
+offset_left = 128.0
+offset_top = 56.0
+offset_right = 144.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 14
+text = "-"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Btn_left" to="." method="_on_btn_left_pressed"]
+[connection signal="pressed" from="Btn_right" to="." method="_on_btn_right_pressed"]
+[connection signal="pressed" from="Btn_remove" to="." method="_on_btn_remove_pressed"]

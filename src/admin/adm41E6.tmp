@@ -55,7 +55,7 @@ offset_top = 48.0
 offset_right = 80.0
 offset_bottom = 64.0
 theme_override_font_sizes/font_size = 10
-text = "ascendant
+text = "ascendent
 "
 
 [node name="card_ascendant" type="Label" parent="Panel/ascendant"]

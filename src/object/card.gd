@@ -4,7 +4,7 @@ var _card_id := ""
 
 @export var _type: Global.CARD_TYPE
 @export var _sign: Global.BREEDS
-@export var _ascending: Global.BREEDS
+@export var _ascendant: Global.BREEDS
 
 @export var _mana: int
 
@@ -30,7 +30,7 @@ func set_card(card_id) -> void:
 	var card_identity = UserData.get_card_identity(card_id)
 	_type = card_identity["type"]
 	_sign = card_identity["sign"]
-	_ascending = card_identity["ascending"]
+	_ascendant = card_identity["ascendant"]
 	
 	if card_data.get("rarity"):
 		set_backcard(card_data["rarity"])
@@ -63,7 +63,7 @@ func set_backcard(value) -> void:
 func set_texture() -> void:
 	_set_obj_texture($image, "res://assets/card/"+Global.CARDS[_type]+".png")
 	$image.frame_coords.x = _sign
-	$image.frame_coords.y = _ascending
+	$image.frame_coords.y = _ascendant
 
 func set_mana(value) -> void:
 	if value >= 12:
@@ -129,7 +129,7 @@ func get_card_attributes() -> Dictionary:
 	var attributes := {
 		"type" : _type,
 		"sign" : _sign,
-		"ascending" : _ascending,
+		"ascendant" : _ascendant,
 		"mana" : _mana,
 		"slot1" : _slot2,
 		"slot2" : _slot2,

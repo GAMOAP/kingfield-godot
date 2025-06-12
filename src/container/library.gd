@@ -17,7 +17,7 @@ func _ready() -> void:
 func open() -> void:
 	$background.visible = true
 	init_cards(_library_page[0])
-	if UserData.is_admin == true :
+	if UserData.is_admin == false :
 		if not _admin_card:
 			_admin_card = preload("res://src/admin/admin_card.tscn").instantiate()
 			add_child(_admin_card)
@@ -51,7 +51,7 @@ func _on_char_clicked(name: String, team: int, cards: Dictionary) -> void:
 func _on_btn_close_pressed() -> void:
 	EventManager.emit_library("close")
 
-func _on_card_clicked(card_id)-> void:
+func _on_card_clicked(card_id: String) -> void:
 	select_card(card_id)
 
 
