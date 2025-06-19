@@ -1,6 +1,7 @@
 extends Area2D
 
 var lock := false
+var data := {}
 
 var dragging := false
 var original_position: Vector2
@@ -22,7 +23,7 @@ func _input(event):
 						if area.is_in_group("admin_board_slot"):
 							global_position = area.global_position
 							lock = true
-							var data := {
+							data = {
 								"start" : area.data, "end" : [$spot_image.frame]
 							}
 							spot_lock_in_area.emit(data)

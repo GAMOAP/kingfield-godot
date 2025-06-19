@@ -86,7 +86,7 @@ offset_bottom = 30.0
 scale = Vector2(0.6, 0.6)
 max_value = 12.0
 
-[node name="slot1" type="Label" parent="Panel"]
+[node name="slot_1" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 104.0
@@ -96,7 +96,7 @@ theme_override_font_sizes/font_size = 10
 text = "slot_1
 "
 
-[node name="slot1_list" type="OptionButton" parent="Panel/slot1"]
+[node name="slot_1_list" type="OptionButton" parent="Panel/slot_1"]
 layout_mode = 0
 offset_left = 64.0
 offset_top = -4.0
@@ -104,7 +104,7 @@ offset_right = 176.0
 offset_bottom = 16.0
 theme_override_font_sizes/font_size = 10
 
-[node name="slot2" type="Label" parent="Panel"]
+[node name="slot_2" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 128.0
@@ -114,7 +114,7 @@ theme_override_font_sizes/font_size = 10
 text = "slot_2
 "
 
-[node name="slot2_list" type="OptionButton" parent="Panel/slot2"]
+[node name="slot_2_list" type="OptionButton" parent="Panel/slot_2"]
 layout_mode = 0
 offset_left = 64.0
 offset_top = -4.0
@@ -122,7 +122,7 @@ offset_right = 176.0
 offset_bottom = 16.0
 theme_override_font_sizes/font_size = 10
 
-[node name="slot3" type="Label" parent="Panel"]
+[node name="slot_3" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 152.0
@@ -132,7 +132,7 @@ theme_override_font_sizes/font_size = 10
 text = "slot_3
 "
 
-[node name="slot3_list" type="OptionButton" parent="Panel/slot3"]
+[node name="slot_3_list" type="OptionButton" parent="Panel/slot_3"]
 layout_mode = 0
 offset_left = 64.0
 offset_top = -4.0

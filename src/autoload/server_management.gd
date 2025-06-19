@@ -30,7 +30,6 @@ func authenticate_async() -> String:
 			return "OK"
 
 func authenticate_admin_async(username: String, password: String) -> String:
-	print("admin_connect")
 	var email := username + "@gamoap.com"
 	var admin_session = await _client.authenticate_email_async(email, password, username, false)
 	if admin_session.is_exception():

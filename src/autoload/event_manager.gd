@@ -12,6 +12,7 @@ signal char_clicked(char_name: String, char_team: int, data: Dictionary)
 
 signal card_clicked(card_id: String)
 
+signal admin_card_subit(card_id: String)
 
 
 func emit_match_found(match_data: Dictionary) -> void:
@@ -33,3 +34,6 @@ func emit_char_clicked(name: String, team: int, data := {}) -> void:
 
 func emit_card_clicked(card_id) -> void:
 	card_clicked.emit(card_id)
+
+func emit_admin_card_submit(card_id) -> void:
+	admin_card_subit.emit(card_id)

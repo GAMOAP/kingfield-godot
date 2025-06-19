@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://d3h3qgfctrux"]
 
-[ext_resource type="Script" path="res://src/object/card.gd" id="1_7j0fe"]
+[ext_resource type="Script" uid="uid://d4a35eeh1kqcv" path="res://src/object/card.gd" id="1_7j0fe"]
 [ext_resource type="Texture2D" uid="uid://3p1m356it533" path="res://assets/card/back_card.png" id="1_rf2nd"]
 [ext_resource type="Texture2D" uid="uid://cmuiwbe47dlxw" path="res://assets/card/move.png" id="2_rnmpv"]
 [ext_resource type="Texture2D" uid="uid://dmnelr106toq6" path="res://assets/card/UI/chess_board.png" id="3_dfpm6"]
@@ -37,6 +37,7 @@ hframes = 3
 frame = 2
 
 [node name="number" type="Sprite2D" parent="crystal"]
+position = Vector2(0, -4)
 texture = ExtResource("5_cowo3")
 hframes = 13
 

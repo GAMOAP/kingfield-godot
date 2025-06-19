@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://dhd1nrywuvnay"]
 
-[ext_resource type="Script" path="res://src/object/char.gd" id="1_jgqhi"]
+[ext_resource type="Script" uid="uid://d34nl1e4s34h3" path="res://src/object/char.gd" id="1_jgqhi"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rk80h"]
 radius = 32.0
@@ -475,8 +475,8 @@ tracks/17/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2er1j"]
 _data = {
-"RESET": SubResource("Animation_mn6my"),
-"idle": SubResource("Animation_qqmpb")
+&"RESET": SubResource("Animation_mn6my"),
+&"idle": SubResource("Animation_qqmpb")
 }
 
 [node name="char" type="Node2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cf1iwagepdnpq"]
 
-[ext_resource type="Script" path="res://src/admin/card_board/admin_card_board.gd" id="1_c6qtp"]
+[ext_resource type="Script" uid="uid://bx3jwgbfai3id" path="res://src/admin/card_board/admin_card_board.gd" id="1_c6qtp"]
 [ext_resource type="Texture2D" uid="uid://dmnelr106toq6" path="res://assets/card/UI/chess_board.png" id="4_6xik1"]
 
 [node name="admin_card_board" type="Node2D"]

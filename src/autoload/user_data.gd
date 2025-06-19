@@ -64,9 +64,10 @@ func set_user_team(char := "", card_id := "") -> void:
 # ----------------------------
 func get_card_data(card_id) -> Dictionary:
 	if not _card_index:
-		#_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
+		_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
 		if _card_index == {}:
 			_card_index = _create_card_index()
+
 	return _card_index[card_id]
 
 func get_card_identity(card_id) -> Dictionary:
@@ -80,21 +81,27 @@ func get_card_identity(card_id) -> Dictionary:
 		"ascendant" : ascendant,
 	}
 
-func set_cards_index(card_id, data := {}) -> void :
-	_card_index[card_id]["data"] = data
-	ServerManagement.write_data("global_data", "cards", _card_index, ServerManagement.ReadPermissions.PUBLIC_READ)
+func set_card_data(data := {}) -> void :
+	var card_id = data["id"]
+	_card_index[card_id] = data
+	
+	if is_admin && card_id != "0":
+		ServerManagement.write_data("global_data", "cards", _card_index, ServerManagement.ReadPermissions.PUBLIC_READ)
+	else:
+		Console.log("Write global_data error : user is not an administrator")
 
 func _create_card_index() -> Dictionary:
 	var index := {}
 	for type in Global.CARDS.size():
 		for sign in Global.BREEDS.size():
-			for ascendant in Global.BREEDS.size():
-				var id = str(type) + str(sign) + str(ascendant)
-				index[id] = {
-					"id" : id,
-					"type" : type,
-					"sign" : sign,
-					"ascendant" : ascendant,
-					"data" : {},
-				}
+			var ascendant := 0
+			#for ascendant in Global.BREEDS.size():
+			var id = str(type) + str(sign) + str(ascendant)
+			index[id] = {
+				"id" : id,
+				"type" : type,
+				"sign" : sign,
+				"ascendant" : ascendant,
+				"data" : {},
+			}
 	return index

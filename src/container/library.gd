@@ -17,7 +17,7 @@ func _ready() -> void:
 func open() -> void:
 	$background.visible = true
 	init_cards(_library_page[0])
-	if UserData.is_admin == false :
+	if UserData.is_admin == true :
 		if not _admin_card:
 			_admin_card = preload("res://src/admin/admin_card.tscn").instantiate()
 			add_child(_admin_card)
