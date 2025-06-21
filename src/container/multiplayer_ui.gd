@@ -17,6 +17,7 @@ func _ready() -> void:
 		if result != "NEW_SESSION":
 			$ConnexionPanel/UsernameInput.text = _userdata.username
 			$ConnexionPanel/SubmitButton.text =  "Login"
+		UserData.get_user_data()
 		$ConnexionPanel.visible = true
 
 # ----------------------------

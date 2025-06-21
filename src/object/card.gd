@@ -88,7 +88,6 @@ func set_slots(slot, value) -> void:
 	slot.frame = value
 
 func set_board(board):
-	print(board)
 	for spot in $board_spots.get_children():
 		spot.queue_free()
 	if not _spot_outline :

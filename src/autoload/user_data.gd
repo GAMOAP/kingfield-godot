@@ -26,9 +26,18 @@ func set_device_id() ->void:
 		_device_id = arg.replace("--device_id=", "")
 
 # ----------------------------
+# USER DATA
+# ----------------------------
+func get_user_data() -> void:
+	get_user_team()
+	get_card_index()
+
+
+# ----------------------------
 # USER TEAM
 # ----------------------------
 func get_user_team() -> Dictionary:
+	print("get_user_team()")
 	if not _team:
 		_team = await ServerManagement.load_data("player_data", "team")
 	if _team == {} :
@@ -62,12 +71,15 @@ func set_user_team(char := "", card_id := "") -> void:
 # ----------------------------
 #  ADMIN CARDS INDEX
 # ----------------------------
+func get_card_index() -> void:
+	print("get_card_index()")
+	_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
+	if _card_index == {}:
+		_card_index = _create_card_index()
+
 func get_card_data(card_id) -> Dictionary:
 	if not _card_index:
-		_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
-		if _card_index == {}:
-			_card_index = _create_card_index()
-
+		get_card_index()
 	return _card_index[card_id]
 
 func get_card_identity(card_id) -> Dictionary:

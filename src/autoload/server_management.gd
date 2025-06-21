@@ -16,6 +16,7 @@ var _matchmaker_ticket : String
 # CONNECT AND AUTENTICATION
 # ----------------------------
 func authenticate_async() -> String:
+	NakamaLogger
 	var new_session: NakamaSession = await _client.authenticate_device_async(UserData.get_device_id())
 	if new_session.is_exception():
 		Console.log("An error occurred: %s" % new_session.get_exception().status_code, Console.LogLevel.ERROR)
