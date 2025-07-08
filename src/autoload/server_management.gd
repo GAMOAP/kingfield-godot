@@ -6,7 +6,9 @@ enum WritePermissions {NO_WRITE, OWNER_WRITE}
 const KEY := "defaultkey"
 
 var _session : NakamaSession
-var _client := Nakama.create_client(KEY, "31.207.39.111", 7350, "http")
+
+#var _client := Nakama.create_client(KEY, "31.207.39.111", 7350, "http")
+var _client := Nakama.create_client(KEY, "127.0.0.1", 7350, "http")
 
 var _socket : NakamaSocket
 var _match_id : String

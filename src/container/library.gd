@@ -16,14 +16,15 @@ func _ready() -> void:
 
 func open() -> void:
 	$background.visible = true
-	init_cards(_library_page[0])
+	if _cards == []:
+		init_cards(_library_page[0])
 	if UserData.is_admin == true :
 		if not _admin_card:
 			_admin_card = preload("res://src/admin/admin_card.tscn").instantiate()
 			add_child(_admin_card)
 		_admin_card.visible = true
 
-func stop() -> void:
+func close() -> void:
 	$background.visible = false
 	if UserData.is_admin == true :
 		_admin_card.visible = false
@@ -43,13 +44,17 @@ func select_card(card_id) -> void:
 		else:
 			card.is_selected = false
 
-func _on_char_clicked(name: String, team: int, cards: Dictionary) -> void:
-	var card_select_id = cards[str(_library_page[0])]
+func _on_char_clicked(name: String, team: int, data: Dictionary) -> void:
+	_char_selected_data = data
+	var card_select_id = _char_selected_data[str(_library_page[0])]
+	if _cards == []:
+		init_cards(_library_page[0])
 	for card in _cards:
-		pass
+		if card.get_card_id() == card_select_id :
+			select_card(card_select_id)
 
 func _on_btn_close_pressed() -> void:
-	EventManager.emit_library("close")
+	EventManager.set_scene.emit(Global.SCENES.HOME)
 
 func _on_card_clicked(card_id: String) -> void:
 	select_card(card_id)

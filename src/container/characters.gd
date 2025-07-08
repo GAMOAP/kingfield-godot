@@ -14,8 +14,7 @@ func _set_chars() -> void:
 		for char in chars_temp:
 			_chars.append(char)
 
-func _on_char_clicked(char_name, char_team):
-	print("char_clicked")
+func _on_char_clicked(char_name, char_team, char_data):
 	for char in _chars:
 		if char.name == char_name && char.team == char_team:
 			char.is_selected = true

@@ -4,10 +4,19 @@ extends Node2D
 var _userdata := {}
 var _last_valid_text := ""
 
+func _ready() -> void:
+	$ButtonStartFight.visible = false
+	$ConnexionPanel.visible = false
+	$ConnexionPanel/PasswordInput.visible = false
+	$UserPanel.visible = false
+	$OpponentPanel.visible = false
+	$SendTurn.visible = false
+
 # ----------------------------
 # SERVER CONNECTION
 # ----------------------------
-func _ready() -> void:
+func connexion() -> void:
+	$ConnexionPanel.visible = true
 	EventManager.match_found.connect(_on_match_found)
 	EventManager.turn_received.connect(_on_receive_data)
 	
@@ -89,7 +98,7 @@ func user_connected(username) -> void:
 	
 	$ButtonStartFight.visible = true
 	
-	EventManager.emit_multi_UI_action("user_connected")
+	EventManager.emit_set_scene(Global.SCENES.HOME)
 
 # ----------------------------
 # START FIGHT
@@ -106,7 +115,7 @@ func _on_match_found(match_data):
 	$OpponentPanel/OpponentName.add_theme_color_override("font_color", Color.RED)
 	$OpponentPanel/OpponentName.text = match_data["opponent_data"]["username"]
 	
-	EventManager.emit_multi_UI_action("match_found", match_data)
+	EventManager.emit_set_scene(Global.SCENES.MATCH)
 
 # ----------------------------
 # SEND/RECEIVE DATA
@@ -124,8 +133,8 @@ func _on_receive_data(turn_data : Dictionary) -> void:
 # ----------------------------
 # STOP
 # ----------------------------
-func start() -> void:
+func open() -> void:
 	$ButtonStartFight.visible = true
 
-func stop() -> void:
+func close() -> void:
 	$ButtonStartFight.visible = false

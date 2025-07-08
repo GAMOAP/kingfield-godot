@@ -37,7 +37,6 @@ func get_user_data() -> void:
 # USER TEAM
 # ----------------------------
 func get_user_team() -> Dictionary:
-	print("get_user_team()")
 	if not _team:
 		_team = await ServerManagement.load_data("player_data", "team")
 	if _team == {} :
@@ -72,7 +71,6 @@ func set_user_team(char := "", card_id := "") -> void:
 #  ADMIN CARDS INDEX
 # ----------------------------
 func get_card_index() -> void:
-	print("get_card_index()")
 	_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
 	if _card_index == {}:
 		_card_index = _create_card_index()
