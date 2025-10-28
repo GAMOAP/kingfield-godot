@@ -46,9 +46,9 @@ func select_card(card_id, container) -> void:
 		if card.get_container() == container:
 			if card.get_id() == card_id:
 				card.is_selected = true
-				var new_card_id = card_id
-				EventManager.emit_deck_card_submit(_char_name, new_card_id)
-				UserData.update_user_team(_char_name, card_id)
+				if _char_selected_data[str(card_id.to_int() / 100)] != card_id:
+					EventManager.emit_deck_card_submit(_char_name, card_id)
+					UserData.update_user_team(_char_name, card_id)
 			else:
 				card.is_selected = false
 

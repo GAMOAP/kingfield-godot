@@ -22,6 +22,7 @@ func _ready() -> void:
 	switch_cards_active(true)
 	EventManager.char_clicked.connect(_on_char_clicked)
 	EventManager.card_clicked.connect(_on_card_clicked)
+	EventManager.deck_card_submit.connect(_on_deck_card_submit)
 
 func open() -> void:
 	$background.visible = true
@@ -70,6 +71,11 @@ func _on_char_clicked(name: String, team: int, data: Dictionary) -> void:
 
 func _on_card_clicked(card_id: String, container: Global.CONTAINER) -> void:
 	select_card(card_id, container)
+
+func _on_deck_card_submit(char_id: String, card_id: String) -> void:
+	print(_char_selected_data)
+	_char_selected_data[str(card_id.to_int() / 100)] = card_id
+	init_cards()
 
 func _on_btn_active_pressed() -> void:
 	switch_cards_active(true)
