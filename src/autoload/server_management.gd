@@ -163,13 +163,13 @@ func update_user_account_async(
 # ----------------------------
 # USER STORAGE
 # ----------------------------
-func write_data(collection: String, key: String, value: Dictionary, read_permision := ReadPermissions.OWNER_READ ) -> void:
+func write_data(collection: String, key: String, value: Dictionary, read_permission := ReadPermissions.OWNER_READ ) -> void:
 	var result: NakamaAsyncResult = await _client.write_storage_objects_async(_session,
 	[
 		NakamaWriteStorageObject.new(
 			collection,
 			key,
-			read_permision,
+			read_permission,
 			WritePermissions.OWNER_WRITE,
 			JSON.stringify({data = value}),
 			""

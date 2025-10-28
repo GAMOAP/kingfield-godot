@@ -1,6 +1,6 @@
 extends Node
 
-const ADMIN_ID := "5f33af8a-bd9a-418f-8787-0dbf6118702f"
+const ADMIN_ID := "3c1485bf-c58c-4f11-b602-1df56fff3076"
 
 const VOID : int = -1
 
@@ -12,6 +12,8 @@ const NBR_BLOCK_VAR := 3
 enum SIDE {USER, OPPONENT}
 
 enum SCENES {CONNECTION, HOME, SETTINGS, LYBRARY, MATCH}
+
+enum CONTAINER {NONE, LIBRARY, DECK}
 
 enum BREEDS {WATER, AIR, GROUND, FIRE, FOREST, MECA, DAY, NIGHT, TIME}
 enum ASC_BREEDS {}

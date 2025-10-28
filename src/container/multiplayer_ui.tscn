@@ -10,9 +10,9 @@ script = ExtResource("1_44wpv")
 
 [node name="ButtonStartFight" type="TextureButton" parent="."]
 offset_left = 368.0
-offset_top = 224.0
+offset_top = 240.0
 offset_right = 656.0
-offset_bottom = 544.0
+offset_bottom = 560.0
 texture_normal = ExtResource("2_fp8oi")
 texture_pressed = ExtResource("3_qfuop")
 texture_hover = ExtResource("4_lafaj")
@@ -40,7 +40,7 @@ offset_top = 80.0
 offset_right = 448.0
 offset_bottom = 128.0
 theme_override_font_sizes/font_size = 24
-placeholder_text = "username"
+placeholder_text = "password"
 alignment = 1
 secret = true
 secret_character = "*"

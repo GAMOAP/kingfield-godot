@@ -38,7 +38,7 @@ func _on_submit_pressed() -> void:
 	UserData.set_card_data(card_data)
 	EventManager.emit_admin_card_submit(_id)
 
-func _on_card_clicked(card_id) -> void:
+func _on_card_clicked(card_id, container) -> void:
 	_id = card_id
 	var card_data = await UserData.get_card_data(_id)
 	

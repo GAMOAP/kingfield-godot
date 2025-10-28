@@ -15,11 +15,12 @@ script = ExtResource("1_m8i58")
 
 [node name="background" type="TextureRect" parent="."]
 visible = false
-offset_left = 200.0
-offset_top = 128.0
-offset_right = 824.0
-offset_bottom = 640.0
+offset_left = -312.0
+offset_top = -240.0
+offset_right = 312.0
+offset_bottom = 272.0
 texture = ExtResource("1_cvwsl")
+metadata/_edit_use_anchors_ = true
 
 [node name="btn_close" type="TextureButton" parent="background"]
 layout_mode = 0
@@ -29,6 +30,7 @@ offset_right = 528.0
 offset_bottom = 36.0
 texture_normal = ExtResource("2_dmiu3")
 texture_pressed = ExtResource("3_ssooj")
+metadata/_edit_use_anchors_ = true
 
 [node name="btn_left" type="TextureButton" parent="background"]
 layout_mode = 0
@@ -38,6 +40,7 @@ offset_right = 96.0
 offset_bottom = 280.0
 texture_normal = ExtResource("4_xanut")
 texture_pressed = ExtResource("5_mn4i2")
+metadata/_edit_use_anchors_ = true
 
 [node name="btn_right" type="TextureButton" parent="background"]
 layout_mode = 0
@@ -47,6 +50,7 @@ offset_right = 608.0
 offset_bottom = 280.0
 texture_normal = ExtResource("6_afi7l")
 texture_pressed = ExtResource("7_wvtty")
+metadata/_edit_use_anchors_ = true
 
 [node name="cards" type="Node2D" parent="background"]
 position = Vector2(312, 240)

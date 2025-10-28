@@ -55,16 +55,19 @@ func get_user_team() -> Dictionary:
 							is_used = true
 					is_card_used = is_used
 				_used_cards.append(card_id)
-				char_stuff[type] = card_id
+				char_stuff[str(type)] = card_id
 			_team[char] = char_stuff
-		set_user_team()
+		save_player_data()
 	
 	return _team
 
-func set_user_team(char := "", card_id := "") -> void:
+func update_user_team(char := "", card_id := "") -> void:
 	if char != "" && card_id != "":
-		var card = card_id.to_int() / 100
+		var card := str(card_id.to_int() / 100)
 		_team[char][card] = card_id
+	
+
+func save_player_data() -> void:
 	ServerManagement.write_data("player_data", "team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
 
 # ----------------------------

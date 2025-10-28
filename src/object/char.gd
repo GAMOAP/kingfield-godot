@@ -20,11 +20,17 @@ func _ready() -> void:
 	else:
 		$Sprite2D.scale = Vector2(0.5, 0.5)
 	$AnimationPlayer.play("idle")
+	
+	EventManager.deck_card_submit.connect(_on_deck_card_submit)
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			EventManager.emit_char_clicked(name, team, _char_data)
+
+func _on_deck_card_submit(char_id: String, card_id: String) -> void:
+	if char_id == name && team == TEAM.USER:
+		_set_texture(card_id)
 
 func _set_selected(value):
 	is_selected = value

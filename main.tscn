@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgfggaj24dx4a"]
+[gd_scene load_steps=11 format=3 uid="uid://cgfggaj24dx4a"]
 
 [ext_resource type="Script" uid="uid://jvavpg0s1qij" path="res://main.gd" id="1_27ehg"]
 [ext_resource type="Texture2D" uid="uid://bdv7dq58g5vip" path="res://assets/game_screen/background.png" id="1_dbrkr"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cvuxneoxsdsqe" path="res://src/container/blocks_field.tscn" id="5_q5ngq"]
 [ext_resource type="Script" uid="uid://dpk7gym65ugmu" path="res://src/autoload/server_management.gd" id="5_vv8hi"]
 [ext_resource type="PackedScene" uid="uid://cy7ifg3eiha37" path="res://src/container/library.tscn" id="6_wal3g"]
+[ext_resource type="PackedScene" uid="uid://b4uhco87325q7" path="res://src/container/deck.tscn" id="10_4c57u"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_27ehg")
@@ -24,14 +25,20 @@ offset_right = 1024.0
 offset_bottom = 1024.0
 texture = ExtResource("1_dbrkr")
 
-[node name="Blocks_field" parent="." instance=ExtResource("5_q5ngq")]
-position = Vector2(256, 256)
+[node name="Library" parent="." instance=ExtResource("6_wal3g")]
+position = Vector2(512, 368)
 
-[node name="Characters" parent="." instance=ExtResource("5_kmr3t")]
+[node name="Board" type="Node2D" parent="."]
+position = Vector2(256, 208)
+
+[node name="Blocks_field" parent="Board" instance=ExtResource("5_q5ngq")]
+
+[node name="Characters" parent="Board" instance=ExtResource("5_kmr3t")]
 
 [node name="MultiplayerUI" parent="." instance=ExtResource("3_h1uey")]
 
-[node name="Library" parent="." instance=ExtResource("6_wal3g")]
+[node name="Deck" parent="." instance=ExtResource("10_4c57u")]
+position = Vector2(512, 784)
 
 [node name="Logo" type="Sprite2D" parent="."]
 position = Vector2(512, 256)
@@ -39,8 +46,8 @@ texture = ExtResource("2_6le3c")
 
 [node name="Console" type="RichTextLabel" parent="."]
 offset_left = 32.0
-offset_top = 928.0
+offset_top = 960.0
 offset_right = 992.0
-offset_bottom = 990.0
+offset_bottom = 1022.0
 scroll_following = true
 tab_size = 1

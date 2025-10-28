@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=3 uid="uid://b4uhco87325q7"]
+
+[ext_resource type="PackedScene" uid="uid://d3h3qgfctrux" path="res://src/object/card.tscn" id="1_bdm27"]
+[ext_resource type="Script" uid="uid://i8ixjixc7wdw" path="res://src/container/deck.gd" id="1_oggff"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ef4l0"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_rc6mm"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oggff"]
+load_path = "res://.godot/imported/btn_passive_up.png-30b9f2e3a78ecba355900715b5330211.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qgc6v"]
+load_path = "res://.godot/imported/btn_passive_down.png-8d6fd5f1bfb1560e707309980f6c3828.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ef4l0"]
+load_path = "res://.godot/imported/btn_active_up.png-f84e2b60f6dd4eeed60a6efbe0745515.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w6qvy"]
+load_path = "res://.godot/imported/btn_active_down.png-f6e9e7a280b4df3098f4ffafc0201485.ctex"
+
+[node name="Deck" type="Node2D"]
+script = ExtResource("1_oggff")
+
+[node name="background" type="TextureRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="passive" type="Node2D" parent="background"]
+visible = false
+material = SubResource("ShaderMaterial_ef4l0")
+
+[node name="breed" parent="background/passive" instance=ExtResource("1_bdm27")]
+position = Vector2(-248, 96)
+
+[node name="job" parent="background/passive" instance=ExtResource("1_bdm27")]
+position = Vector2(-124, 96)
+_type = 1
+
+[node name="helmet" parent="background/passive" instance=ExtResource("1_bdm27")]
+position = Vector2(0, 96)
+_type = 2
+
+[node name="armor" parent="background/passive" instance=ExtResource("1_bdm27")]
+position = Vector2(124, 96)
+_type = 4
+
+[node name="item" parent="background/passive" instance=ExtResource("1_bdm27")]
+position = Vector2(248, 96)
+_type = 3
+
+[node name="active" type="Node2D" parent="background"]
+
+[node name="move" parent="background/active" instance=ExtResource("1_bdm27")]
+position = Vector2(-240, 96)
+_type = 5
+
+[node name="spell" parent="background/active" instance=ExtResource("1_bdm27")]
+position = Vector2(-80, 96)
+_type = 6
+
+[node name="weapon" parent="background/active" instance=ExtResource("1_bdm27")]
+position = Vector2(80, 96)
+_type = 7
+
+[node name="object" parent="background/active" instance=ExtResource("1_bdm27")]
+position = Vector2(240, 96)
+_type = 8
+
+[node name="btn_passive" type="TextureButton" parent="background"]
+layout_mode = 0
+offset_left = -376.0
+offset_top = 104.0
+offset_right = -328.0
+offset_bottom = 156.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_rc6mm")
+texture_normal = SubResource("CompressedTexture2D_oggff")
+texture_pressed = SubResource("CompressedTexture2D_qgc6v")
+
+[node name="btn_active" type="TextureButton" parent="background"]
+layout_mode = 0
+offset_left = -376.0
+offset_top = 40.0
+offset_right = -328.0
+offset_bottom = 92.0
+toggle_mode = true
+button_pressed = true
+keep_pressed_outside = true
+button_group = SubResource("ButtonGroup_rc6mm")
+texture_normal = SubResource("CompressedTexture2D_ef4l0")
+texture_pressed = SubResource("CompressedTexture2D_w6qvy")
+
+[connection signal="pressed" from="background/btn_passive" to="." method="_on_btn_passive_pressed"]
+[connection signal="pressed" from="background/btn_active" to="." method="_on_btn_active_pressed"]

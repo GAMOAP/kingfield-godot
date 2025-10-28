@@ -1,6 +1,8 @@
 extends Node2D
 
 var _card_id := ""
+var _card_size := 1.0
+var _container := Global.CONTAINER.NONE
 
 const _slot_size:int = 16
 
@@ -20,8 +22,14 @@ func _ready() -> void:
 	
 	EventManager.admin_card_subit.connect(reset_card)
 
-func set_card(card_id) -> void:
+# card_id is '000' type,sign,ascendant
+func set_card(card_id, container, card_size = 1) -> void:
+	_container = container
+	_card_size = card_size
+	$".".scale = Vector2(_card_size * 1, _card_size * 1)
+	
 	_card_id = card_id
+	
 	var card = await UserData.get_card_data(card_id)
 	var card_data = card["data"]
 	
@@ -61,7 +69,7 @@ func set_card(card_id) -> void:
 
 func reset_card(card_id) -> void:
 	if card_id == _card_id:
-		set_card(card_id)
+		set_card(card_id, _container, _card_size)
 
 #SET CARD FUNCIONS
 #---------------------
@@ -130,14 +138,17 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if not is_selected:
-				EventManager.emit_card_clicked(_card_id)
+				EventManager.emit_card_clicked(_card_id, _container)
 
 func _set_selected(value):
 	is_selected = value
 	if is_selected:
-		$".".scale = Vector2(0.8, 0.8)
+		$".".scale = Vector2(_card_size * 1.2, _card_size * 1.2)
 	else :
-		$".".scale = Vector2(0.6, 0.6)
+		$".".scale = Vector2(_card_size * 1, _card_size * 1)
 
-func get_card_id() -> String:
+func get_id() -> String:
 	return _card_id
+
+func get_container() -> Global.CONTAINER:
+	return _container
