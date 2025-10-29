@@ -35,11 +35,16 @@ func close() -> void:
 
 func init_cards(page := Global.CARD_TYPE.BREED) -> void:
 	_library_page[0] = page
-	_cards = $background/cards.get_children()
+	var card_select_id = _char_selected_data[str(_library_page[0])]
+	
+	if _cards == []:
+		_cards = $background/cards.get_children()
 	
 	for card in _cards:
 		var card_id = str(_library_page[0]) + str(card.get_index()) + str(0)
 		card.set_card(card_id, _container, 0.6)
+		if card.get_id() == card_select_id :
+			select_card(card_select_id, _container)
 
 func select_card(card_id, container) -> void:
 	for card in _cards:
@@ -56,11 +61,7 @@ func _on_char_clicked(name: String, team: int, data: Dictionary) -> void:
 	_char_selected_data = data
 	_char_name = name
 	var card_select_id = _char_selected_data[str(_library_page[0])]
-	if _cards == []:
-		init_cards(_library_page[0])
-	for card in _cards:
-		if card.get_id() == card_select_id :
-			select_card(card_select_id, _container)
+	init_cards(_library_page[0])
 
 func _on_btn_close_pressed() -> void:
 	UserData.save_player_data()
@@ -68,7 +69,6 @@ func _on_btn_close_pressed() -> void:
 
 func _on_card_clicked(card_id: String, container: Global.CONTAINER) -> void:
 	select_card(card_id, container)
-
 
 func _on_btn_left_pressed() -> void:
 	var page = _library_page[0] - 1

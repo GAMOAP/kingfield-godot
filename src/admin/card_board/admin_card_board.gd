@@ -3,7 +3,7 @@ extends Node2D
 @onready var spot_container = $spot_container
 
 const _board_size:int = 5
-const _slot_size:int = 16
+const _slot_size:float = 16
 
 var dragging_spot: Area2D = null
 var drag_offset: Vector2 = Vector2.ZERO

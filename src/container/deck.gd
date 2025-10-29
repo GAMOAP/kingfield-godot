@@ -73,7 +73,6 @@ func _on_card_clicked(card_id: String, container: Global.CONTAINER) -> void:
 	select_card(card_id, container)
 
 func _on_deck_card_submit(char_id: String, card_id: String) -> void:
-	print(_char_selected_data)
 	_char_selected_data[str(card_id.to_int() / 100)] = card_id
 	init_cards()
 
