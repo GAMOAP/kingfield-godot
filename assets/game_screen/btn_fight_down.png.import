@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w63dh7re0als"
-path="res://.godot/imported/btn_start_normal.png-b2e3ef8dab22ec2c469bab7ea40335da.ctex"
+uid="uid://dd17n4c0mc583"
+path="res://.godot/imported/btn_fight_down.png-662c80e21eef7270550f222d39ce97b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game_screen/btn_start_normal.png"
-dest_files=["res://.godot/imported/btn_start_normal.png-b2e3ef8dab22ec2c469bab7ea40335da.ctex"]
+source_file="res://assets/game_screen/btn_fight_down.png"
+dest_files=["res://.godot/imported/btn_fight_down.png-662c80e21eef7270550f222d39ce97b0.ctex"]
 
 [params]
 

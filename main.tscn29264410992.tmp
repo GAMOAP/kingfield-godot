@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgfggaj24dx4a"]
+[gd_scene load_steps=8 format=3 uid="uid://cgfggaj24dx4a"]
 
 [ext_resource type="Script" uid="uid://jvavpg0s1qij" path="res://main.gd" id="1_27ehg"]
 [ext_resource type="Texture2D" uid="uid://bdv7dq58g5vip" path="res://assets/game_screen/background.png" id="1_dbrkr"]
 [ext_resource type="PackedScene" uid="uid://bk6vtu20dh8nm" path="res://src/container/connection.tscn" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://b1p3iraytjbk2" path="res://src/container/game_ui.tscn" id="4_5vw27"]
 [ext_resource type="PackedScene" uid="uid://pi6a03nd0yrn" path="res://src/container/board.tscn" id="4_272bh"]
 [ext_resource type="PackedScene" uid="uid://cy7ifg3eiha37" path="res://src/container/library.tscn" id="6_4c57u"]
 [ext_resource type="PackedScene" uid="uid://b4uhco87325q7" path="res://src/container/deck.tscn" id="7_efxa6"]
@@ -23,14 +22,11 @@ position = Vector2(512, 448)
 [node name="Board" parent="." instance=ExtResource("4_272bh")]
 position = Vector2(256, 208)
 
-[node name="Deck" parent="." instance=ExtResource("7_efxa6")]
-position = Vector2(512, 784)
-
 [node name="Library" parent="." instance=ExtResource("6_4c57u")]
 position = Vector2(512, 336)
 
-[node name="Game_ui" parent="." instance=ExtResource("4_5vw27")]
-position = Vector2(512, 384)
+[node name="Deck" parent="." instance=ExtResource("7_efxa6")]
+position = Vector2(512, 784)
 
 [node name="Players" parent="." instance=ExtResource("8_dg77c")]
 

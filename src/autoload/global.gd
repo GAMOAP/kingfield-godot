@@ -11,7 +11,7 @@ const NBR_BLOCK_VAR := 3
 
 enum SIDE {USER, OPPONENT}
 
-enum SCENES {CONNECTION, HOME, SETTINGS, LYBRARY, MATCH}
+enum SCENES {CONNECTION, HOME, SETTINGS, BARRACK, TRAINING, MATCH}
 
 enum CONTAINER {NONE, LIBRARY, DECK}
 
@@ -32,3 +32,7 @@ const TEAM : Array = ["side_left", "center_left", "king", "center_right", "side_
 const CARDS : Array = ["breed", "job", "helmet", "item", "armor", "move", "spell", "weapon", "object"]
 
 const CHAR : Array = ["front_leg", "back_leg", "armor", "head", "face", "helmet", "hand", "weapon", "arm" ]
+
+#VARIABLES
+var char_selected = null
+var card_selected = null

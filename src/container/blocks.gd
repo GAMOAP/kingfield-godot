@@ -26,12 +26,12 @@ func _create_blocks():
 				block_temp.block_clicked.connect(_on_block_clicked)
 			add_child(block_temp)
 
-func show_block_row(row:= 5) -> void:
-	for block in get_children():
+func show_nbr_row(row_nbr:= 0) -> void:
+	for row in range(grid_size.x):
 		for col in range(grid_size.y):
-			var temp_name = "block_" + str(col) + "_" + str(row)
-			if block.name == temp_name:
-				block.visible = true
+			if row > (4 - row_nbr):
+				var temp_name = "block_" + str(col) + "_" + str(row)
+				get_node(temp_name).visible = true
 
 func _on_block_clicked(block_id):
 	block_selected.emit(block_id)

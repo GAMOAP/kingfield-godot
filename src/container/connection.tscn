@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk6vtu20dh8nm"]
+
+[ext_resource type="Script" uid="uid://bo8xvpbkas0jy" path="res://src/container/connection.gd" id="1_agurs"]
+[ext_resource type="Texture2D" uid="uid://dwbtwo41k3n53" path="res://assets/game_screen/logo.png" id="2_rettn"]
+
+[node name="Connexion" type="Node2D"]
+script = ExtResource("1_agurs")
+
+[node name="ConnexionPanel" type="Panel" parent="."]
+offset_left = -256.0
+offset_top = 16.0
+offset_right = 256.0
+offset_bottom = 240.0
+
+[node name="UsernameInput" type="LineEdit" parent="ConnexionPanel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 448.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 24
+placeholder_text = "username"
+alignment = 1
+
+[node name="PasswordInput" type="LineEdit" parent="ConnexionPanel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 80.0
+offset_right = 448.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 24
+placeholder_text = "password"
+alignment = 1
+secret = true
+secret_character = "*"
+
+[node name="SubmitButton" type="Button" parent="ConnexionPanel"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 144.0
+offset_right = 352.0
+offset_bottom = 208.0
+theme_override_font_sizes/font_size = 32
+text = "Submit"
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(0, -144)
+texture = ExtResource("2_rettn")
+
+[connection signal="text_changed" from="ConnexionPanel/UsernameInput" to="." method="_on_username_input_text_changed"]
+[connection signal="text_submitted" from="ConnexionPanel/UsernameInput" to="." method="_on_username_input_text_submitted"]
+[connection signal="text_submitted" from="ConnexionPanel/PasswordInput" to="." method="_on_password_input_text_submitted"]
+[connection signal="button_down" from="ConnexionPanel/SubmitButton" to="." method="_on_submit_button_button_down"]

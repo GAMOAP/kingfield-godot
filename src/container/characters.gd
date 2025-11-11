@@ -5,6 +5,7 @@ var _chars : Array[Node]
 
 func _ready() -> void:
 	_set_chars()
+	#Global.char_selected = $user_team.get_node("king")
 	EventManager.char_clicked.connect(_on_char_clicked)
 
 func _set_chars() -> void:
@@ -14,9 +15,9 @@ func _set_chars() -> void:
 		for char in chars_temp:
 			_chars.append(char)
 
-func _on_char_clicked(char_name, char_team, char_data):
+func _on_char_clicked(char_name: String):
 	for char in _chars:
-		if char.name == char_name && char.team == char_team:
+		if char.name == char_name:
 			char.is_selected = true
 		else:
 			char.is_selected = false
@@ -27,7 +28,7 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 		team_data = await UserData.get_user_team()
 		$user_team.visible = true
 	elif team == Global.SIDE.OPPONENT:
-		team_data =  await ServerManagement.load_data("player_data", "team", user_id)
+		team_data =  await ServerManager.load_data("player_data", "team", user_id)
 		$opponent_team.visible = true
 	
 	for char in _chars:

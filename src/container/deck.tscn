@@ -23,7 +23,6 @@ load_path = "res://.godot/imported/btn_active_down.png-f6e9e7a280b4df3098f4ffafc
 script = ExtResource("1_oggff")
 
 [node name="background" type="TextureRect" parent="."]
-visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 
@@ -33,40 +32,68 @@ material = SubResource("ShaderMaterial_ef4l0")
 
 [node name="breed" parent="background/passive" instance=ExtResource("1_bdm27")]
 position = Vector2(-248, 96)
+_type = null
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="job" parent="background/passive" instance=ExtResource("1_bdm27")]
 position = Vector2(-124, 96)
 _type = 1
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="helmet" parent="background/passive" instance=ExtResource("1_bdm27")]
 position = Vector2(0, 96)
 _type = 2
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="armor" parent="background/passive" instance=ExtResource("1_bdm27")]
 position = Vector2(124, 96)
 _type = 4
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="item" parent="background/passive" instance=ExtResource("1_bdm27")]
 position = Vector2(248, 96)
 _type = 3
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="active" type="Node2D" parent="background"]
 
 [node name="move" parent="background/active" instance=ExtResource("1_bdm27")]
 position = Vector2(-240, 96)
 _type = 5
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="spell" parent="background/active" instance=ExtResource("1_bdm27")]
 position = Vector2(-80, 96)
 _type = 6
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="weapon" parent="background/active" instance=ExtResource("1_bdm27")]
 position = Vector2(80, 96)
 _type = 7
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="object" parent="background/active" instance=ExtResource("1_bdm27")]
 position = Vector2(240, 96)
 _type = 8
+_sign = null
+_ascendant = null
+is_selected = null
 
 [node name="btn_passive" type="TextureButton" parent="background"]
 layout_mode = 0

@@ -138,7 +138,8 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if not is_selected:
-				EventManager.emit_card_clicked(_card_id, _container)
+				Global.card_selected = self
+				EventManager.emit_card_clicked(_card_id)
 
 func _set_selected(value):
 	is_selected = value

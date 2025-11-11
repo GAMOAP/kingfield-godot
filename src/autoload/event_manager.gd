@@ -1,20 +1,24 @@
 extends Node
 
+#  MULTIPLAYER ACTION
 signal match_found(match_data: Dictionary)
 signal turn_received(turn_data: Dictionary)
 
-signal multi_UI_action(message: String, data: Dictionary)
-
-signal char_clicked(char_name: String, char_team: int, data: Dictionary)
-
-signal card_clicked(card_id: String, container: Global.CONTAINER)
-
-signal admin_card_subit(card_id: String)
-
-signal deck_card_submit(char_name: String, card_id: String)
-
+#  SCENE
 signal set_scene(scene: Global.SCENES)
 
+#  OBJECT CLICKED
+signal char_clicked(char_name: String)
+signal card_clicked(card_id: String)
+
+#  UI CLICKED
+signal library_page_change(page: int)
+
+#  CHANGE USER DATA
+signal deck_card_submit(card_id: String)
+
+#  ADMIN
+signal admin_card_subit(card_id: String)
 
 
 # ----------------------------
@@ -35,17 +39,23 @@ func emit_set_scene(scene: Global.SCENES) -> void:
 # ----------------------------
 #  OBJECT CLICKED
 # ----------------------------
-func emit_char_clicked(name: String, team: int, data := {}) -> void:
-	char_clicked.emit(name, team, data)
+func emit_char_clicked(name: String) -> void:
+	char_clicked.emit(name)
 
-func emit_card_clicked(card_id: String, container: Global.CONTAINER) -> void:
-	card_clicked.emit(card_id, container)
+func emit_card_clicked(card_id: String) -> void:
+	card_clicked.emit(card_id)
+
+# ----------------------------
+#  UI CLICKED
+# ----------------------------
+func emit_library_page_change(page: int) -> void:
+	library_page_change.emit(page)
 
 # ----------------------------
 #  CHANGE USER DATA
 # ----------------------------
-func emit_deck_card_submit(name: String, card_id: String) -> void:
-	deck_card_submit.emit(name, card_id)
+func emit_deck_card_submit(card_id: String) -> void:
+	deck_card_submit.emit(card_id)
 
 # ----------------------------
 #  ADMIN

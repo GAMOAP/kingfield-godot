@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1p3iraytjbk2"]
+
+[ext_resource type="Texture2D" uid="uid://dxx5n4inc0s7l" path="res://assets/game_screen/btn_fight_up.png" id="1_2a6i6"]
+[ext_resource type="Script" uid="uid://b7kqdl4d6edt0" path="res://src/container/game_ui.gd" id="1_nuhri"]
+[ext_resource type="Texture2D" uid="uid://dd17n4c0mc583" path="res://assets/game_screen/btn_fight_down.png" id="2_nuhri"]
+[ext_resource type="Texture2D" uid="uid://4r8tgeteesgq" path="res://assets/game_screen/btn_training_up.png" id="3_fsbg0"]
+[ext_resource type="Texture2D" uid="uid://bu3tvmti6gnfy" path="res://assets/game_screen/btn_training_down.png" id="4_vjp22"]
+
+[node name="Game_ui" type="Node2D"]
+position = Vector2(320, 352)
+script = ExtResource("1_nuhri")
+
+[node name="Match_btn" type="TextureButton" parent="."]
+offset_left = -144.0
+offset_top = -160.0
+offset_right = 144.0
+offset_bottom = 160.0
+texture_normal = ExtResource("1_2a6i6")
+texture_pressed = ExtResource("2_nuhri")
+metadata/_edit_use_anchors_ = true
+
+[node name="Training_btn" type="TextureButton" parent="."]
+offset_left = 96.0
+offset_top = 80.0
+offset_right = 168.0
+offset_bottom = 164.0
+texture_normal = ExtResource("3_fsbg0")
+texture_pressed = ExtResource("4_vjp22")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Match_btn" to="." method="_on_match_btn_pressed"]
+[connection signal="pressed" from="Training_btn" to="." method="_on_training_btn_pressed"]

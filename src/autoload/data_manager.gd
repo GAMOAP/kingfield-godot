@@ -38,7 +38,7 @@ func get_user_data() -> void:
 # ----------------------------
 func get_user_team() -> Dictionary:
 	if not _team:
-		_team = await ServerManagement.load_data("player_data", "team")
+		_team = await ServerManager.load_data("player_data", "team")
 	if _team == {} :
 		for char in Global.TEAM:
 			var char_stuff : Dictionary
@@ -65,16 +65,15 @@ func update_user_team(char := "", card_id := "") -> void:
 	if char != "" && card_id != "":
 		var card := str(card_id.to_int() / 100)
 		_team[char][card] = card_id
-	
 
 func save_player_data() -> void:
-	ServerManagement.write_data("player_data", "team", _team, ServerManagement.ReadPermissions.PUBLIC_READ)
+	ServerManager.write_data("player_data", "team", _team, ServerManager.ReadPermissions.PUBLIC_READ)
 
 # ----------------------------
 #  ADMIN CARDS INDEX
 # ----------------------------
 func get_card_index() -> void:
-	_card_index = await ServerManagement.load_data("global_data", "cards", Global.ADMIN_ID)
+	_card_index = await ServerManager.load_data("global_data", "cards", Global.ADMIN_ID)
 	if _card_index == {}:
 		_card_index = _create_card_index()
 
@@ -99,7 +98,7 @@ func set_card_data(data := {}) -> void :
 	_card_index[card_id] = data
 	
 	if is_admin && card_id != "0":
-		ServerManagement.write_data("global_data", "cards", _card_index, ServerManagement.ReadPermissions.PUBLIC_READ)
+		ServerManager.write_data("global_data", "cards", _card_index, ServerManager.ReadPermissions.PUBLIC_READ)
 	else:
 		Console.log("Write global_data error : user is not an administrator")
 

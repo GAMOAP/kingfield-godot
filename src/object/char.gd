@@ -26,10 +26,12 @@ func _ready() -> void:
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			EventManager.emit_char_clicked(name, team, _char_data)
+			if self != Global.char_selected:
+				Global.char_selected = self
+				EventManager.emit_char_clicked(name)
 
-func _on_deck_card_submit(char_id: String, card_id: String) -> void:
-	if char_id == name && team == TEAM.USER:
+func _on_deck_card_submit(card_id: String) -> void:
+	if Global.char_selected.get_name() == name:
 		_set_texture(card_id)
 
 func _set_selected(value):
@@ -84,3 +86,34 @@ func _set_texture(card_id := "") -> void :
 			pass
 		_:
 			pass
+
+func get_data() -> Dictionary:
+	return _char_data
+
+func get_karma() -> int:
+	var sign_count = {}
+	var min_hundreds = {}
+	
+	for str_value in _char_data.values():
+		var value = int(str_value)
+		var hundreds = int(value / 100)
+		var tens = int((value % 100) / 10)
+		
+		# Count the tens
+		sign_count[tens] = sign_count.get(tens, 0) + 1
+		# Keep the smallest hundreds digit for this ten
+		if not min_hundreds.has(tens) or hundreds < min_hundreds[tens]:
+			min_hundreds[tens] = hundreds
+	
+	# Determine the winning ten
+	var karma = null
+	var max_count = 0
+	for tens in sign_count:
+		var count = sign_count[tens]
+		var hundreds = min_hundreds[tens]
+		
+		if count > max_count or (count == max_count and hundreds < min_hundreds[karma]):
+			max_count = count
+			karma = tens
+	
+	return karma
