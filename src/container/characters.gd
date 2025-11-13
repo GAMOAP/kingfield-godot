@@ -38,3 +38,38 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 func unselect_all():
 	for char_temp in _chars:
 		char_temp.is_selected = false
+
+func get_team_karma(team:= Global.SIDE.USER) -> int:
+	var sign_count = {}
+	var min_hundreds = {}
+	
+	var char_data :=[]
+	for char in _chars:
+		if char.team == team:
+			for data in char.get_data().values():
+				char_data.append(data)
+	
+	for str_value in char_data:
+		var value = int(str_value)
+		var hundreds = int(value / 100)
+		var tens = int((value % 100) / 10)
+		
+		# Count the tens
+		sign_count[tens] = sign_count.get(tens, 0) + 1
+		# Keep the smallest hundreds digit for this ten
+		if not min_hundreds.has(tens) or hundreds < min_hundreds[tens]:
+			min_hundreds[tens] = hundreds
+	
+	# Determine the winning ten
+	var karma = 0 #null
+	var max_count = 0
+	for tens in sign_count:
+		var count = sign_count[tens]
+		var hundreds = min_hundreds[tens]
+		
+		if count > max_count or (count == max_count and hundreds < min_hundreds[karma]):
+			max_count = count
+			karma = tens
+	
+	return karma
+	

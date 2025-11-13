@@ -483,6 +483,7 @@ _data = {
 script = ExtResource("1_jgqhi")
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -8)
 priority = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -491,7 +492,7 @@ shape = SubResource("CapsuleShape2D_rk80h")
 one_way_collision_margin = 0.0
 
 [node name="Sprite2D" type="Node2D" parent="."]
-position = Vector2(0, -40)
+position = Vector2(0, -48)
 scale = Vector2(0.5, 0.5)
 
 [node name="char_display" type="CanvasGroup" parent="Sprite2D"]
