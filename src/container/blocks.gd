@@ -29,9 +29,11 @@ func _create_blocks():
 func show_nbr_row(row_nbr:= 0) -> void:
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
+			var temp_name = "block_" + str(col) + "_" + str(row)
 			if row > (4 - row_nbr):
-				var temp_name = "block_" + str(col) + "_" + str(row)
 				get_node(temp_name).visible = true
+			else :
+				get_node(temp_name).visible = false
 
 func set_block_karma(karma: int) -> void:
 	for row in range(grid_size.x):

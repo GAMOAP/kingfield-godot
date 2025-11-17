@@ -45,19 +45,19 @@ hframes = 13
 position = Vector2(0, 56)
 
 [node name="slot1" type="Sprite2D" parent="Node2D"]
-position = Vector2(2, 8)
+position = Vector2(-34, 8)
 texture = ExtResource("6_6ax1v")
 hframes = 9
 vframes = 3
 
 [node name="slot2" type="Sprite2D" parent="Node2D"]
-position = Vector2(38, 8)
+position = Vector2(2, 8)
 texture = ExtResource("6_6ax1v")
 hframes = 9
 vframes = 3
 
 [node name="slot3" type="Sprite2D" parent="Node2D"]
-position = Vector2(-34, 8)
+position = Vector2(38, 8)
 texture = ExtResource("6_6ax1v")
 hframes = 9
 vframes = 3

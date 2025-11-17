@@ -38,6 +38,8 @@ func _set_selected(value):
 	is_selected = value
 	if is_selected:
 		$Sprite2D/char_display.scale = Vector2(1.1, 1.1)
+		$Char_UI.visible = true
+		$Char_UI.scale = Vector2(1.1, 1.1)
 		outline.set("shader_parameter/line_thickness", 2)
 		outline.set("shader_parameter/line_colour", Color(1,0,0)) #color red
 	else :
@@ -47,6 +49,8 @@ func _set_selected(value):
 			$Sprite2D/char_display.material = outline
 			
 		$Sprite2D/char_display.scale = Vector2(1, 1)
+		$Char_UI.visible = false
+		$Char_UI.scale = Vector2(1, 1)
 		outline.set("shader_parameter/line_thickness", 1)
 		outline.set("shader_parameter/line_colour", Color(0,0,0)) #color black
 

@@ -1,0 +1,221 @@
+[gd_scene load_steps=11 format=3 uid="uid://j36ji2v83f66"]
+
+[ext_resource type="Texture2D" uid="uid://coq5krnegpgm4" path="res://assets/char/UI/crystal.png" id="1_2hlu1"]
+[ext_resource type="Texture2D" uid="uid://drexoqt6ia4u3" path="res://assets/char/UI/life.png" id="2_mgy4r"]
+[ext_resource type="Texture2D" uid="uid://cr7xrpldxxw40" path="res://assets/char/UI/xpbar.png" id="3_ggebw"]
+[ext_resource type="Texture2D" uid="uid://drcxo3qdj8unt" path="res://assets/char/UI/karma.png" id="4_msofe"]
+[ext_resource type="Texture2D" uid="uid://l7pgxr2oc4kp" path="res://assets/char/UI/buff_picture.png" id="5_n6h6f"]
+[ext_resource type="Texture2D" uid="uid://dmf4lp2ejax5i" path="res://assets/char/UI/attributes_front.png" id="6_2j22h"]
+[ext_resource type="Texture2D" uid="uid://b4rd54332hlno" path="res://assets/char/UI/attributes_background.png" id="7_w8j5a"]
+[ext_resource type="Texture2D" uid="uid://dcn7mq2ys346g" path="res://assets/char/UI/buff_turn_left.png" id="8_dievg"]
+[ext_resource type="Texture2D" uid="uid://jqxpb4qbh0xk" path="res://assets/char/UI/attack_picture.png" id="9_2mf33"]
+[ext_resource type="Texture2D" uid="uid://bj8vuoxukkokr" path="res://assets/char/UI/defense_picture.png" id="10_jf1ll"]
+
+[node name="Char_UI" type="Node2D"]
+
+[node name="Crystal" type="Node2D" parent="."]
+position = Vector2(-34, -80)
+
+[node name="Crystal1" type="Sprite2D" parent="Crystal"]
+position = Vector2(10, 10)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal2" type="Sprite2D" parent="Crystal"]
+position = Vector2(20, 20)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal3" type="Sprite2D" parent="Crystal"]
+position = Vector2(30, 10)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal4" type="Sprite2D" parent="Crystal"]
+position = Vector2(40, 20)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal5" type="Sprite2D" parent="Crystal"]
+position = Vector2(50, 10)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal6" type="Sprite2D" parent="Crystal"]
+position = Vector2(60, 20)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal7" type="Sprite2D" parent="Crystal"]
+position = Vector2(70, 10)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal8" type="Sprite2D" parent="Crystal"]
+position = Vector2(80, 20)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Crystal9" type="Sprite2D" parent="Crystal"]
+position = Vector2(90, 10)
+texture = ExtResource("1_2hlu1")
+hframes = 4
+
+[node name="Life" type="Node2D" parent="."]
+position = Vector2(-44, -50)
+
+[node name="Life1" type="Sprite2D" parent="Life"]
+position = Vector2(6, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life2" type="Sprite2D" parent="Life"]
+position = Vector2(18, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life3" type="Sprite2D" parent="Life"]
+position = Vector2(30, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life4" type="Sprite2D" parent="Life"]
+position = Vector2(42, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life5" type="Sprite2D" parent="Life"]
+position = Vector2(54, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life6" type="Sprite2D" parent="Life"]
+position = Vector2(66, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life7" type="Sprite2D" parent="Life"]
+position = Vector2(78, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life8" type="Sprite2D" parent="Life"]
+position = Vector2(90, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Life9" type="Sprite2D" parent="Life"]
+position = Vector2(102, 5.5)
+texture = ExtResource("2_mgy4r")
+hframes = 2
+
+[node name="Xpbar" type="Node2D" parent="."]
+position = Vector2(-64, -80)
+
+[node name="Xpbar1" type="Sprite2D" parent="Xpbar"]
+position = Vector2(22, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar2" type="Sprite2D" parent="Xpbar"]
+position = Vector2(26, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar3" type="Sprite2D" parent="Xpbar"]
+position = Vector2(30, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar4" type="Sprite2D" parent="Xpbar"]
+position = Vector2(34, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar5" type="Sprite2D" parent="Xpbar"]
+position = Vector2(38, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar6" type="Sprite2D" parent="Xpbar"]
+position = Vector2(42, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar7" type="Sprite2D" parent="Xpbar"]
+position = Vector2(46, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar8" type="Sprite2D" parent="Xpbar"]
+position = Vector2(50, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar9" type="Sprite2D" parent="Xpbar"]
+position = Vector2(54, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar10" type="Sprite2D" parent="Xpbar"]
+position = Vector2(58, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar11" type="Sprite2D" parent="Xpbar"]
+position = Vector2(62, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Xpbar12" type="Sprite2D" parent="Xpbar"]
+position = Vector2(66, 44)
+texture = ExtResource("3_ggebw")
+hframes = 4
+
+[node name="Karma" type="Sprite2D" parent="."]
+position = Vector2(-48, -64)
+texture = ExtResource("4_msofe")
+hframes = 9
+frame = 6
+
+[node name="BuffPicture" type="Sprite2D" parent="."]
+position = Vector2(0, 48)
+texture = ExtResource("5_n6h6f")
+hframes = 7
+
+[node name="Attack_value_front" type="Sprite2D" parent="."]
+position = Vector2(40, 48)
+texture = ExtResource("6_2j22h")
+hframes = 13
+frame = 8
+
+[node name="Attack_value_back" type="Sprite2D" parent="."]
+position = Vector2(40, 48)
+texture = ExtResource("7_w8j5a")
+hframes = 13
+frame = 3
+
+[node name="Defense_value_front" type="Sprite2D" parent="."]
+position = Vector2(-40, 48)
+texture = ExtResource("6_2j22h")
+hframes = 13
+frame = 8
+
+[node name="Defense_value_back" type="Sprite2D" parent="."]
+position = Vector2(-40, 48)
+texture = ExtResource("7_w8j5a")
+hframes = 13
+frame = 3
+
+[node name="BuffTurnLeft" type="Sprite2D" parent="."]
+position = Vector2(0, 66)
+texture = ExtResource("8_dievg")
+hframes = 3
+
+[node name="AttackPicture" type="Sprite2D" parent="."]
+position = Vector2(40, 48)
+texture = ExtResource("9_2mf33")
+
+[node name="DefensePicture" type="Sprite2D" parent="."]
+position = Vector2(-40, 48)
+texture = ExtResource("10_jf1ll")

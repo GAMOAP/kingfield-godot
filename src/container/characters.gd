@@ -38,6 +38,7 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 func unselect_all():
 	for char_temp in _chars:
 		char_temp.is_selected = false
+	Global.char_selected = null
 
 func get_team_karma(team:= Global.SIDE.USER) -> int:
 	var sign_count = {}

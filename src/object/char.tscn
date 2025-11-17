@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://dhd1nrywuvnay"]
+[gd_scene load_steps=16 format=3 uid="uid://dhd1nrywuvnay"]
 
 [ext_resource type="Script" uid="uid://d34nl1e4s34h3" path="res://src/object/char.gd" id="1_jgqhi"]
+[ext_resource type="PackedScene" uid="uid://j36ji2v83f66" path="res://src/object/char_ui.tscn" id="2_fcj1p"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rk80h"]
 radius = 32.0
@@ -556,5 +557,8 @@ hframes = 9
 libraries = {
 &"": SubResource("AnimationLibrary_2er1j")
 }
+
+[node name="Char_UI" parent="." instance=ExtResource("2_fcj1p")]
+position = Vector2(0, -32)
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

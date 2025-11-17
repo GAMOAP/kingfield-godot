@@ -40,7 +40,6 @@ func close() -> void:
 func init_cards(page := Global.CARD_TYPE.BREED) -> void:
 	_library_page[0] = page
 	EventManager.emit_library_page_change(_library_page[0])
-	print("_char_selected_data = ", _char_selected_data)
 	var card_select_id = _char_selected_data[str(_library_page[0])]
 	
 	if _cards == []:
