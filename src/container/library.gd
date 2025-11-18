@@ -20,7 +20,7 @@ func open() -> void:
 	EventManager.char_clicked.connect(_on_char_clicked)
 	
 	_char_selected_data = Global.char_selected.get_data()
-	if UserData.is_admin == true :
+	if DataManager.is_admin == true :
 		if not _admin_card:
 			_admin_card = preload("res://src/admin/admin_card.tscn").instantiate()
 			$background.add_child(_admin_card)
@@ -34,7 +34,7 @@ func close() -> void:
 	EventManager.card_clicked.disconnect(_on_card_clicked)
 	EventManager.char_clicked.disconnect(_on_char_clicked)
 	
-	if UserData.is_admin == true :
+	if DataManager.is_admin == true :
 		_admin_card.visible = false
 
 func init_cards(page := Global.CARD_TYPE.BREED) -> void:
@@ -57,7 +57,7 @@ func select_card(card_id) -> void:
 			card.is_selected = true
 			if _char_selected_data[str(card_id.to_int() / 100)] != card_id:
 				EventManager.emit_deck_card_submit(card_id)
-				UserData.update_user_team(card_id)
+				DataManager.update_user_team(card_id)
 		else:
 			card.is_selected = false
 
@@ -67,7 +67,7 @@ func _on_char_clicked(name: String) -> void:
 	init_cards(_library_page[0])
 
 func _on_btn_close_pressed() -> void:
-	UserData.save_player_data()
+	DataManager.save_player_data()
 	EventManager.set_scene.emit(Global.SCENES.HOME)
 
 func _on_card_clicked(card_id: String) -> void:

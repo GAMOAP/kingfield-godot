@@ -25,7 +25,7 @@ func _on_char_clicked(char_name: String):
 func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 	var team_data = {}
 	if team == Global.SIDE.USER:
-		team_data = await UserData.get_user_team()
+		team_data = await DataManager.get_user_team()
 		$user_team.visible = true
 	elif team == Global.SIDE.OPPONENT:
 		team_data =  await ServerManager.load_data("player_data", "team", user_id)

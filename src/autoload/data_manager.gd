@@ -84,9 +84,9 @@ func get_card_data(card_id) -> Dictionary:
 
 func get_card_identity(card_id) -> Dictionary:
 	var int_id = card_id.to_int()
-	var type = int_id / 100
-	var sign = (int_id - type * 100) / 10
-	var ascendant = int_id - (type + sign)
+	var type: int = int_id / 100
+	var sign: int = (int_id - type * 100) / 10
+	var ascendant: int = int_id - (type + sign)
 	return {
 		"type" : type,
 		"sign" : sign,

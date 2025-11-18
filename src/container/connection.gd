@@ -26,7 +26,7 @@ func connexion() -> void:
 		if result != "NEW_SESSION":
 			$ConnexionPanel/UsernameInput.text = _userdata.username
 			$ConnexionPanel/SubmitButton.text =  "Login"
-		UserData.get_user_data()
+		DataManager.get_user_data()
 		$ConnexionPanel.visible = true
 
 # ----------------------------
@@ -80,7 +80,7 @@ func admin_connection() -> void:
 		if result != "ERROR":
 			_userdata = await ServerManager.get_user_account_async()
 			user_connected(username)
-			UserData.is_admin = true
+			DataManager.is_admin = true
 	else:
 		$ConnexionPanel/PasswordInput.visible = true
 

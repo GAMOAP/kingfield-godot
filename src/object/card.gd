@@ -30,10 +30,10 @@ func set_card(card_id, container, card_size = 1) -> void:
 	
 	_card_id = card_id
 	
-	var card = await UserData.get_card_data(card_id)
+	var card = await DataManager.get_card_data(card_id)
 	var card_data = card["data"]
 	
-	var card_identity = UserData.get_card_identity(card_id)
+	var card_identity = DataManager.get_card_identity(card_id)
 	_type = card_identity["type"]
 	_sign = card_identity["sign"]
 	_ascendant = card_identity["ascendant"]

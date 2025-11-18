@@ -56,12 +56,13 @@ func _set_selected(value):
 
 func init_char(char_data: Dictionary) -> void:
 	_char_data = char_data
+	$Char_UI.init(self.name, _char_data)
 	for card_id in _char_data:
 		_set_texture(_char_data[card_id])
 	
 
 func _set_texture(card_id := "") -> void :
-	var card_identity = UserData.get_card_identity(card_id)
+	var card_identity = DataManager.get_card_identity(card_id)
 	var card = card_identity["type"]
 	var sign = card_identity["sign"]
 	var ascendant = card_identity["ascendant"]
