@@ -33,6 +33,7 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 	
 	for char in _chars:
 		if char.team == team:
+			
 			char.init_char(team_data[char.name])
 
 func unselect_all():

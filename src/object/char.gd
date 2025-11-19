@@ -31,7 +31,8 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 				EventManager.emit_char_clicked(name)
 
 func _on_deck_card_submit(card_id: String) -> void:
-	if Global.char_selected.get_name() == name:
+	if Global.char_selected.get_name() == name and team == TEAM.USER:
+		$Char_UI.init()
 		_set_texture(card_id)
 
 func _set_selected(value):
@@ -56,7 +57,7 @@ func _set_selected(value):
 
 func init_char(char_data: Dictionary) -> void:
 	_char_data = char_data
-	$Char_UI.init(self.name, _char_data)
+	$Char_UI.init()
 	for card_id in _char_data:
 		_set_texture(_char_data[card_id])
 	
