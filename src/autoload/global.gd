@@ -5,7 +5,7 @@ const ADMIN_ID := "3c1485bf-c58c-4f11-b602-1df56fff3076"
 const VOID : int = -1
 
 const GRID_SIZE := Vector2(5, 5)
-const CELL_SIZE := Vector2(128, 128)
+const CELL_SIZE := Vector2(128.0, 128.0)
 
 const NBR_BLOCK_VAR := 3
 
@@ -36,5 +36,6 @@ const CHAR : Array = ["front_leg", "back_leg", "armor", "head", "face", "helmet"
 const LEVEL : Array = [4, 8, 12]
 
 #VARIABLES
+var scene_selected = null
 var char_selected = null
 var card_selected = null

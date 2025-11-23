@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://4t1bnbcekbwt" path="res://assets/block/blocks.png" id="2_k4t3q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvvpm"]
-size = Vector2(128, 128)
+size = Vector2(112, 112)
 
 [node name="Block" type="Node2D"]
 script = ExtResource("1_68phc")
@@ -36,6 +36,12 @@ hframes = 9
 vframes = 4
 
 [node name="Area2D" type="Area2D" parent="."]
+priority = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_cvvpm")
+one_way_collision_margin = 0.0
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

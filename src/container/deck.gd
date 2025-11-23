@@ -25,6 +25,9 @@ func open() -> void:
 	$background.visible = true
 	if Global.char_selected != null:
 		_char_selected_data = Global.char_selected.get_data() 
+	
+	if Global.scene_selected == Global.SCENES.TRAINING or Global.scene_selected == Global.SCENES.MATCH:
+		switch_cards_active(true)
 
 func close() -> void:
 	$background.visible = false

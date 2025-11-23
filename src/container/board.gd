@@ -13,8 +13,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func open(scene: Global.SCENES)-> void:
-	_scene = scene
+func open()-> void:
+	_scene = Global.scene_selected
 	
 	$Exit_btn.visible = false
 	match _scene:

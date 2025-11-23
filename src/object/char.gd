@@ -28,6 +28,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if self != Global.char_selected:
 				Global.char_selected = self
+				print("char_",name,"posision = ", grid_position)
 				EventManager.emit_char_clicked(name)
 
 func _on_deck_card_submit(card_id: String) -> void:

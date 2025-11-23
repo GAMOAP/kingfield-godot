@@ -7,9 +7,15 @@ signal block_clicked(block_id)
 
 @export var grid_position: Vector2
 
+var original_pos: Vector2
+var offset := Vector2(0, 8)
+var is_mouse_over := false
+
 var _outline
 
 func _ready() -> void:
+	original_pos = position
+	
 	name = "block_%d_%d" % [grid_position.x, grid_position.y]
 	set_block(0,0,0)
 
@@ -37,5 +43,22 @@ func set_block(sign: int, ascendant: int, ascendant_power: int) -> void:
 		_outline.shader = load("res://src/shaders/outline.gdshader")
 		$Quarters.material = _outline
 		
-		_outline.set("shader_parameter/line_thickness", 2)
+		_outline.set("shader_parameter/line_thickness", 1)
 		_outline.set("shader_parameter/line_colour", Color(0,0,0)) #color black
+
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				if is_mouse_over:
+					print(grid_position)
+					position = original_pos + offset
+			else:
+				position = original_pos
+
+func _on_area_2d_mouse_entered() -> void:
+	is_mouse_over = true
+
+func _on_area_2d_mouse_exited() -> void:
+	is_mouse_over = false
+	position = original_pos

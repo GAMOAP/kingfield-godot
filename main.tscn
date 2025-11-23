@@ -20,9 +20,6 @@ texture = ExtResource("1_dbrkr")
 [node name="Connexion" parent="." instance=ExtResource("3_h2yge")]
 position = Vector2(512, 448)
 
-[node name="Deck" parent="." instance=ExtResource("7_efxa6")]
-position = Vector2(512, 784)
-
 [node name="Library" parent="." instance=ExtResource("6_4c57u")]
 position = Vector2(512, 336)
 
@@ -33,6 +30,9 @@ position = Vector2(256, 208)
 position = Vector2(512, 384)
 
 [node name="Players" parent="." instance=ExtResource("8_dg77c")]
+
+[node name="Deck" parent="." instance=ExtResource("7_efxa6")]
+position = Vector2(512, 784)
 
 [node name="Console" type="RichTextLabel" parent="."]
 offset_left = 32.0

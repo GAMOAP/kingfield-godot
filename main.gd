@@ -14,6 +14,7 @@ func _process(delta: float) -> void:
 
 # Handles scene changes and updates the UI depending on the current scene
 func _on_set_scene(scene: Global.SCENES) -> void:
+	Global.scene_selected = scene
 	_scene = scene
 	
 	var connexion = false
@@ -56,7 +57,7 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 		$Game_ui.close()
 	
 	if board == true:
-		$Board.open(_scene)
+		$Board.open()
 	else :
 		$Board.close()
 	

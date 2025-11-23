@@ -89,7 +89,6 @@ func set_attack() -> void:
 
 func set_xp(level := 0) -> void:
 	var xp_points = $Xpbar.get_children()
-	print("level = ", Global.LEVEL[level])
 	for xp_point in xp_points:
 		xp_point.visible = false
 		for nbr in Global.LEVEL[level]:
