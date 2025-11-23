@@ -9,23 +9,27 @@ script = ExtResource("1_hcb2o")
 [node name="opponent_team" type="Node2D" parent="."]
 visible = false
 
-[node name="side_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
-team = 1
-
-[node name="center_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
-position = Vector2(128, 0)
-team = 1
-
-[node name="king" parent="opponent_team" instance=ExtResource("1_bccgr")]
-position = Vector2(256, 0)
+[node name="side_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
+position = Vector2(512, 0)
 team = 1
 
 [node name="center_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(384, 0)
+grid_position = Vector2(1, 0)
 team = 1
 
-[node name="side_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
-position = Vector2(512, 0)
+[node name="king" parent="opponent_team" instance=ExtResource("1_bccgr")]
+position = Vector2(256, 0)
+grid_position = Vector2(2, 0)
+team = 1
+
+[node name="center_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
+position = Vector2(128, 0)
+grid_position = Vector2(3, 0)
+team = 1
+
+[node name="side_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
+grid_position = Vector2(4, 0)
 team = 1
 
 [node name="user_team" type="Node2D" parent="."]

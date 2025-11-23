@@ -1,8 +1,6 @@
 @tool
 extends Node2D
 
-signal block_selected(block_id)
-
 @onready var block = preload("res://src/object/block.tscn")
 
 
@@ -12,6 +10,8 @@ var block_size = Global.CELL_SIZE
 
 func _ready():
 	_create_blocks()
+	
+	EventManager.block_clicked.connect(_on_block_clicked)
 
 func _create_blocks():
 	for row in range(grid_size.x):
@@ -42,4 +42,15 @@ func set_block_karma(karma: int) -> void:
 			block.set_block(0,karma,row)
 
 func _on_block_clicked(block_id):
-	pass
+	var block = get_node(block_id)
+	var target_pos = block.grid_position
+	
+	if Global.char_selected and Global.char_selected.team == Global.char_selected.TEAM.USER:
+		if not is_block_occupied(target_pos):
+			Global.char_selected.move_to_cell(target_pos)
+
+func is_block_occupied(grid_pos: Vector2) -> bool:
+	for char in get_tree().get_nodes_in_group("chars"):
+		if char.grid_position == grid_pos:
+			return true
+	return false

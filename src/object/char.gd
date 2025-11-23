@@ -15,6 +15,8 @@ var outline
 func _ready() -> void:
 	is_selected = false
 	
+	add_to_group("chars")
+	
 	if team == TEAM.OPPONENT:
 		$Sprite2D.scale = Vector2(-0.5, 0.5)
 	else:
@@ -23,12 +25,20 @@ func _ready() -> void:
 	
 	EventManager.deck_card_submit.connect(_on_deck_card_submit)
 
+func init_char(char_data: Dictionary) -> void:
+	_char_data = char_data
+	$Char_UI.init()
+	for card_id in _char_data:
+		_set_texture(_char_data[card_id])
+
+# ----------------------------
+# EVENT ACTION
+# ----------------------------
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if self != Global.char_selected:
 				Global.char_selected = self
-				print("char_",name,"posision = ", grid_position)
 				EventManager.emit_char_clicked(name)
 
 func _on_deck_card_submit(card_id: String) -> void:
@@ -36,6 +46,9 @@ func _on_deck_card_submit(card_id: String) -> void:
 		$Char_UI.init()
 		_set_texture(card_id)
 
+# ----------------------------
+# SELECT
+# ----------------------------
 func _set_selected(value):
 	is_selected = value
 	if is_selected:
@@ -56,13 +69,9 @@ func _set_selected(value):
 		outline.set("shader_parameter/line_thickness", 1)
 		outline.set("shader_parameter/line_colour", Color(0,0,0)) #color black
 
-func init_char(char_data: Dictionary) -> void:
-	_char_data = char_data
-	$Char_UI.init()
-	for card_id in _char_data:
-		_set_texture(_char_data[card_id])
-	
-
+# ----------------------------
+# TEXTURE
+# ----------------------------
 func _set_texture(card_id := "") -> void :
 	var card_identity = DataManager.get_card_identity(card_id)
 	var card = card_identity["type"]
@@ -94,6 +103,19 @@ func _set_texture(card_id := "") -> void :
 		_:
 			pass
 
+# ----------------------------
+# MOVE
+# ----------------------------
+func move_to_cell(target_grid: Vector2) -> void:
+	var target_pos = target_grid * Global.CELL_SIZE
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position",target_pos,0.3)
+	grid_position = target_grid
+
+# ----------------------------
+# FUNCTION GET
+# ----------------------------
 func get_data() -> Dictionary:
 	return _char_data
 

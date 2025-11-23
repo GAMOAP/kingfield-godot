@@ -39,3 +39,4 @@ const LEVEL : Array = [4, 8, 12]
 var scene_selected = null
 var char_selected = null
 var card_selected = null
+var block_selected = null

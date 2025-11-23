@@ -153,3 +153,7 @@ func get_id() -> String:
 
 func get_container() -> Global.CONTAINER:
 	return _container
+
+
+func _on_area_2d_mouse_entered() -> void:
+	pass # Replace with function body.

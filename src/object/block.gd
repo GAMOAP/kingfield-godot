@@ -51,7 +51,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				if is_mouse_over:
-					print(grid_position)
+					EventManager.emit_block_clicked(name)
 					position = original_pos + offset
 			else:
 				position = original_pos
