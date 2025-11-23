@@ -33,6 +33,8 @@ const CARDS : Array = ["breed", "job", "helmet", "item", "armor", "move", "spell
 
 const CHAR : Array = ["front_leg", "back_leg", "armor", "head", "face", "helmet", "hand", "weapon", "arm" ]
 
+const LEVEL : Array = [4, 8, 12]
+
 #VARIABLES
 var char_selected = null
 var card_selected = null
