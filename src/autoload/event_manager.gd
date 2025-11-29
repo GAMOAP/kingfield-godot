@@ -12,6 +12,8 @@ signal char_clicked(char_name: String)
 signal card_clicked(card_id: String)
 signal block_clicked(block_id: String)
 
+signal unselect_all()
+
 #  UI CLICKED
 signal library_page_change(page: int)
 
@@ -48,6 +50,10 @@ func emit_card_clicked(card_id: String) -> void:
 
 func emit_block_clicked(block_id: String) -> void:
 	block_clicked.emit(block_id)
+
+
+func emit_unselect_all() -> void:
+	unselect_all.emit()
 
 # ----------------------------
 #  UI CLICKED

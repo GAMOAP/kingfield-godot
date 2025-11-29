@@ -20,14 +20,12 @@ func _ready() -> void:
 	EventManager.card_clicked.connect(_on_card_clicked)
 	EventManager.library_page_change.connect(_on_library_page_change)
 	EventManager.deck_card_submit.connect(_on_deck_card_submit)
+	EventManager.unselect_all.connect(_on_unselect_all)
 
 func open() -> void:
 	$background.visible = true
 	if Global.char_selected != null:
 		_char_selected_data = Global.char_selected.get_data() 
-	
-	if Global.scene_selected == Global.SCENES.TRAINING or Global.scene_selected == Global.SCENES.MATCH:
-		switch_cards_active(true)
 
 func close() -> void:
 	$background.visible = false
@@ -58,6 +56,9 @@ func _set_cards() -> void:
 			var type = int(card.get_id()) / 100
 			var card_id = _char_selected_data[str(type)]
 			card.set_card(card_id, _container, _card_size)
+	
+	if $background/passive.visible == false and $background/active.visible == false:
+		switch_cards_active(true)
 
 func _select_card(card_id) -> void:
 	var card_id_type = card_id.to_int()/100
@@ -81,6 +82,10 @@ func switch_cards_active(active : bool) -> void:
 func _on_char_clicked(name: String) -> void:
 	_char_selected_data = Global.char_selected.get_data()
 	_set_cards()
+
+func _on_unselect_all():
+	$background/passive.visible = false
+	$background/active.visible = false
 
 func _on_card_clicked(card_id: String) -> void:
 	if Global.card_selected.get_container() == _container:

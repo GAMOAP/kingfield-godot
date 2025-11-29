@@ -18,11 +18,12 @@ config/icon="res://icon.svg"
 [autoload]
 
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
-DataManager="*res://src/autoload/data_manager.gd"
-ServerManager="*res://src/autoload/server_manager.gd"
-EventManager="*res://src/autoload/event_manager.gd"
 Console="*res://src/autoload/console.gd"
 Global="*res://src/autoload/global.gd"
+EventManager="*res://src/autoload/event_manager.gd"
+DataManager="*res://src/autoload/data_manager.gd"
+ServerManager="*res://src/autoload/server_manager.gd"
+GameManager="*res://src/autoload/game_manager.gd"
 
 [display]
 

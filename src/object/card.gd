@@ -4,6 +4,8 @@ var _card_id := ""
 var _card_size := 1.0
 var _container := Global.CONTAINER.NONE
 
+var _card_data := {}
+
 const _slot_size:int = 16
 
 @export var _type: Global.CARD_TYPE
@@ -20,6 +22,8 @@ func _ready() -> void:
 	is_selected = false
 	visible = false
 	
+	add_to_group("cards")
+	
 	EventManager.admin_card_subit.connect(reset_card)
 
 # card_id is '000' type,sign,ascendant
@@ -31,26 +35,26 @@ func set_card(card_id, container, card_size = 1) -> void:
 	_card_id = card_id
 	
 	var card = await DataManager.get_card_data(card_id)
-	var card_data = card["data"]
+	_card_data = card["data"]
 	
 	var card_identity = DataManager.get_card_identity(card_id)
 	_type = card_identity["type"]
 	_sign = card_identity["sign"]
 	_ascendant = card_identity["ascendant"]
 	
-	if card_data.get("rarity"):
-		set_backcard(card_data["rarity"])
+	if _card_data.get("rarity"):
+		set_backcard(_card_data["rarity"])
 	
 	set_texture()
 	
-	if card_data.get("mana"):
-		set_mana(int(card_data["mana"]))
+	if _card_data.get("mana"):
+		set_mana(int(_card_data["mana"]))
 		$crystal.visible = true
 	else:
 		$crystal.visible = false
 	
-	if card_data.get("board"):
-		set_board(card_data["board"])
+	if _card_data.get("board"):
+		set_board(_card_data["board"])
 		$board.visible = true
 		$board_spots.visible = true
 	else:
@@ -60,8 +64,8 @@ func set_card(card_id, container, card_size = 1) -> void:
 	for slot_nbr in 3:
 		var slot_path := "Node2D/slot%d" % (slot_nbr + 1)
 		var slot = get_node(slot_path)
-		if card_data.get(slot.name):
-			set_slots(slot,card_data[slot.name])
+		if _card_data.get(slot.name):
+			set_slots(slot, _card_data[slot.name])
 			slot.visible = true
 		else:
 			slot.visible = false
@@ -154,6 +158,8 @@ func get_id() -> String:
 func get_container() -> Global.CONTAINER:
 	return _container
 
+func get_data() -> Dictionary:
+	return _card_data
 
 func _on_area_2d_mouse_entered() -> void:
 	pass # Replace with function body.

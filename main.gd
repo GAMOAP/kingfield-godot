@@ -24,6 +24,8 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 	var library = false
 	var players = false
 	
+	GameManager.end_game()
+	
 	match _scene:
 		Global.SCENES.CONNECTION :
 			connexion = true
@@ -45,6 +47,7 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 			players = true
 			board = true
 			deck = true
+			GameManager.start_game()
 	
 	if connexion == true:
 		$Connexion.open()

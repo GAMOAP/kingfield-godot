@@ -20,8 +20,8 @@ func open()-> void:
 	match _scene:
 		Global.SCENES.HOME :
 			$Characters.init_team(Global.SIDE.USER)
-			$Characters.unselect_all()
 			$Blocks.show_nbr_row(1)
+			EventManager.emit_unselect_all()
 		Global.SCENES.BARRACK :
 			$Characters.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
@@ -31,6 +31,7 @@ func open()-> void:
 			$Characters.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(5)
 			$Exit_btn.visible = true
+			EventManager.emit_unselect_all()
 		_:
 			pass
 	
