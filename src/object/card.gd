@@ -97,7 +97,7 @@ func set_mana(value) -> void:
 	$crystal/number.visible = true
 
 func set_slots(slot, value) -> void:
-	slot.frame = value -1
+	slot.frame = value
 
 func set_board(board):
 	for spot in $board_spots.get_children():

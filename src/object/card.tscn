@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d3h3qgfctrux"]
+[gd_scene load_steps=10 format=3 uid="uid://d3h3qgfctrux"]
 
 [ext_resource type="Script" uid="uid://d4a35eeh1kqcv" path="res://src/object/card.gd" id="1_7j0fe"]
 [ext_resource type="Texture2D" uid="uid://3p1m356it533" path="res://assets/card/back_card.png" id="1_rf2nd"]
@@ -6,10 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://dmnelr106toq6" path="res://assets/card/UI/chess_board.png" id="3_dfpm6"]
 [ext_resource type="Texture2D" uid="uid://b687sp3iih72m" path="res://assets/card/UI/crystal.png" id="4_8aakp"]
 [ext_resource type="Texture2D" uid="uid://ccfg32uuak6ff" path="res://assets/card/UI/number.png" id="5_cowo3"]
-[ext_resource type="Texture2D" uid="uid://bo8nrjhll1rce" path="res://assets/card/UI/slots.png" id="6_6ax1v"]
+[ext_resource type="Texture2D" uid="uid://ersxbxv0qpjw" path="res://assets/card/UI/slots.png" id="6_6ax1v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5r3"]
 size = Vector2(104, 140)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4a24k"]
+load_path = "res://.godot/imported/slots.png-422d6e25138c609c719acc6f3d28ad61.ctex"
 
 [node name="card" type="Node2D"]
 script = ExtResource("1_7j0fe")
@@ -45,21 +48,22 @@ hframes = 13
 position = Vector2(0, 56)
 
 [node name="slot1" type="Sprite2D" parent="Node2D"]
-position = Vector2(-34, 8)
-texture = ExtResource("6_6ax1v")
-hframes = 9
+position = Vector2(-36, 8)
+texture = SubResource("CompressedTexture2D_4a24k")
+hframes = 10
 vframes = 3
 
 [node name="slot2" type="Sprite2D" parent="Node2D"]
-position = Vector2(2, 8)
-texture = ExtResource("6_6ax1v")
-hframes = 9
+position = Vector2(1, 8)
+scale = Vector2(0.95, 1)
+texture = SubResource("CompressedTexture2D_4a24k")
+hframes = 10
 vframes = 3
 
 [node name="slot3" type="Sprite2D" parent="Node2D"]
 position = Vector2(38, 8)
 texture = ExtResource("6_6ax1v")
-hframes = 9
+hframes = 10
 vframes = 3
 
 [node name="board" type="Sprite2D" parent="."]

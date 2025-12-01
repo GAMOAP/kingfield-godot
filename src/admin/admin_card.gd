@@ -12,9 +12,9 @@ var _ascendant : int
 
 func _ready() -> void:
 	for slot in Global.SLOTS.keys():
-		slot1_list.add_item(slot.capitalize())
-		slot2_list.add_item(slot.capitalize())
-		slot3_list.add_item(slot.capitalize())
+		slot1_list.add_item(slot)
+		slot2_list.add_item(slot)
+		slot3_list.add_item(slot)
 	
 	EventManager.card_clicked.connect(_on_card_clicked)
 
@@ -22,9 +22,9 @@ func _on_submit_pressed() -> void:
 	
 	var data := {
 		"mana" : int($Panel/mana/SpinBox.value),
-		"slot1" : int($Panel/slot1/slot1_list.selected),
-		"slot2" : int($Panel/slot2/slot2_list.selected),
-		"slot3" : int($Panel/slot3/slot3_list.selected),
+		"slot1" : _resolve_slot(1),
+		"slot2" : _resolve_slot(2),
+		"slot3" : _resolve_slot(3),
 		"board" : $Panel/admin_card_board.get_spot_list()
 	}
 	var card_data := {
@@ -71,5 +71,13 @@ func _on_card_clicked(card_id: String) -> void:
 		$Panel/admin_card_board.set_spot_list(spot_list)
 	else:
 		$Panel/admin_card_board.set_spot_list([])
-		
+
+func _resolve_slot(slot_nbr: int) -> int:
+	var path := "Panel/slot%d/slot%d_list" % [slot_nbr, slot_nbr]
+	var slot_list: OptionButton = get_node(path)
+	var slot_value = slot_list.get_item_text(slot_list.get_selected())
+	var response = -1
+	if Global.SLOTS.has(slot_value):
+		response = Global.SLOTS.get(slot_value)
 	
+	return response
