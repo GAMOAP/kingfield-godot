@@ -86,6 +86,18 @@ func _on_char_clicked(name: String) -> void:
 func _on_unselect_all():
 	$background/passive.visible = false
 	$background/active.visible = false
+	
+	Global.card_selected = null
+	
+	var actives = $background/active.get_children()
+	var passives = $background/passive.get_children()
+	
+	for active_card in actives:
+		active_card.is_selected = false
+	
+	for passive_card in passives:
+		passive_card.is_selected = false
+	
 
 func _on_card_clicked(card_id: String) -> void:
 	if Global.card_selected.get_container() == _container:

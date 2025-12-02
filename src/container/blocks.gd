@@ -10,6 +10,8 @@ var block_size = Global.CELL_SIZE
 
 func _ready():
 	_create_blocks()
+	
+	EventManager.unselect_all.connect(_on_unselect_all)
 
 func _create_blocks():
 	for row in range(grid_size.x):
@@ -36,3 +38,7 @@ func set_block_karma(karma: int) -> void:
 		for col in range(grid_size.y):
 			var block = get_node("block_" + str(col) + "_" + str(row))
 			block.set_block(0,karma,row)
+
+func _on_unselect_all() -> void:
+	for block in $".".get_children():
+		block.set_selectable(false)
