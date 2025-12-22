@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cf1iwagepdnpq" path="res://src/admin/card_board/admin_card_board.tscn" id="2_e5hee"]
 
 [node name="admin_card" type="Node2D"]
-position = Vector2(8, 8)
+position = Vector2(-504, -328)
 script = ExtResource("1_2q8v2")
 
 [node name="Panel" type="Panel" parent="."]
@@ -12,7 +12,7 @@ offset_right = 208.0
 offset_bottom = 320.0
 
 [node name="admin_card_board" parent="Panel" instance=ExtResource("2_e5hee")]
-position = Vector2(16, 184)
+position = Vector2(16, 192)
 
 [node name="type" type="Label" parent="Panel"]
 layout_mode = 0

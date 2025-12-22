@@ -27,13 +27,17 @@ enum SLOTS {
 	ATTACK_MORE = 20, ATTACK_LESS, DEFENSE_MORE, DEFENSE_LESS, BLOCK, SLEEP, POISON,
 	};
 
-const TEAM : Array = ["side_left", "center_left", "king", "center_right", "side_right"]
+const TEAM := ["side_left", "center_left", "king", "center_right", "side_right"]
 
-const CARDS : Array = ["breed", "job", "helmet", "item", "armor", "move", "spell", "weapon", "object"]
+const CARDS := ["breed", "job", "helmet", "item", "armor", "move", "spell", "weapon", "object"]
 
-const CHAR : Array = ["front_leg", "back_leg", "armor", "head", "face", "helmet", "hand", "weapon", "arm" ]
+const CHAR := ["front_leg", "back_leg", "armor", "head", "face", "helmet", "hand", "weapon", "arm" ]
 
-const LEVEL : Array = [4, 8, 12]
+const LEVEL := [4, 8, 12]
+
+const BOARD_BLOCK := [Vector2(0,0), Vector2(0,-1), Vector2(1,-1),
+					Vector2(1,0), Vector2(1,1), Vector2(0,1), 
+					Vector2(-1,1), Vector2(-1,0), Vector2(-1,-1)]
 
 #VARIABLES
 var scene_selected = null

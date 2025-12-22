@@ -34,11 +34,12 @@ func _ready():
 
 func _new_spot(case := [], frame := 0, lock := false):
 	var spot = preload("res://src/admin/card_board/board_spot.tscn").instantiate()
+	
 	spot.spot_lock_in_area.connect(_on_spot_locked)
 	spot.name = "spot_%d" % spot_count
 	spot_count += 1
 	
-	var pos := Vector2(136, 24)
+	var pos := Vector2(136,24)
 	
 	if case != []:
 		spot.data = {"start" : case, "end" : [frame]}
@@ -46,7 +47,7 @@ func _new_spot(case := [], frame := 0, lock := false):
 		var y = (case[1] + 2) * _slot_size + _slot_size/2
 		pos = Vector2(x, y)
 	
-	spot.global_position = pos
+	spot.position = pos
 	spot.set_frame(frame)
 	spot.lock = lock
 	spot_container.add_child(spot)

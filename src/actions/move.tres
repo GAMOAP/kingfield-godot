@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="ActionMove" load_steps=2 format=3 uid="uid://byadynxrmypsc"]
-
-[ext_resource type="Script" uid="uid://dkj4i2dytse8i" path="res://src/actions/action_move.gd" id="1_spr2t"]
-
-[resource]
-script = ExtResource("1_spr2t")
-name = ""
-description = ""
-metadata/_custom_type_script = "uid://dkj4i2dytse8i"

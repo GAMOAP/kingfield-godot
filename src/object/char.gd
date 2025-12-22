@@ -4,6 +4,7 @@ extends Node2D
 @export var grid_position: Vector2
 @export var is_selected = false:
 	set = _set_selected
+@export var is_selectable = true
 
 enum TEAM {USER, OPPONENT}
 @export var team = TEAM.USER
@@ -37,7 +38,7 @@ func init_char(char_data: Dictionary) -> void:
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if self != Global.char_selected:
+			if is_selectable == true and self != Global.char_selected :
 				Global.char_selected = self
 				EventManager.emit_char_clicked(name)
 

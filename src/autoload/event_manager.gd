@@ -12,7 +12,13 @@ signal char_clicked(char_name: String)
 signal card_clicked(card_id: String)
 signal block_clicked(block_id: String)
 
-signal unselect_all()
+# OBJECT UNSELECT
+signal unselect_chars()
+signal unselect_cards()
+signal unselect_blocks()
+
+# ELEMENT SELECTED
+signal select_slot(slot_nbr: int)
 
 #  UI CLICKED
 signal library_page_change(page: int)
@@ -53,7 +59,21 @@ func emit_block_clicked(block_id: String) -> void:
 
 
 func emit_unselect_all() -> void:
-	unselect_all.emit()
+	unselect_chars.emit()
+	unselect_cards.emit()
+	unselect_blocks.emit()
+
+func emit_unselect_cards() -> void:
+	unselect_cards.emit()
+
+func emit_unselect_chars() -> void:
+	unselect_chars.emit()
+
+func emit_unselect_bloks() -> void:
+	unselect_blocks.emit()
+
+func emit_select_slot(slot_nbr :int = 0) -> void:
+	select_slot.emit(slot_nbr)
 
 # ----------------------------
 #  UI CLICKED

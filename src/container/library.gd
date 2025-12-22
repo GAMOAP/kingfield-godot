@@ -23,8 +23,8 @@ func open() -> void:
 	if DataManager.is_admin == true :
 		if not _admin_card:
 			_admin_card = preload("res://src/admin/admin_card.tscn").instantiate()
-			$background.add_child(_admin_card)
-			_admin_card.global_position = Vector2(16, 16)
+			$".".add_child(_admin_card)
+			
 		_admin_card.visible = true
 	
 	init_cards(_library_page[0])
@@ -34,7 +34,7 @@ func close() -> void:
 	EventManager.card_clicked.disconnect(_on_card_clicked)
 	EventManager.char_clicked.disconnect(_on_char_clicked)
 	
-	if DataManager.is_admin == true :
+	if _admin_card and DataManager.is_admin == true :
 		_admin_card.visible = false
 
 func init_cards(page := Global.CARD_TYPE.BREED) -> void:

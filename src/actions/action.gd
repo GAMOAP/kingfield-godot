@@ -2,9 +2,7 @@
 extends Resource
 class_name Action
 
-@export var name: String
-@export var icon: Texture2D
-@export var description: String
-
-func execute(user, target):
-	pass
+func execute(action_data: Dictionary) -> void:
+	# Action_data contient :
+	# "char", "card", "block", "slot"
+	push_warning("execute() non implémenté dans " + str(self))

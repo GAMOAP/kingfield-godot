@@ -7,7 +7,7 @@ func _ready() -> void:
 	_set_chars()
 	#Global.char_selected = $user_team.get_node("king")
 	EventManager.char_clicked.connect(_on_char_clicked)
-	EventManager.unselect_all.connect(_on_unselect_all)
+	EventManager.unselect_chars.connect(_on_unselect)
 
 func _set_chars() -> void:
 	var teams = get_children()
@@ -37,9 +37,10 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 			
 			char.init_char(team_data[char.name])
 
-func _on_unselect_all():
+func _on_unselect():
 	for char_temp in _chars:
 		char_temp.is_selected = false
+		char_temp.is_selectable = true
 	Global.char_selected = null
 
 func get_team_karma(team:= Global.SIDE.USER) -> int:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3h3qgfctrux"]
+[gd_scene load_steps=11 format=3 uid="uid://d3h3qgfctrux"]
 
 [ext_resource type="Script" uid="uid://d4a35eeh1kqcv" path="res://src/object/card.gd" id="1_7j0fe"]
 [ext_resource type="Texture2D" uid="uid://3p1m356it533" path="res://assets/card/back_card.png" id="1_rf2nd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b687sp3iih72m" path="res://assets/card/UI/crystal.png" id="4_8aakp"]
 [ext_resource type="Texture2D" uid="uid://ccfg32uuak6ff" path="res://assets/card/UI/number.png" id="5_cowo3"]
 [ext_resource type="Texture2D" uid="uid://ersxbxv0qpjw" path="res://assets/card/UI/slots.png" id="6_6ax1v"]
+[ext_resource type="Texture2D" uid="uid://dxvmctm6ddxwo" path="res://assets/card/UI/board_char.png" id="8_fumgo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5r3"]
 size = Vector2(104, 140)
@@ -72,5 +73,9 @@ texture = ExtResource("3_dfpm6")
 
 [node name="board_spots" type="CanvasGroup" parent="."]
 position = Vector2(40, -56)
+
+[node name="char_spot" type="Sprite2D" parent="."]
+position = Vector2(40, -56)
+texture = ExtResource("8_fumgo")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

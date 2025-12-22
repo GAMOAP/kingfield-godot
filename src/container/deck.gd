@@ -20,7 +20,7 @@ func _ready() -> void:
 	EventManager.card_clicked.connect(_on_card_clicked)
 	EventManager.library_page_change.connect(_on_library_page_change)
 	EventManager.deck_card_submit.connect(_on_deck_card_submit)
-	EventManager.unselect_all.connect(_on_unselect_all)
+	EventManager.unselect_cards.connect(_on_unselect)
 
 func open() -> void:
 	$background.visible = true
@@ -83,9 +83,10 @@ func _on_char_clicked(name: String) -> void:
 	_char_selected_data = Global.char_selected.get_data()
 	_set_cards()
 
-func _on_unselect_all():
-	$background/passive.visible = false
-	$background/active.visible = false
+func _on_unselect():
+	if Global.char_selected == null:
+		$background/passive.visible = false
+		$background/active.visible = false
 	
 	Global.card_selected = null
 	

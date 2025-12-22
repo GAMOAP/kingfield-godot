@@ -67,12 +67,18 @@ func _on_area_2d_mouse_exited() -> void:
 	is_mouse_over = false
 	position = original_pos
 
-func set_selectable(selectabe : bool) -> void:
-	if selectabe == true :
+func set_selectable(selectabe : bool, slot_value = 0) -> void:
+	var color := Color(0,1,0)
+	if slot_value == 10:
+		color = Color(0,0,1)
+	elif slot_value > 10 and slot_value < 20:
+		color = Color(1,0,0)
+	
+	if selectabe == true:
 		var tint = ShaderMaterial.new()
 		tint.shader = load("res://src/shaders/tint_blend.gdshader")
 		tint.set("shader_parameter/intensity", 0.4)
-		tint.set("shader_parameter/tint_color", Color(0,1,0)) #color black*
+		tint.set("shader_parameter/tint_color", color) #color black*
 	
 		$Quarters/BlockQuarter_0.material = tint
 		$Quarters/BlockQuarter_1.material = tint

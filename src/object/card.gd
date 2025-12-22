@@ -18,6 +18,9 @@ var _card_outline
 @export var is_selected = false:
 	set = _set_selected
 
+@export var slot_selected = 0:
+	set = _set_slot_selected
+
 func _ready() -> void:
 	is_selected = false
 	visible = false
@@ -57,12 +60,14 @@ func set_card(card_id, container, card_size = 1) -> void:
 		set_board(_card_data["board"])
 		$board.visible = true
 		$board_spots.visible = true
+		$char_spot.visible = true
 	else:
 		$board.visible = false
 		$board_spots.visible = false
+		$char_spot.visible = false
 	
-	for slot_nbr in 3:
-		var slot_path := "Node2D/slot%d" % (slot_nbr + 1)
+	for slot_nbr in range(1, 4):
+		var slot_path := "Node2D/slot%d" % slot_nbr
 		var slot = get_node(slot_path)
 		if _card_data.get(slot.name):
 			set_slots(slot, _card_data[slot.name])
@@ -122,10 +127,6 @@ func set_board(board):
 			new_spot.position = pos
 			$board_spots.add_child(new_spot)
 				
-	var new_spot_start = Sprite2D.new()
-	_set_obj_texture(new_spot_start, "res://assets/card/UI/board_char.png")
-	$board_spots.add_child(new_spot_start)
-	
 	$board_spots.material = _spot_outline 
 	_spot_outline.set("shader_parameter/line_thickness", 1.5)
 	_spot_outline.set("shader_parameter/line_colour", Color(1,0,0)) #color red
@@ -151,6 +152,17 @@ func _set_selected(value):
 		$".".scale = Vector2(_card_size * 1.2, _card_size * 1.2)
 	else :
 		$".".scale = Vector2(_card_size * 1, _card_size * 1)
+		_set_slot_selected(0)
+
+func _set_slot_selected(value):
+	slot_selected = value
+	for slot_nbr in range(1, 4):
+		var slot_path := "Node2D/slot%d" % slot_nbr
+		var slot = get_node(slot_path)
+		if slot_selected == slot_nbr and _type > 4:
+			slot.scale = Vector2(_card_size * 1.3, _card_size * 1.3)
+		else :
+			slot.scale = Vector2(_card_size * 1, _card_size * 1)
 
 func get_id() -> String:
 	return _card_id
