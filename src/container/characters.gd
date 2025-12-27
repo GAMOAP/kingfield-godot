@@ -33,14 +33,13 @@ func init_team(team:= Global.SIDE.USER, user_id:= "") -> void :
 		$opponent_team.visible = true
 	
 	for char in _chars:
+		char.reset()
 		if char.team == team:
-			
 			char.init_char(team_data[char.name])
 
 func _on_unselect():
 	for char_temp in _chars:
 		char_temp.is_selected = false
-		char_temp.is_selectable = true
 	Global.char_selected = null
 
 func get_team_karma(team:= Global.SIDE.USER) -> int:

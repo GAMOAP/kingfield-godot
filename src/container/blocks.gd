@@ -3,7 +3,6 @@ extends Node2D
 
 @onready var block = preload("res://src/object/block.tscn")
 
-
 # Dimensions de la grille
 var grid_size = Global.GRID_SIZE
 var block_size = Global.CELL_SIZE

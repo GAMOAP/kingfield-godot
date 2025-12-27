@@ -4,6 +4,9 @@ extends Node
 signal match_found(match_data: Dictionary)
 signal turn_received(turn_data: Dictionary)
 
+# GAME ACTION
+signal game_turn_end()
+
 #  SCENE
 signal set_scene(scene: Global.SCENES)
 
@@ -38,6 +41,12 @@ func emit_match_found(match_data: Dictionary) -> void:
 
 func emit_turn_received(turn_data: Dictionary) -> void:
 	turn_received.emit(turn_data)
+
+# ----------------------------
+#  GAME ACTION
+# ----------------------------
+func emit_game_turn_end() -> void:
+	game_turn_end.emit()
 
 # ----------------------------
 #  SCENE

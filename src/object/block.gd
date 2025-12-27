@@ -7,6 +7,8 @@ signal block_clicked(block_id)
 
 @export var grid_position: Vector2
 
+@export var is_selectable = true
+
 var original_pos: Vector2
 var offset := Vector2(0, 8)
 var is_mouse_over := false
@@ -53,7 +55,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				if is_mouse_over:
+				if is_selectable == true and is_mouse_over:
 					Global.block_selected = self
 					EventManager.emit_block_clicked(name)
 					position = original_pos + offset

@@ -483,6 +483,8 @@ _data = {
 [node name="char" type="Node2D"]
 script = ExtResource("1_jgqhi")
 
+[node name="direction" type="CanvasGroup" parent="."]
+
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(0, -8)
 priority = 1

@@ -23,7 +23,7 @@ func _ready():
 			var slot = preload("res://src/admin/card_board/board_slot.tscn").instantiate()
 			var pos = Vector2(col, row)
 			slot.add_to_group("admin_board_slot")
-			slot.data = [col - 2,row * -1 + 2]
+			slot.data = [col - 2,row - 2]
 			slot.position = pos * _slot_size
 			$slot_container.add_child(slot)
 			

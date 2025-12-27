@@ -80,7 +80,8 @@ func reset_card(card_id) -> void:
 	if card_id == _card_id:
 		set_card(card_id, _container, _card_size)
 
-#SET CARD FUNCIONS
+#---------------------
+# SET CARD FUNCIONS
 #---------------------
 func set_backcard(value) -> void:
 	$back_card.fame = value
@@ -122,7 +123,7 @@ func set_board(board):
 			new_spot.frame = int(end)
 			
 			var x = start[0] * _slot_size
-			var y = -start[1] * _slot_size
+			var y = start[1] * _slot_size
 			var pos = Vector2(x, y)
 			new_spot.position = pos
 			$board_spots.add_child(new_spot)
@@ -152,7 +153,8 @@ func _set_selected(value):
 		$".".scale = Vector2(_card_size * 1.2, _card_size * 1.2)
 	else :
 		$".".scale = Vector2(_card_size * 1, _card_size * 1)
-		_set_slot_selected(0)
+		if _container == Global.CONTAINER.DECK:
+			_set_slot_selected(0)
 
 func _set_slot_selected(value):
 	slot_selected = value
@@ -160,9 +162,9 @@ func _set_slot_selected(value):
 		var slot_path := "Node2D/slot%d" % slot_nbr
 		var slot = get_node(slot_path)
 		if slot_selected == slot_nbr and _type > 4:
-			slot.scale = Vector2(_card_size * 1.3, _card_size * 1.3)
+			slot.scale = Vector2(1.3, 1.3)
 		else :
-			slot.scale = Vector2(_card_size * 1, _card_size * 1)
+			slot.scale = Vector2(1, 1)
 
 func get_id() -> String:
 	return _card_id

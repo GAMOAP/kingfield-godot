@@ -1,5 +1,7 @@
 extends Node2D
 
+var origin_grid_position: Vector2
+var origin_position: Vector2
 
 @export var grid_position: Vector2
 @export var is_selected = false:
@@ -18,6 +20,9 @@ func _ready() -> void:
 	
 	add_to_group("chars")
 	
+	origin_grid_position = grid_position
+	origin_position = position
+	
 	if team == TEAM.OPPONENT:
 		$Sprite2D.scale = Vector2(-0.5, 0.5)
 	else:
@@ -32,6 +37,9 @@ func init_char(char_data: Dictionary) -> void:
 	for card_id in _char_data:
 		_set_texture(_char_data[card_id])
 
+func reset() -> void:
+	grid_position = origin_grid_position
+	position = origin_position
 # ----------------------------
 # EVENT ACTION
 # ----------------------------
@@ -105,13 +113,15 @@ func _set_texture(card_id := "") -> void :
 			pass
 
 # ----------------------------
-# MOVE
+# ACTION
 # ----------------------------
 func move_to_cell(target_grid: Vector2) -> void:
 	var target_pos = target_grid * Global.CELL_SIZE
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(self,"position",target_pos,0.3)
+	
+	await  tween.finished
 	grid_position = target_grid
 
 # ----------------------------

@@ -24,6 +24,7 @@ EventManager="*res://src/autoload/event_manager.gd"
 DataManager="*res://src/autoload/data_manager.gd"
 ServerManager="*res://src/autoload/server_manager.gd"
 GameManager="*res://src/autoload/game_manager.gd"
+ActionManager="*res://src/autoload/action_manager.gd"
 
 [display]
 
