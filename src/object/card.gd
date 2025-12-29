@@ -6,6 +6,8 @@ var _container := Global.CONTAINER.NONE
 
 var _card_data := {}
 
+var _char_selected_attributes := {}
+
 const _slot_size:int = 16
 
 @export var _type: Global.CARD_TYPE
@@ -18,8 +20,10 @@ var _card_outline
 @export var is_selected = false:
 	set = _set_selected
 
-@export var slot_selected = 0:
+var slot_selected = 0:
 	set = _set_slot_selected
+
+var is_playable = true
 
 func _ready() -> void:
 	is_selected = false
@@ -36,6 +40,7 @@ func set_card(card_id, container, card_size = 1) -> void:
 	$".".scale = Vector2(_card_size * 1, _card_size * 1)
 	
 	_card_id = card_id
+	_char_selected_attributes = Global.char_selected.get_attributes()
 	
 	var card = await DataManager.get_card_data(card_id)
 	_card_data = card["data"]
@@ -101,6 +106,13 @@ func set_mana(value) -> void:
 		mana = value
 	$crystal/number.frame = mana
 	$crystal/number.visible = true
+	
+	if _char_selected_attributes["crystals"] < mana:
+		$crystal.frame = 1
+		is_playable = false
+	else: 
+		$crystal.frame = 0
+		is_playable = true
 
 func set_slots(slot, value) -> void:
 	slot.frame = value

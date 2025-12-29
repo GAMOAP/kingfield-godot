@@ -61,12 +61,14 @@ func _on_char_selected(char_id):
 	_reset_selectable_blocks()
 
 func _on_card_selected(card):
-	if not active or _char_selected == null: return
+	if not active or _char_selected == null: return 
 	_card_selected = Global.card_selected
-	_char_position_temp = Vector2(0, 0)
-	_actions = []
 	_reset_selectable_blocks()
-	_set_selectables_block()
+	
+	if _card_selected.is_playable == true: 
+		_char_position_temp = Vector2(0, 0)
+		_actions = []
+		_set_selectables_block()
 
 func _on_block_selected(block_name):
 	if not active: return

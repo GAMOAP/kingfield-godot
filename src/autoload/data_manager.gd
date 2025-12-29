@@ -68,7 +68,6 @@ func update_user_team(char: String, card_id: String) -> void:
 	if char != "" && card_id != "":
 		var card := str(card_id.to_int() / 100)
 		_team[char][card] = card_id
-		print("update_user_team")
 
 func save_player_data() -> void:
 	ServerManager.write_data("player_data", "team", _team, ServerManager.ReadPermissions.PUBLIC_READ)

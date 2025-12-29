@@ -55,10 +55,8 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 func _on_deck_card_submit(card_id: String) -> void:
 	if Global.char_selected.get_name() == name and team == TEAM.USER:
 		_char_data = DataManager.get_char_data(name)
-		_set_texture(card_id)
-		print(card_id)
-		print(_char_data)
 		$Char_UI.init(_char_data)
+		_set_texture(card_id)
 
 # ----------------------------
 # SELECT
@@ -135,6 +133,33 @@ func move_to_cell(target_grid: Vector2) -> void:
 func get_data() -> Dictionary:
 	_char_data = DataManager.get_char_data(name)
 	return _char_data
+
+func get_attributes() -> Dictionary:
+	var attributes := {
+		"crystal_blue" : 0,
+		"crystal_red" : 0,
+		"crystals": 0,
+		"heart" : 0,
+		"defense" : 0,
+		"attack" : 0
+	}
+	
+	for card_id in _char_data:
+		var card_data = DataManager.get_card_data(_char_data[card_id])["data"]
+		
+		for data in card_data:
+			if data == "slot1" or data == "slot2" or data == "slot3":
+				#1-CRYSTAL_BLUE, 2-CRYSTAL_RED, 3-LIFE, 4-DEFENSE, 5-ATTACK,
+				match int(card_data[data]):
+					1 : attributes["crystal_blue"] += 1
+					2 : attributes["crystal_red"] += 1
+					3 : attributes["heart"] += 1
+					4 : attributes["defense"] += 1
+					5 : attributes["attack"] += 1
+	
+	attributes["crystals"] =  attributes["crystal_blue"] + attributes["crystal_red"]
+	
+	return attributes
 
 func get_karma() -> int:
 	var sign_count = {}
