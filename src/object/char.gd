@@ -33,9 +33,11 @@ func _ready() -> void:
 
 func init_char(char_data: Dictionary) -> void:
 	_char_data = char_data
-	$Char_UI.init()
+	
 	for card_id in _char_data:
 		_set_texture(_char_data[card_id])
+	
+	$Char_UI.init(_char_data)
 
 func reset() -> void:
 	grid_position = origin_grid_position
@@ -52,8 +54,11 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 
 func _on_deck_card_submit(card_id: String) -> void:
 	if Global.char_selected.get_name() == name and team == TEAM.USER:
-		$Char_UI.init()
+		_char_data = DataManager.get_char_data(name)
 		_set_texture(card_id)
+		print(card_id)
+		print(_char_data)
+		$Char_UI.init(_char_data)
 
 # ----------------------------
 # SELECT
@@ -128,6 +133,7 @@ func move_to_cell(target_grid: Vector2) -> void:
 # FUNCTION GET
 # ----------------------------
 func get_data() -> Dictionary:
+	_char_data = DataManager.get_char_data(name)
 	return _char_data
 
 func get_karma() -> int:

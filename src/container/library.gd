@@ -56,8 +56,8 @@ func select_card(card_id) -> void:
 		if card.get_id() == card_id:
 			card.is_selected = true
 			if _char_selected_data[str(card_id.to_int() / 100)] != card_id:
+				DataManager.update_user_team(Global.char_selected.name, card_id)
 				EventManager.emit_deck_card_submit(card_id)
-				DataManager.update_user_team(card_id)
 		else:
 			card.is_selected = false
 

@@ -61,10 +61,14 @@ func get_user_team() -> Dictionary:
 	
 	return _team
 
-func update_user_team(char := "", card_id := "") -> void:
+func get_char_data(char_name) -> Dictionary:
+	return _team[char_name]
+
+func update_user_team(char: String, card_id: String) -> void:
 	if char != "" && card_id != "":
 		var card := str(card_id.to_int() / 100)
 		_team[char][card] = card_id
+		print("update_user_team")
 
 func save_player_data() -> void:
 	ServerManager.write_data("player_data", "team", _team, ServerManager.ReadPermissions.PUBLIC_READ)

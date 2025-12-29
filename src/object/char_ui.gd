@@ -23,9 +23,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func init() -> void:
+func init(char_data: Dictionary) -> void:
 	$Karma.frame = get_parent().get_karma()
-	get_attributes(get_parent().get_data())
+	_char_data = char_data
+	_get_attributes()
 	
 	set_hearts()
 	set_crystals()
@@ -34,8 +35,7 @@ func init() -> void:
 	set_xp()
 	set_buff()
 
-func get_attributes(char_data) -> void:
-	_char_data = char_data
+func _get_attributes() -> void:
 	
 	_crystal_blue = 0 
 	_crystal_red = 0
@@ -44,7 +44,7 @@ func get_attributes(char_data) -> void:
 	_attack = 0
 	
 	for card_id in _char_data:
-		var card_data = DataManager.get_card_data(char_data[card_id])["data"]
+		var card_data = DataManager.get_card_data(_char_data[card_id])["data"]
 		
 		for data in card_data:
 			if data == "slot1" or data == "slot2" or data == "slot3":
