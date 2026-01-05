@@ -1,17 +1,20 @@
 extends Node2D
 
 
-var _char_data: Dictionary
-
 var _karma: int
 
 var _crystal_blue: int
 var _crystal_red: int
+var _crystals:int
 
 var _heart: int
+var _life: int
 
 var _defense: int
 var _attack: int
+
+var _xp: int
+var _level:int
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,21 +26,29 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func init(char_data: Dictionary) -> void:
-	$Karma.frame = get_parent().get_karma()
+func init(attributes: Dictionary) -> void:
+	$Karma.frame = attributes ["karma"]
 	
-	var attributes = get_parent().get_attributes()
 	_crystal_blue = attributes ["crystal_blue"]
 	_crystal_red = attributes ["crystal_red"]
-	_heart = attributes ["heart"]
-	_defense = attributes ["defense"]
-	_attack = attributes ["attack"]
-	
-	set_hearts()
+	_crystals = attributes ["crystals"]
 	set_crystals()
+	
+	_heart = attributes ["heart"]
+	_life = attributes ["life"]
+	set_hearts()
+	
+	_defense = attributes ["defense"]
 	set_defense()
+	
+	_attack = attributes ["attack"]
 	set_attack()
+	
+	_xp = attributes ["xp"]
+	_level = attributes ["level"]
 	set_xp()
+	
+	
 	set_buff()
 
 func set_hearts() -> void:
@@ -54,14 +65,19 @@ func set_crystals() -> void:
 	var crystals = $Crystal.get_children()
 	for crystal in crystals:
 		crystal.visible = false
-		for nbr in (_crystal_blue + _crystal_red):
+		for nbr in (_crystal_red + _crystal_blue):
 			var crysal_name := "Crystal%s" %(nbr + 1)
 			if crystal.name == crysal_name:
 				crystal.visible = true
-				if nbr < _crystal_blue :
-					crystal.frame = 1
+				
+				var actif := 1
+				if nbr >= _crystals:
+					actif = 0
+				
+				if nbr < _crystal_red :
+					crystal.frame = 2 + actif
 				else :
-					crystal.frame = 3
+					crystal.frame = 0 + actif
 
 func set_defense() -> void:
 	$DefensePicture/Defense_value_front.frame = _defense

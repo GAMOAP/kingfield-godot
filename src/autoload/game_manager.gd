@@ -111,6 +111,9 @@ func _resolve_slot():
 
 
 func _on_end_turn():
+	var mana = _card_selected.get_data().get('mana')
+	_char_selected.consume_mana(mana)
+	
 	print("END_TURN")
 	_start_turn()
 

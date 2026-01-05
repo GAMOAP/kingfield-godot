@@ -13,6 +13,8 @@ enum TEAM {USER, OPPONENT}
 
 var _char_data := {}
 
+var _attributes := {}
+
 var outline 
 
 func _ready() -> void:
@@ -37,7 +39,7 @@ func init_char(char_data: Dictionary) -> void:
 	for card_id in _char_data:
 		_set_texture(_char_data[card_id])
 	
-	$Char_UI.init(_char_data)
+	init_attributes()
 
 func reset() -> void:
 	grid_position = origin_grid_position
@@ -55,7 +57,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 func _on_deck_card_submit(card_id: String) -> void:
 	if Global.char_selected.get_name() == name and team == TEAM.USER:
 		_char_data = DataManager.get_char_data(name)
-		$Char_UI.init(_char_data)
+		init_attributes()
 		_set_texture(card_id)
 
 # ----------------------------
@@ -127,39 +129,23 @@ func move_to_cell(target_grid: Vector2) -> void:
 	await  tween.finished
 	grid_position = target_grid
 
+func consume_mana(mana: int) -> void:
+	var crystals = _attributes["crystals"] -  mana
+	if crystals <= 0 : crystals = 0
+	set_attributes("crystals", crystals)
+
+func add_mana(mana: int) -> void:
+	var crystals = _attributes["crystals"] +  mana
+	var crystals_max = _attributes["crystal_blue"] + _attributes["crystal_red"]
+	if crystals >= crystals_max : crystals = crystals_max
+	set_attributes("crystals", crystals)
+
 # ----------------------------
 # FUNCTION GET
 # ----------------------------
 func get_data() -> Dictionary:
 	_char_data = DataManager.get_char_data(name)
 	return _char_data
-
-func get_attributes() -> Dictionary:
-	var attributes := {
-		"crystal_blue" : 0,
-		"crystal_red" : 0,
-		"crystals": 0,
-		"heart" : 0,
-		"defense" : 0,
-		"attack" : 0
-	}
-	
-	for card_id in _char_data:
-		var card_data = DataManager.get_card_data(_char_data[card_id])["data"]
-		
-		for data in card_data:
-			if data == "slot1" or data == "slot2" or data == "slot3":
-				#1-CRYSTAL_BLUE, 2-CRYSTAL_RED, 3-LIFE, 4-DEFENSE, 5-ATTACK,
-				match int(card_data[data]):
-					1 : attributes["crystal_blue"] += 1
-					2 : attributes["crystal_red"] += 1
-					3 : attributes["heart"] += 1
-					4 : attributes["defense"] += 1
-					5 : attributes["attack"] += 1
-	
-	attributes["crystals"] =  attributes["crystal_blue"] + attributes["crystal_red"]
-	
-	return attributes
 
 func get_karma() -> int:
 	var sign_count = {}
@@ -188,3 +174,50 @@ func get_karma() -> int:
 			karma = tens
 	
 	return karma
+
+# ----------------------------
+# ATTRIBUTES
+# ----------------------------
+func init_attributes() -> void:
+	_attributes = {
+		"karma" : 0,
+		"crystal_blue" : 0,
+		"crystal_red" : 0,
+		"crystals": 0,
+		"heart" : 0,
+		"life" : 0,
+		"defense" : 0,
+		"attack" : 0,
+		"xp" : 0,
+		"level" : 0
+	}
+	
+	for card_id in _char_data:
+		var card_data = DataManager.get_card_data(_char_data[card_id])["data"]
+		
+		for data in card_data:
+			if data == "slot1" or data == "slot2" or data == "slot3":
+				#1-CRYSTAL_BLUE, 2-CRYSTAL_RED, 3-LIFE, 4-DEFENSE, 5-ATTACK,
+				match int(card_data[data]):
+					1 : _attributes["crystal_blue"] += 1
+					2 : _attributes["crystal_red"] += 1
+					3 : _attributes["heart"] += 1
+					4 : _attributes["defense"] += 1
+					5 : _attributes["attack"] += 1
+	
+	_attributes["karma"] = get_karma()
+	
+	_attributes["crystals"] =  _attributes["crystal_blue"] + _attributes["crystal_red"]
+	
+	_attributes["life"] = _attributes["heart"]
+	
+	
+	$Char_UI.init(_attributes)
+
+func set_attributes(attribut: String, value: int) -> void:
+	print(attribut,value)
+	_attributes[attribut] = value
+	$Char_UI.init(_attributes)
+
+func get_attributes() -> Dictionary:
+	return _attributes
