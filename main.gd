@@ -39,10 +39,16 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 			board = true
 			library = true
 			deck = true
+		Global.SCENES.LOBBY :
+			players = true
+			board = true
+			deck = true
+			MatchManager.enter_lobby()
 		Global.SCENES.MATCH :
 			players = true
 			board = true
-			#deck = true
+			deck = true
+			GameManager.start_game()
 		Global.SCENES.TRAINING :
 			players = true
 			board = true
@@ -78,3 +84,7 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 		pass
 	else :
 		pass
+
+func _on_match_found(match_data) -> void:
+	Global.match_data = match_data
+	_on_set_scene(Global.SCENES.MATCH)

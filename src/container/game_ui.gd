@@ -16,7 +16,7 @@ func close() -> void:
 	self.visible = false
 
 func _on_match_btn_pressed() -> void:
-	EventManager.emit_set_scene(Global.SCENES.MATCH)
+	EventManager.emit_set_scene(Global.SCENES.LOBBY)
 
 func _on_training_btn_pressed() -> void:
 	EventManager.emit_set_scene(Global.SCENES.TRAINING)

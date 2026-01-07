@@ -25,6 +25,7 @@ DataManager="*res://src/autoload/data_manager.gd"
 ServerManager="*res://src/autoload/server_manager.gd"
 GameManager="*res://src/autoload/game_manager.gd"
 ActionManager="*res://src/autoload/action_manager.gd"
+MatchManager="*res://src/autoload/match_manager.gd"
 
 [display]
 

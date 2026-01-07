@@ -58,6 +58,7 @@ func connect_to_server_async() -> int:
 	return ERR_CANT_CONNECT
 
 func _on_Socket_connected() -> void:
+	print("Socket connected.")
 	Console.log("Socket connected.")
 
 func _on_Socket_closed(code: int, reason: String) -> void:
@@ -100,6 +101,7 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 		var userdata = matched_user.presence
 		if userdata.user_id != _session.user_id:
 			match_data = {
+				"match_id": _match_id, 
 				"opponent_data": {
 					"user_id": userdata.user_id,
 					"username": userdata.username

@@ -32,11 +32,11 @@ func show_nbr_row(row_nbr:= 0) -> void:
 			else :
 				get_node(temp_name).visible = false
 
-func set_block_karma(karma: int) -> void:
+func set_block_karma(karma: int, opponent_karma: int) -> void:
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
 			var block = get_node("block_" + str(col) + "_" + str(row))
-			block.set_block(0,karma,row)
+			block.set_block(opponent_karma, karma, row)
 
 func _on_unselect() -> void:
 	for block in $".".get_children():

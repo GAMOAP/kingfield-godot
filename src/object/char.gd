@@ -8,8 +8,7 @@ var origin_position: Vector2
 	set = _set_selected
 @export var is_selectable = true
 
-enum TEAM {USER, OPPONENT}
-@export var team = TEAM.USER
+@export var team :Global.SIDE
 
 var _char_data := {}
 
@@ -25,7 +24,7 @@ func _ready() -> void:
 	origin_grid_position = grid_position
 	origin_position = position
 	
-	if team == TEAM.OPPONENT:
+	if team == Global.SIDE.OPPONENT:
 		$Sprite2D.scale = Vector2(-0.5, 0.5)
 	else:
 		$Sprite2D.scale = Vector2(0.5, 0.5)
@@ -55,7 +54,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 				EventManager.emit_char_clicked(name)
 
 func _on_deck_card_submit(card_id: String) -> void:
-	if Global.char_selected.get_name() == name and team == TEAM.USER:
+	if Global.char_selected.get_name() == name and team == Global.SIDE.USER:
 		_char_data = DataManager.get_char_data(name)
 		init_attributes()
 		_set_texture(card_id)
@@ -144,7 +143,6 @@ func add_mana(mana: int) -> void:
 # FUNCTION GET
 # ----------------------------
 func get_data() -> Dictionary:
-	_char_data = DataManager.get_char_data(name)
 	return _char_data
 
 func get_karma() -> int:
@@ -215,7 +213,6 @@ func init_attributes() -> void:
 	$Char_UI.init(_attributes)
 
 func set_attributes(attribut: String, value: int) -> void:
-	print(attribut,value)
 	_attributes[attribut] = value
 	$Char_UI.init(_attributes)
 

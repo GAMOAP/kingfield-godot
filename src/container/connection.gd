@@ -93,4 +93,5 @@ func user_connected(username) -> void:
 		_userdata.username = username
 		ServerManager.update_user_account_async(username)
 	
+	DataManager.set_user_info()
 	EventManager.emit_set_scene(Global.SCENES.HOME)

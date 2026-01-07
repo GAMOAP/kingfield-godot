@@ -3,6 +3,8 @@ extends Node
 var _device_id : String
 var _args = OS.get_cmdline_args()
 
+var user_info := {}
+
 var _team: Dictionary
 var _used_cards: Array = []
 
@@ -32,6 +34,8 @@ func get_user_data() -> void:
 	get_user_team()
 	get_card_index()
 
+func set_user_info() -> void:
+	user_info = await ServerManager.get_user_account_async()
 
 # ----------------------------
 # USER TEAM
@@ -61,8 +65,10 @@ func get_user_team() -> Dictionary:
 	
 	return _team
 
-func get_char_data(char_name) -> Dictionary:
-	return _team[char_name]
+func get_char_data(char_name :String) -> Dictionary:
+	var char_data = _team[char_name]
+	
+	return char_data
 
 func update_user_team(char: String, card_id: String) -> void:
 	if char != "" && card_id != "":

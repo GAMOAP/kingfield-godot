@@ -20,13 +20,21 @@ func open()-> void:
 	match _scene:
 		Global.SCENES.HOME :
 			$Characters.init_team(Global.SIDE.USER)
-			$Blocks.show_nbr_row(1)
+			$Blocks.show_nbr_row(2)
 			EventManager.emit_unselect_all()
 		Global.SCENES.BARRACK :
 			$Characters.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
+		Global.SCENES.LOBBY :
+			$Characters.init_team(Global.SIDE.USER)
+			$Blocks.show_nbr_row(1)
+			EventManager.emit_unselect_all()
 		Global.SCENES.MATCH :
-			pass
+			$Characters.init_team(Global.SIDE.USER)
+			$Characters.init_team(Global.SIDE.OPPONENT)
+			$Blocks.show_nbr_row(5)
+			$Exit_btn.visible = true
+			EventManager.emit_unselect_all()
 		Global.SCENES.TRAINING :
 			$Characters.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(5)
@@ -49,7 +57,9 @@ func _on_deck_card_submit(card_id: String) -> void:
 
 func set_blocks_karma() -> void:
 	var karma: int= $Characters.get_team_karma(Global.SIDE.USER)
-	$Blocks.set_block_karma(karma)
+	var opponent_karma: int = $Characters.get_team_karma(Global.SIDE.OPPONENT)
+	print("set_blocks_karma_",karma,"-",opponent_karma)
+	$Blocks.set_block_karma(karma, opponent_karma)
 
 func _on_exit_btn_pressed() -> void:
 	EventManager.emit_set_scene(Global.SCENES.HOME)
