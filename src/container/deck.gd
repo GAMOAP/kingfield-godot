@@ -79,7 +79,7 @@ func switch_cards_active(active : bool) -> void:
 	card_active.visible = active
 	card_passive.visible = passive
 
-func _on_char_clicked(name: String) -> void:
+func _on_char_clicked(name: String, team: Global.SIDE) -> void:
 	_char_selected_data = Global.char_selected.get_data()
 	_set_cards()
 

@@ -84,7 +84,3 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 		pass
 	else :
 		pass
-
-func _on_match_found(match_data) -> void:
-	Global.match_data = match_data
-	_on_set_scene(Global.SCENES.MATCH)

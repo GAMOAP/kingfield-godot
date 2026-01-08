@@ -61,7 +61,7 @@ func select_card(card_id) -> void:
 		else:
 			card.is_selected = false
 
-func _on_char_clicked(name: String) -> void:
+func _on_char_clicked(name: String, team: Global.SIDE) -> void:
 	_char_selected_data = Global.char_selected.get_data()
 	var card_select_id = _char_selected_data[str(_library_page[0])]
 	init_cards(_library_page[0])

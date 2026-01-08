@@ -50,7 +50,7 @@ func _start_turn():
 # ----------------------------
 # SELECT OBJECT
 # ----------------------------
-func _on_char_selected(char_id):
+func _on_char_selected(char_id: String, team: Global.SIDE):
 	if not active: return
 	_char_selected = Global.char_selected
 	_card_selected = null

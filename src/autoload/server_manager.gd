@@ -52,13 +52,13 @@ func connect_to_server_async() -> int:
 		_socket.received_error.connect(_on_Socket_received_error)
 		
 		_socket.received_matchmaker_matched.connect(_on_matchmaker_matched)
+		_socket.received_match_presence.connect(_on_match_presence_event)
 		_socket.received_match_state.connect(_on_match_state)
 		
 		return OK
 	return ERR_CANT_CONNECT
 
 func _on_Socket_connected() -> void:
-	print("Socket connected.")
 	Console.log("Socket connected.")
 
 func _on_Socket_closed(code: int, reason: String) -> void:
@@ -88,15 +88,15 @@ func start_matchmaking():
 		Console.log("Erreur matchmaking : %s" % matchmaking_ticket_obj.exception,Console.LogLevel.ERROR)
 	else :
 		_matchmaker_ticket = matchmaking_ticket_obj.ticket
-		Console.log("waiting for the opponent... match : %s" % _matchmaker_ticket)
+		Console.log("waiting for the opponent...")
 
 func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 	Console.log("Match found !")
 	
 	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
 	_match_id = match.match_id
-	var match_data := {}
 	
+	var match_data := {}
 	for matched_user in matched.users :
 		var userdata = matched_user.presence
 		if userdata.user_id != _session.user_id:
@@ -107,9 +107,15 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 					"username": userdata.username
 				}
 			}
-			Console.log("Opponent id : %s" % match_data["opponent_data"]["user_id"])
+			Console.log("Opponent username : %s" % match_data["opponent_data"]["username"])
 	
 	EventManager.emit_match_found(match_data)
+
+func _on_match_presence_event(presence : NakamaRTAPI.MatchPresenceEvent) -> void:
+	for left in presence.leaves:
+		if left.user_id != _session.user_id:
+			Console.log("%s has disconnected!" % left.username, Console.LogLevel.WARNING)
+			EventManager.emit_player_left({"user_id": left.user_id, "username": left.username})
 
 # ----------------------------
 # SEND/RECEIVED DATA
@@ -132,9 +138,11 @@ func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 # ----------------------------
 func leave_match() -> void:
 	if _socket and _match_id:
+		Console.log("Match leaved.")
 		await _socket.leave_match_async(_match_id)
 	if _socket:
-		await _socket.close_async()
+		Console.log("Socket connected.")
+		await _socket.close()
 
 # ----------------------------
 # USER ACCOUNT

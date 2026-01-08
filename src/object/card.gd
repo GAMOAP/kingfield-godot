@@ -6,7 +6,7 @@ var _container := Global.CONTAINER.NONE
 
 var _card_data := {}
 
-var _char_selected_attributes := {}
+var _char_selected = null
 
 const _slot_size:int = 16
 
@@ -22,6 +22,8 @@ var _card_outline
 
 var slot_selected = 0:
 	set = _set_slot_selected
+
+var is_selectable = true
 
 var is_playable = true
 
@@ -40,7 +42,7 @@ func set_card(card_id, container, card_size = 1) -> void:
 	$".".scale = Vector2(_card_size * 1, _card_size * 1)
 	
 	_card_id = card_id
-	_char_selected_attributes = Global.char_selected.get_attributes()
+	_char_selected = Global.char_selected
 	
 	var card = await DataManager.get_card_data(card_id)
 	_card_data = card["data"]
@@ -107,7 +109,7 @@ func set_mana(value) -> void:
 	$crystal/number.frame = mana
 	$crystal/number.visible = true
 	
-	if _char_selected_attributes["crystals"] < mana:
+	if _char_selected.get_attributes()["crystals"] < mana:
 		$crystal.frame = 1
 		is_playable = false
 	else: 
@@ -143,9 +145,12 @@ func set_board(board):
 	$board_spots.material = _spot_outline 
 	_spot_outline.set("shader_parameter/line_thickness", 1.5)
 	_spot_outline.set("shader_parameter/line_colour", Color(1,0,0)) #color red
-
-
-
+	
+	if _char_selected.team == Global.SIDE.OPPONENT:
+		$board_spots.scale = Vector2(1, -1)
+	else:
+		$board_spots.scale = Vector2(1, 1)
+		
 func _set_obj_texture(obj, texture_path :String):
 	var image_path = texture_path
 	var image = Image.load_from_file(image_path)
@@ -155,7 +160,7 @@ func _set_obj_texture(obj, texture_path :String):
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if not is_selected:
+			if not is_selected and _char_selected.team == Global.SIDE.USER:
 				Global.card_selected = self
 				EventManager.emit_card_clicked(_card_id)
 

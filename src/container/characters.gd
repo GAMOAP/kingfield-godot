@@ -16,9 +16,9 @@ func _set_chars() -> void:
 		for char in chars_temp:
 			_chars.append(char)
 
-func _on_char_clicked(char_name: String):
+func _on_char_clicked(char_name: String, char_team: Global.SIDE):
 	for char in _chars:
-		if char.name == char_name:
+		if char.name == char_name and char.team == char_team:
 			char.is_selected = true
 		else:
 			char.is_selected = false
@@ -36,6 +36,12 @@ func init_team(team:= Global.SIDE.USER) -> void :
 		char.reset()
 		if char.team == team:
 			char.init_char(team_data[char.name])
+
+func remove_team(team: Global.SIDE) -> void :
+	if team == Global.SIDE.USER:
+		$user_team.visible = false
+	elif team == Global.SIDE.OPPONENT:
+		$opponent_team.visible = false
 
 func _on_unselect():
 	for char_temp in _chars:

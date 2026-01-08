@@ -3,6 +3,7 @@ extends Node
 #  MULTIPLAYER ACTION
 signal match_found(match_data: Dictionary)
 signal turn_received(turn_data: Dictionary)
+signal player_left(player_data: Dictionary)
 
 # GAME ACTION
 signal game_turn_end()
@@ -11,7 +12,7 @@ signal game_turn_end()
 signal set_scene(scene: Global.SCENES)
 
 #  OBJECT CLICKED
-signal char_clicked(char_name: String)
+signal char_clicked(char_name: String, char_team: Global.SIDE)
 signal card_clicked(card_id: String)
 signal block_clicked(block_id: String)
 
@@ -42,6 +43,9 @@ func emit_match_found(match_data: Dictionary) -> void:
 func emit_turn_received(turn_data: Dictionary) -> void:
 	turn_received.emit(turn_data)
 
+func emit_player_left(player_data: Dictionary) -> void:
+	player_left.emit(player_data)
+
 # ----------------------------
 #  GAME ACTION
 # ----------------------------
@@ -57,8 +61,8 @@ func emit_set_scene(scene: Global.SCENES) -> void:
 # ----------------------------
 #  OBJECT CLICKED
 # ----------------------------
-func emit_char_clicked(name: String) -> void:
-	char_clicked.emit(name)
+func emit_char_clicked(name: String, team: Global.SIDE) -> void:
+	char_clicked.emit(name, team)
 
 func emit_card_clicked(card_id: String) -> void:
 	card_clicked.emit(card_id)
