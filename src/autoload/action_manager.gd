@@ -8,23 +8,41 @@ var _is_game_unlocked = false:
 func resolve_action(actions) -> void:
 	_is_game_unlocked = false
 	
-	for act in actions:
-		var card = act["card"]
-		var slot = act["slot"]
+	for act_temp in actions:
 		
-		var action_nbr = card.get_data().get("slot%s" % slot)
-		var action_type
+		var char = null
+		for char_temp in get_tree().get_nodes_in_group("chars"):
+			if char_temp.name == act_temp["char_name"]:
+				char = char_temp
+		
+		var block = null
+		for block_temp in get_tree().get_nodes_in_group("blocks"):
+			if block_temp.id == act_temp["block_id"]:
+				block = block_temp
+		
+		var card_data = DataManager.get_card_data(act_temp["card_id"])
+		var action_id = act_temp["action_id"]
+		
+		
+		var action_type 
 		for key in Global.SLOTS.keys():
-			if Global.SLOTS[key] == action_nbr:
+			if Global.SLOTS[key] == action_id:
 				action_type = key
 		
-		if not _action_map.has(slot):
+		if not _action_map.has(action_type):
 			var action_path = "res://src/actions/%s.gd" % action_type.to_lower()
 			if FileAccess.file_exists(action_path):
 				var action = load(action_path)
 				if action:
 					_action_map[action_type] = action.new()
-					
+		
+		var act := {
+			"char" = char,
+			"card_data" = card_data,
+			"block_pos" = block.grid_position,
+		}
+		
+		
 		var executor = _action_map[action_type]
 		await executor.execute(act)
 	

@@ -1,6 +1,6 @@
 extends Node2D
 
-var _card_id := ""
+@export var id := ""
 var _card_size := 1.0
 var _container := Global.CONTAINER.NONE
 
@@ -41,7 +41,7 @@ func set_card(card_id, container, card_size = 1) -> void:
 	_card_size = card_size
 	$".".scale = Vector2(_card_size * 1, _card_size * 1)
 	
-	_card_id = card_id
+	id = card_id
 	_char_selected = Global.char_selected
 	
 	var card = await DataManager.get_card_data(card_id)
@@ -84,7 +84,7 @@ func set_card(card_id, container, card_size = 1) -> void:
 	visible = true
 
 func reset_card(card_id) -> void:
-	if card_id == _card_id:
+	if card_id == id:
 		set_card(card_id, _container, _card_size)
 
 #---------------------
@@ -162,7 +162,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if not is_selected and _char_selected.team == Global.SIDE.USER:
 				Global.card_selected = self
-				EventManager.emit_card_clicked(_card_id)
+				EventManager.emit_card_clicked(id)
 
 func _set_selected(value):
 	is_selected = value
@@ -184,7 +184,7 @@ func _set_slot_selected(value):
 			slot.scale = Vector2(1, 1)
 
 func get_id() -> String:
-	return _card_id
+	return id
 
 func get_container() -> Global.CONTAINER:
 	return _container

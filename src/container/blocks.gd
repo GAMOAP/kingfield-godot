@@ -18,6 +18,7 @@ func _create_blocks():
 			var block_temp = block.instantiate()
 			var pos = Vector2(col, row)
 			block_temp.name = "block_" + str(col) + "_" + str(row)
+			block_temp.id = int(str(col) + str(row))
 			block_temp.grid_position = pos
 			block_temp.position = pos * block_size
 			block_temp.visible = false

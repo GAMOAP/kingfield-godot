@@ -21,6 +21,7 @@ func _on_match_found(match_data) -> void:
 		"user_id" :  match_data["opponent_data"]["user_id"],
 		"team_data" : await ServerManager.load_data("player_data", "team", match_data["opponent_data"]["user_id"])
 	}
+	
 	start_match(match_id, self_data, opponent_data)
 	
 	EventManager.player_left.connect(_on_player_left)

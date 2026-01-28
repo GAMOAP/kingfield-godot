@@ -11,25 +11,30 @@ visible = false
 
 [node name="side_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(512, 0)
+id = 21
 team = 1
 
 [node name="center_left" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(384, 0)
 grid_position = Vector2(1, 0)
+id = 22
 team = 1
 
 [node name="king" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(256, 0)
 grid_position = Vector2(2, 0)
+id = 23
 team = 1
 
 [node name="center_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
 position = Vector2(128, 0)
 grid_position = Vector2(3, 0)
+id = 24
 team = 1
 
 [node name="side_right" parent="opponent_team" instance=ExtResource("1_bccgr")]
 grid_position = Vector2(4, 0)
+id = 25
 team = 1
 
 [node name="user_team" type="Node2D" parent="."]
@@ -38,19 +43,24 @@ visible = false
 [node name="side_left" parent="user_team" instance=ExtResource("1_bccgr")]
 position = Vector2(0, 512)
 grid_position = Vector2(0, 4)
+id = 11
 
 [node name="center_left" parent="user_team" instance=ExtResource("1_bccgr")]
 position = Vector2(128, 512)
 grid_position = Vector2(1, 4)
+id = 12
 
 [node name="king" parent="user_team" instance=ExtResource("1_bccgr")]
 position = Vector2(256, 512)
 grid_position = Vector2(2, 4)
+id = 13
 
 [node name="center_right" parent="user_team" instance=ExtResource("1_bccgr")]
 position = Vector2(384, 512)
 grid_position = Vector2(3, 4)
+id = 14
 
 [node name="side_right" parent="user_team" instance=ExtResource("1_bccgr")]
 position = Vector2(512, 512)
 grid_position = Vector2(4, 4)
+id = 15

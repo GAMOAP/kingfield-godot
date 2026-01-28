@@ -13,6 +13,7 @@ var _block_selected = null
 var _blocks_selectables := []
 var _slot_selected := 1
 var _char_position_temp := Vector2(0, 0)
+var _turn := 0
 var _actions := []
 
 var active = false
@@ -25,7 +26,8 @@ func start_game():
 	EventManager.char_clicked.connect(_on_char_selected)
 	EventManager.card_clicked.connect(_on_card_selected)
 	EventManager.block_clicked.connect(_on_block_selected)
-	EventManager.game_turn_end.connect(_on_end_turn)
+	#EventManager.turn_received.connect(_on_receive_turn)
+	#EventManager.game_turn_end.connect(_on_end_turn)
 	
 	_start_turn()
 
@@ -34,8 +36,11 @@ func end_game():
 	EventManager.char_clicked.disconnect(_on_char_selected)
 	EventManager.card_clicked.disconnect(_on_card_selected)
 	EventManager.block_clicked.disconnect(_on_block_selected)
-	EventManager.game_turn_end.disconnect(_on_end_turn)
+	#EventManager.game_turn_end.disconnect(_on_end_turn)
 
+# ----------------------------
+# START END
+# ----------------------------
 func _start_turn():
 	if not active: return
 	_char_selected = null
@@ -47,6 +52,13 @@ func _start_turn():
 	
 	EventManager.emit_unselect_all()
 
+func _on_end_turn():
+	#var mana = _card_selected.get_data().get('mana')
+	#_char_selected.consume_mana(mana)
+	
+	print("END_TURN")
+	_start_turn()
+	
 # ----------------------------
 # SELECT OBJECT
 # ----------------------------
@@ -87,35 +99,42 @@ func _on_block_selected(block_name):
 			if block_selectable == true:
 				char.is_selectable = false
 			block_empty = false
-	
-	var action = {
-		"char" = _char_selected,
-		"card" = _card_selected,
-		"block" = _block_selected,
-		"slot" = _slot_selected,
-	}
 
 	if block_selectable == true:
-		_actions.append(action)
 		_resolve_slot()
+		
 	elif block_empty == true :
 		_start_turn()
-
+		
+# ----------------------------
+# RESOLVE
+# ----------------------------
 func _resolve_slot():
+	var action_id = _card_selected.get_data().get("slot%s" % _slot_selected)
+	var next_slot = _card_selected.get_data().get("slot%s" % (_slot_selected + 1))
+	
+	var action = {
+			"char_name" = _char_selected.name,
+			"card_id" = _card_selected.id,
+			"block_id" = _block_selected.id,
+			"action_id" = action_id
+		}
+	
+	_actions.append(action)
 	_slot_selected += 1
-	var slot = _card_selected.get_data().get("slot%s" % _slot_selected)
-	if not slot:
+	
+	if not next_slot:
+		ServerManager.send_turn({
+			"turn" : _turn,
+			"actions" : _actions
+		})
+		
 		ActionManager.resolve_action(_actions)
 	else:
 		_set_selectables_block()
 
 
-func _on_end_turn():
-	var mana = _card_selected.get_data().get('mana')
-	_char_selected.consume_mana(mana)
-	
-	print("END_TURN")
-	_start_turn()
+
 
 
 func _set_selectables_block() -> void:
@@ -175,3 +194,9 @@ func _reset_selectable_blocks() -> void:
 	_blocks_selectables = []
 	for block in get_tree().get_nodes_in_group("blocks"):
 		block.set_selectable(false)
+
+func _on_receive_turn(data) -> void:
+	print(data["actions"])
+	var actions = data["actions"]
+	
+	ActionManager.resolve_action(actions)
