@@ -5,10 +5,7 @@ var _user_field :String
 
 @export var grid_position: Vector2
 @export var id: int
-<<<<<<< HEAD
 @export var match_label := {"col" = "", "row" = ""}
-=======
->>>>>>> aad5935011b303c8245ba1ac06438e0da859c468
 @export var is_selectable = true
 
 var original_pos: Vector2
