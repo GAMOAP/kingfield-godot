@@ -5,6 +5,8 @@ var match_id: String = ""
 var players: Dictionary = {}  # exemple : {"self": {}, "opponent": {}}
 var turn: int = 0
 var state: String = "waiting"  # ou "active", "finished"
+var first_player_id: String
+var current_turn_player_id: String
 
 func setup(_match_id: String, _self_data: Dictionary, _opponent_data: Dictionary):
 	match_id = _match_id

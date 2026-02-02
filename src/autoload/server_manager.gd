@@ -14,6 +14,8 @@ var _socket : NakamaSocket
 var _match_id : String
 var _matchmaker_ticket : String
 
+var _connected_opponents := []
+
 # ----------------------------
 # CONNECT AND AUTENTICATION
 # ----------------------------
@@ -96,42 +98,88 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
 	_match_id = match.match_id
 	
-	var match_data := {}
-	for matched_user in matched.users :
-		var userdata = matched_user.presence
-		if userdata.user_id != _session.user_id:
-			match_data = {
-				"match_id": _match_id, 
-				"opponent_data": {
-					"user_id": userdata.user_id,
-					"username": userdata.username
-				}
-			}
-			Console.log("Opponent username : %s" % match_data["opponent_data"]["username"])
-	
-	EventManager.emit_match_found(match_data)
+	#var match_data := {}
+	#for matched_user in matched.users :
+		#var userdata = matched_user.presence
+		#if userdata.user_id != _session.user_id:
+			#match_data = {
+				#"match_id": _match_id, 
+				#"opponent_data": {
+					#"user_id": userdata.user_id,
+					#"username": userdata.username
+				#}
+			#}
+			#Console.log("Opponent username : %s" % match_data["opponent_data"]["username"])
 
 func _on_match_presence_event(presence : NakamaRTAPI.MatchPresenceEvent) -> void:
 	for left in presence.leaves:
+		_connected_opponents[left.user_id] = left
 		if left.user_id != _session.user_id:
 			Console.log("%s has disconnected!" % left.username, Console.LogLevel.WARNING)
-			EventManager.emit_player_left({"user_id": left.user_id, "username": left.username})
-
+	
+	# Gérer les nouveaux arrivants (si besoin)
+	for joined in presence.joins:
+		_connected_opponents[joined.user_id] = joined
+		if joined.user_id != _session.user_id:
+			Console.log("%s has joined!" % joined.username)
 # ----------------------------
 # SEND/RECEIVED DATA
 # ----------------------------
-func send_turn(turn_data: Dictionary) -> void:
+func send_turn(turn_data: Dictionary) -> bool:
 	if not _match_id:
 		Console.log("No active match.", Console.LogLevel.ERROR)
-		return
-		
-	var op_code: int = 1
-	await _socket.send_match_state_async(_match_id, op_code, JSON.stringify(turn_data))
+		return false
+	
+	var payload = {"move": turn_data}
+	var result = await _socket.send_match_state_async(_match_id, 1, JSON.stringify(payload))
+	
+	if result.is_exception():
+		Console.log("Erreur envoi coup: %s" % result, Console.LogLevel.ERROR)
+		return false
+	
+	return true
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
-	if match_state.op_code == 1:
-		var turn_data = JSON.parse_string(match_state.data)
-		EventManager.emit_turn_received(turn_data)
+	var data = JSON.parse_string(match_state.data)
+	#print("Data parsé: ", data)
+	
+	match data.type:
+		"player_joined":
+			pass
+		"team_loaded":
+			pass
+		"game_start":
+			pass
+		"player_left":
+			print("❌ ", data.player_name, " a quitté")
+		"game_over":
+			print("🏆 Partie terminée!")
+			print("   Raison: ", data.reason)
+			if data.winner:
+				print("   Gagnant: ", data.winner_name)
+		"error":
+			push_error("Erreur du serveur: " + data.message)
+
+# ----------------------------
+# MATCH MANUEL (Alternative au matchmaking)
+# ----------------------------
+func create_match_manual() -> bool:
+	"""Créer un match manuellement via RPC (alternative au matchmaking)"""
+	var result = await _client.rpc_async(_session, "create_match", "")
+	if result.is_exception():
+		Console.log("Erreur création match: %s" % result, Console.LogLevel.ERROR)
+		return false
+	
+	var data = JSON.parse_string(result.payload)
+	_match_id = data.match_id
+	
+	var join_result = await _socket.join_match_async(_match_id)
+	if join_result.is_exception():
+		Console.log("Erreur join match: %s" % join_result, Console.LogLevel.ERROR)
+		return false
+	
+	Console.log("Match créé et rejoint: %s" % _match_id)
+	return true
 
 # ----------------------------
 # LEAVE MATCH
@@ -143,6 +191,13 @@ func leave_match() -> void:
 	if _socket:
 		Console.log("Socket connected.")
 		await _socket.close()
+
+func disconnect_socket() -> void:
+	"""Fermer complètement la connexion socket"""
+	if _socket:
+		Console.log("Socket disconnected.")
+		await _socket.close()
+		_socket = null
 
 # ----------------------------
 # USER ACCOUNT
@@ -160,13 +215,8 @@ func get_user_account_async() -> Dictionary:
 		}
 		return user_info
 
-func update_user_account_async(
-	username: String = ""
-) -> void:
-	var update_result = await _client.update_account_async(
-		_session,
-		username
-	)
+func update_user_account_async(username: String = "") -> void:
+	var update_result = await _client.update_account_async(_session, username)
 	if update_result.is_exception():
 		Console.log("Error updating account : %s" % update_result)
 
@@ -200,3 +250,12 @@ func load_data(collection: String, key: String, user_id:= _session.user_id) -> D
 		var decoded :Dictionary = JSON.parse_string(storage_objects.objects[0].value).data
 		return decoded
 	return {}
+
+# ----------------------------
+# HELPERS
+# ----------------------------
+func get_my_user_id() -> String:
+	return _session.user_id if _session else ""
+
+func is_socket_connected() -> bool:
+	return _socket != null and _match_id != ""

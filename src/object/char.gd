@@ -8,6 +8,7 @@ var origin_position: Vector2
 	set = _set_selected
 @export var is_selectable = true
 
+@export var id: int
 @export var team :Global.SIDE
 
 var _char_data := {}

@@ -1,17 +1,12 @@
 extends Node
 
-#  MULTIPLAYER ACTION
-signal match_found(match_data: Dictionary)
-signal turn_received(turn_data: Dictionary)
-signal player_left(player_data: Dictionary)
-
 # GAME ACTION
 signal game_turn_end()
 
-#  SCENE
+# SCENE
 signal set_scene(scene: Global.SCENES)
 
-#  OBJECT CLICKED
+# OBJECT CLICKED
 signal char_clicked(char_name: String, char_team: Global.SIDE)
 signal card_clicked(card_id: String)
 signal block_clicked(block_id: String)
@@ -24,27 +19,24 @@ signal unselect_blocks()
 # ELEMENT SELECTED
 signal select_slot(slot_nbr: int)
 
-#  UI CLICKED
+# UI CLICKED
 signal library_page_change(page: int)
 
-#  CHANGE USER DATA
+# CHANGE USER DATA
 signal deck_card_submit(card_id: String)
 
-#  ADMIN
+# ADMIN
 signal admin_card_subit(card_id: String)
 
+# MATCH
+signal match_found(match_data)
 
-# ----------------------------
-#  MULTIPLAYER ACTION
-# ----------------------------
-func emit_match_found(match_data: Dictionary) -> void:
-	match_found.emit(match_data)
+signal player_left(player_data)
+#signal match_started(game_data)
+#signal match_turn_changed(turn_data)
+#signal match_action_received(action_data)
+#signal match_ended(result)
 
-func emit_turn_received(turn_data: Dictionary) -> void:
-	turn_received.emit(turn_data)
-
-func emit_player_left(player_data: Dictionary) -> void:
-	player_left.emit(player_data)
 
 # ----------------------------
 #  GAME ACTION
@@ -105,3 +97,23 @@ func emit_deck_card_submit(card_id: String) -> void:
 # ----------------------------
 func emit_admin_card_submit(card_id) -> void:
 	admin_card_subit.emit(card_id)
+
+# ----------------------------
+#  MULTIPLAYER ACTION
+# ----------------------------
+func emit_match_found(match_data: Dictionary) -> void:
+	match_found.emit(match_data)
+
+func emit_player_left(player_data: Dictionary) -> void:
+	player_left.emit(player_data)
+#func emit_match_started(game_data: Dictionary) -> void:
+	#match_started.emit(game_data)
+#
+#func emit_match_turn_changed(turn_data: Dictionary) -> void:
+	#match_turn_changed.emit(turn_data)
+#
+#func emit_match_action_received(action_data: Dictionary) -> void:
+	#match_action_received.emit(action_data)
+#
+#func emit_match_ended(result: Dictionary) -> void:
+	#match_ended.emit(result)

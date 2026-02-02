@@ -1,11 +1,13 @@
 extends Node
 
-const ADMIN_ID := "3c1485bf-c58c-4f11-b602-1df56fff3076"
+const ADMIN_ID := "319f9d0f-06fc-4805-a900-be0d22a09b21"
 
 const VOID : int = -1
 
 const GRID_SIZE := Vector2(5, 5)
 const CELL_SIZE := Vector2(128.0, 128.0)
+const COLUMN_LABELS = ["A", "B", "C", "D", "E"]
+const ROW_LABELS = ["1", "2", "3", "4", "5"]
 
 const NBR_BLOCK_VAR := 3
 

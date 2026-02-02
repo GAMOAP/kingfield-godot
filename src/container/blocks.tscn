@@ -4,3 +4,86 @@
 
 [node name="Blocks" type="Node2D"]
 script = ExtResource("1_fvrv1")
+
+[node name="Labels" type="Node2D" parent="."]
+visible = false
+
+[node name="Label_col_0" type="Label" parent="Labels"]
+offset_left = -16.0
+offset_top = 576.0
+offset_right = 16.0
+offset_bottom = 608.0
+text = "A"
+horizontal_alignment = 1
+
+[node name="Label_col_1" type="Label" parent="Labels"]
+offset_left = 112.0
+offset_top = 576.0
+offset_right = 144.0
+offset_bottom = 608.0
+text = "A"
+horizontal_alignment = 1
+
+[node name="Label_col_2" type="Label" parent="Labels"]
+offset_left = 240.0
+offset_top = 576.0
+offset_right = 272.0
+offset_bottom = 608.0
+text = "A"
+horizontal_alignment = 1
+
+[node name="Label_col_3" type="Label" parent="Labels"]
+offset_left = 368.0
+offset_top = 576.0
+offset_right = 400.0
+offset_bottom = 608.0
+text = "A"
+horizontal_alignment = 1
+
+[node name="Label_col_4" type="Label" parent="Labels"]
+offset_left = 496.0
+offset_top = 576.0
+offset_right = 528.0
+offset_bottom = 608.0
+text = "A"
+horizontal_alignment = 1
+
+[node name="Label_row_0" type="Label" parent="Labels"]
+offset_left = -96.0
+offset_top = 496.0
+offset_right = -64.0
+offset_bottom = 528.0
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label_row_1" type="Label" parent="Labels"]
+offset_left = -96.0
+offset_top = 368.0
+offset_right = -64.0
+offset_bottom = 400.0
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label_row_2" type="Label" parent="Labels"]
+offset_left = -96.0
+offset_top = 240.0
+offset_right = -64.0
+offset_bottom = 272.0
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label_row_3" type="Label" parent="Labels"]
+offset_left = -96.0
+offset_top = 112.0
+offset_right = -64.0
+offset_bottom = 144.0
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label_row_4" type="Label" parent="Labels"]
+offset_left = -96.0
+offset_top = -16.0
+offset_right = -64.0
+offset_bottom = 16.0
+text = "0"
+horizontal_alignment = 1

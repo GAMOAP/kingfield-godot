@@ -3,10 +3,9 @@ extends Node2D
 var _opponent_field :String
 var _user_field :String
 
-signal block_clicked(block_id)
-
 @export var grid_position: Vector2
-
+@export var id: int
+@export var match_label := {"col" = "", "row" = ""}
 @export var is_selectable = true
 
 var original_pos: Vector2

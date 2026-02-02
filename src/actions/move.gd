@@ -2,11 +2,8 @@ extends Action
 
 func _execute(action_data):
 	var char = action_data["char"]
-	var block = action_data["block"]
+	var block_position = action_data["block_pos"]
 	
-	await char.move_to_cell(block.grid_position)
+	await char.move_to_cell(block_position)
 	
-	#char.grid_position = block.grid_position
-	#char.global_position = block.global_position
-	
-	print("➡️ MOVE:", char.name, "→", block.grid_position)
+	print("➡️ MOVE:", char.name, "→", block_position)
