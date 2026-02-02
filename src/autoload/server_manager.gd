@@ -116,10 +116,19 @@ func _on_match_presence_event(presence : NakamaRTAPI.MatchPresenceEvent) -> void
 		_connected_opponents[left.user_id] = left
 		if left.user_id != _session.user_id:
 			Console.log("%s has disconnected!" % left.username, Console.LogLevel.WARNING)
+<<<<<<< HEAD
 	
 	# Gérer les nouveaux arrivants (si besoin)
 	for joined in presence.joins:
 		_connected_opponents[joined.user_id] = joined
+=======
+			EventManager.emit_player_left({"user_id": left.user_id, "username": left.username})
+			# quitter automatiquement le match
+			leave_match()
+	
+	# Gérer les nouveaux arrivants (si besoin)
+	for joined in presence.joins:
+>>>>>>> aad5935011b303c8245ba1ac06438e0da859c468
 		if joined.user_id != _session.user_id:
 			Console.log("%s has joined!" % joined.username)
 # ----------------------------
@@ -141,6 +150,7 @@ func send_turn(turn_data: Dictionary) -> bool:
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 	var data = JSON.parse_string(match_state.data)
+<<<<<<< HEAD
 	#print("Data parsé: ", data)
 	
 	match data.type:
@@ -150,6 +160,17 @@ func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 			pass
 		"game_start":
 			pass
+=======
+	print("Data parsé: ", data)
+	
+	match data.type:
+		"player_joined":
+			Console.log("Joueur rejoint: %s (Total: %s)" % [data.player.username, data.count])
+		"request_team":
+			print("📋 Le serveur demande l'équipe")
+			print("   Message: ", data.message)
+			# TODO: Envoyer l'équipe (prochaine étape)
+>>>>>>> aad5935011b303c8245ba1ac06438e0da859c468
 		"player_left":
 			print("❌ ", data.player_name, " a quitté")
 		"game_over":
