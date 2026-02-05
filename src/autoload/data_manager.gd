@@ -45,7 +45,8 @@ func get_user_team() -> Dictionary:
 		_team = await ServerManager.load_data("player_data", "team")
 	if _team == {} :
 		for char in Global.TEAM:
-			var char_stuff : Dictionary
+			var char_data : Dictionary
+			var char_cards : Dictionary
 			for type in Global.CARD_TYPE.size():
 				var is_card_used:= true
 				var card_id := ""
@@ -59,8 +60,9 @@ func get_user_team() -> Dictionary:
 							is_used = true
 					is_card_used = is_used
 				_used_cards.append(card_id)
-				char_stuff[str(type)] = card_id
-			_team[char] = char_stuff
+				char_cards[str(type)] = card_id
+			char_data["cards"] = char_cards
+			_team[char] = char_data
 		save_player_data()
 	
 	return _team
@@ -73,7 +75,7 @@ func get_char_data(char_name :String) -> Dictionary:
 func update_user_team(char: String, card_id: String) -> void:
 	if char != "" && card_id != "":
 		var card := str(card_id.to_int() / 100)
-		_team[char][card] = card_id
+		_team[char]["cards"][card] = card_id
 
 func save_player_data() -> void:
 	ServerManager.write_data("player_data", "team", _team, ServerManager.ReadPermissions.PUBLIC_READ)

@@ -22,7 +22,7 @@ func _create_blocks():
 			block_temp.grid_position = pos
 			block_temp.position = pos * block_size
 			block_temp.visible = false
-			add_child(block_temp)
+			$Board.add_child(block_temp)
 	
 	set_block_label()
 
@@ -31,14 +31,14 @@ func show_nbr_row(row_nbr:= 0) -> void:
 		for col in range(grid_size.y):
 			var temp_name = "block_" + str(col) + "_" + str(row)
 			if row > (4 - row_nbr):
-				get_node(temp_name).visible = true
+				$Board.get_node(temp_name).visible = true
 			else :
-				get_node(temp_name).visible = false
+				$Board.get_node(temp_name).visible = false
 
 func set_block_karma(karma: int, opponent_karma: int) -> void:
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
-			var block = get_node("block_" + str(col) + "_" + str(row))
+			var block = $Board.get_node("block_" + str(col) + "_" + str(row))
 			block.set_block(opponent_karma, karma, row)
 
 func set_block_label() -> void:
@@ -46,17 +46,16 @@ func set_block_label() -> void:
 	var row_labels = Global.ROW_LABELS
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
-			var block = get_node("block_" + str(col) + "_" + str(row))
+			var block = $Board.get_node("block_" + str(col) + "_" + str(row))
 			block.match_label["col"] = col_labels[col]
 			block.match_label["row"] = row_labels[row]
-			print(row, grid_size)
+			
 			if row >= grid_size.x - 1:
 				var col_label = $Labels.get_node("Label_col_" + str(col))
-				print(col_label,"Label_col_" + str(col))
 				col_label.text = Global.COLUMN_LABELS[col]
 		var row_label = $Labels.get_node("Label_row_" + str(row))
 		row_label.text = Global.ROW_LABELS[row]
 
 func _on_unselect() -> void:
-	for block in $".".get_children():
+	for block in $Board.get_children():
 		block.set_selectable(false)

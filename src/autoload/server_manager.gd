@@ -98,28 +98,27 @@ func _on_matchmaker_matched(matched: NakamaRTAPI.MatchmakerMatched) -> void:
 	var match: NakamaRTAPI.Match = await _socket.join_matched_async(matched)
 	_match_id = match.match_id
 	
-	#var match_data := {}
-	#for matched_user in matched.users :
-		#var userdata = matched_user.presence
-		#if userdata.user_id != _session.user_id:
-			#match_data = {
-				#"match_id": _match_id, 
-				#"opponent_data": {
-					#"user_id": userdata.user_id,
-					#"username": userdata.username
-				#}
-			#}
-			#Console.log("Opponent username : %s" % match_data["opponent_data"]["username"])
+	var match_data := {}
+	for matched_user in matched.users :
+		var userdata = matched_user.presence
+		if userdata.user_id != _session.user_id:
+			match_data = {
+				"match_id": _match_id, 
+				"opponent_data": {
+					"user_id": userdata.user_id,
+					"username": userdata.username
+				}
+			}
+			Console.log("Opponent username : %s" % match_data["opponent_data"]["username"])
+	
+	EventManager.emit_match_found(match_data)
 
 func _on_match_presence_event(presence : NakamaRTAPI.MatchPresenceEvent) -> void:
 	for left in presence.leaves:
-		_connected_opponents[left.user_id] = left
 		if left.user_id != _session.user_id:
 			Console.log("%s has disconnected!" % left.username, Console.LogLevel.WARNING)
 	
-	# Gérer les nouveaux arrivants (si besoin)
 	for joined in presence.joins:
-		_connected_opponents[joined.user_id] = joined
 		if joined.user_id != _session.user_id:
 			Console.log("%s has joined!" % joined.username)
 # ----------------------------
@@ -141,15 +140,12 @@ func send_turn(turn_data: Dictionary) -> bool:
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 	var data = JSON.parse_string(match_state.data)
-	#print("Data parsé: ", data)
 	
 	match data.type:
 		"player_joined":
-			pass
-		"team_loaded":
-			pass
+			EventManager.emit_player_joined(data)
 		"game_start":
-			pass
+			EventManager.emit_game_start(data)
 		"player_left":
 			print("❌ ", data.player_name, " a quitté")
 		"game_over":

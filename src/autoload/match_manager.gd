@@ -8,29 +8,43 @@ func enter_lobby() -> void:
 	await ServerManager.start_matchmaking()
 	
 	EventManager.match_found.connect(_on_match_found)
+	EventManager.game_start.connect(_on_game_start)
+	EventManager.player_joined.connect(_on_player_joined)
+	EventManager.player_left.connect(_on_player_left)
 
 func _on_match_found(match_data) -> void:
 	var match_id = match_data["match_id"]
+	
 	var self_data = {
 		"username" : DataManager.user_info["username"],
 		"user_id" : DataManager.user_info["user_id"],
-		"team_data" : await DataManager.get_user_team()
 	}
 	var opponent_data = {
 		"username" : match_data["opponent_data"]["username"],
 		"user_id" :  match_data["opponent_data"]["user_id"],
-		"team_data" : await ServerManager.load_data("player_data", "team", match_data["opponent_data"]["user_id"])
 	}
 	
-	start_match(match_id, self_data, opponent_data)
-	
+	create_match(match_id, self_data, opponent_data)
 	EventManager.player_left.connect(_on_player_left)
 
-func start_match(match_id: String, self_data: Dictionary, opponent_data: Dictionary):
+func create_match(match_id: String, self_data: Dictionary, opponent_data: Dictionary):
 	current_match = KF_MatchData.new()
 	current_match.setup(match_id, self_data, opponent_data)
+
+func _on_game_start(game_data):
+	print("___________________________________________")
+	var players = game_data["board_state"]["units"]
+	for player in players:
+		print(player)
+		for char in Global.TEAM:
+			var char_cards = players[player][char]["cards"]
+			print(char_cards)
 	
-	EventManager.emit_set_scene(Global.SCENES.MATCH)
+	print("###########################################")
+	
+	#current_match.set_team
+	
+	#EventManager.emit_set_scene(Global.SCENES.MATCH)
 
 func end_match():
 	if current_match:
@@ -39,7 +53,11 @@ func end_match():
 	
 	await ServerManager.leave_match()
 	EventManager.match_found.disconnect(_on_match_found)
+	EventManager.game_start.disconnect(_on_game_start)
 	EventManager.emit_set_scene(Global.SCENES.HOME)
+
+func _on_player_joined(player_data: Dictionary) -> void:
+	pass
 
 func _on_player_left(player_data: Dictionary) -> void:
 	end_match()

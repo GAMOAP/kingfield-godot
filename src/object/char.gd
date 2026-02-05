@@ -12,6 +12,7 @@ var origin_position: Vector2
 @export var team :Global.SIDE
 
 var _char_data := {}
+var _char_cards := {}
 
 var _attributes := {}
 
@@ -35,10 +36,11 @@ func _ready() -> void:
 
 func init_char(char_data: Dictionary) -> void:
 	_char_data = char_data
+	_char_cards = _char_data["cards"]
+	for card_id in _char_cards:
+		_set_texture(_char_cards[card_id])
 	
-	for card_id in _char_data:
-		_set_texture(_char_data[card_id])
-	
+	print(_char_cards)
 	init_attributes()
 
 func reset() -> void:
@@ -56,7 +58,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 
 func _on_deck_card_submit(card_id: String) -> void:
 	if Global.char_selected.get_name() == name and team == Global.SIDE.USER:
-		_char_data = DataManager.get_char_data(name)
+		_char_cards = DataManager.get_char_data(name)["cards"]
 		init_attributes()
 		_set_texture(card_id)
 
@@ -144,13 +146,13 @@ func add_mana(mana: int) -> void:
 # FUNCTION GET
 # ----------------------------
 func get_data() -> Dictionary:
-	return _char_data
+	return _char_cards
 
 func get_karma() -> int:
 	var sign_count = {}
 	var min_hundreds = {}
 	
-	for str_value in _char_data.values():
+	for str_value in _char_cards.values():
 		var value = int(str_value)
 		var hundreds = int(value / 100)
 		var tens = int((value % 100) / 10)
@@ -178,6 +180,7 @@ func get_karma() -> int:
 # ATTRIBUTES
 # ----------------------------
 func init_attributes() -> void:
+	
 	_attributes = {
 		"karma" : 0,
 		"crystal_blue" : 0,
@@ -191,8 +194,9 @@ func init_attributes() -> void:
 		"level" : 0
 	}
 	
-	for card_id in _char_data:
-		var card_data = DataManager.get_card_data(_char_data[card_id])["data"]
+	for card_id in _char_cards:
+		
+		var card_data = DataManager.get_card_data(_char_cards[card_id])["data"]
 		
 		for data in card_data:
 			if data == "slot1" or data == "slot2" or data == "slot3":
