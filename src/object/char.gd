@@ -40,7 +40,6 @@ func init_char(char_data: Dictionary) -> void:
 	for card_id in _char_cards:
 		_set_texture(_char_cards[card_id])
 	
-	print(_char_cards)
 	init_attributes()
 
 func reset() -> void:

@@ -32,19 +32,26 @@ func create_match(match_id: String, self_data: Dictionary, opponent_data: Dictio
 	current_match.setup(match_id, self_data, opponent_data)
 
 func _on_game_start(game_data):
-	print("___________________________________________")
-	var players = game_data["board_state"]["units"]
-	for player in players:
-		print(player)
-		for char in Global.TEAM:
-			var char_cards = players[player][char]["cards"]
-			print(char_cards)
+	var board_players = game_data["board_state"]["units"]
+	var match_players = current_match.players
 	
-	print("###########################################")
+	#verifie les que les carte du joueur corresponde au match
+	var self_team = await DataManager.get_user_team()
+	var self_id = DataManager.user_info["user_id"]
+	for char in Global.TEAM:
+		var char_cards = self_team[char]["cards"]
+		for card_type in char_cards:
+			if char_cards[card_type] != board_players[self_id][char]["cards"][card_type]:
+				Console.log("Match cards do not match",Console.LogLevel.ERROR)
+				end_match()
 	
-	#current_match.set_team
+	#init curent match players_data
+	for board_player in board_players:
+		for match_player in match_players:
+			if board_player == match_players[match_player]["user_id"]:
+				match_players[match_player]["data"] = board_players[board_player]
 	
-	#EventManager.emit_set_scene(Global.SCENES.MATCH)
+	EventManager.emit_set_scene(Global.SCENES.MATCH)
 
 func end_match():
 	if current_match:
