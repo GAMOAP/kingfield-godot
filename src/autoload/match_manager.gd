@@ -32,10 +32,10 @@ func create_match(match_id: String, self_data: Dictionary, opponent_data: Dictio
 	current_match.setup(match_id, self_data, opponent_data)
 
 func _on_game_start(game_data):
-	var board_players = game_data["board_state"]["units"]
+	var board_players = game_data["units_state"]["units"]
 	var match_players = current_match.players
 	
-	#verifie les que les carte du joueur corresponde au match
+	#checks that the player card matches
 	var self_team = await DataManager.get_user_team()
 	var self_id = DataManager.user_info["user_id"]
 	for char in Global.TEAM:
@@ -45,11 +45,26 @@ func _on_game_start(game_data):
 				Console.log("Match cards do not match",Console.LogLevel.ERROR)
 				end_match()
 	
+	#verfifier que les joueurs sont a la bonne place.
+	
+	#init karma and direction of the board
+	var is_self_team_bottom = true
+	if self_id != game_data["current_player"]:
+		is_self_team_bottom = false
+		match_players["opponent"]["karma"] = game_data["karma_value"][0]
+	else :
+		match_players["opponent"]["karma"] = game_data["karma_value"][1]
+	
+	match_players["self"]["is_bottom"] = is_self_team_bottom
+	
+	
 	#init curent match players_data
 	for board_player in board_players:
 		for match_player in match_players:
 			if board_player == match_players[match_player]["user_id"]:
 				match_players[match_player]["data"] = board_players[board_player]
+	
+	#current_match.set_team
 	
 	EventManager.emit_set_scene(Global.SCENES.MATCH)
 

@@ -7,6 +7,8 @@ extends Node2D
 var grid_size = Global.GRID_SIZE
 var block_size = Global.CELL_SIZE
 
+var _self_karma:int
+
 func _ready():
 	_create_blocks()
 	
@@ -23,8 +25,6 @@ func _create_blocks():
 			block_temp.position = pos * block_size
 			block_temp.visible = false
 			$Board.add_child(block_temp)
-	
-	set_block_label()
 
 func show_nbr_row(row_nbr:= 0) -> void:
 	for row in range(grid_size.x):
@@ -35,15 +35,33 @@ func show_nbr_row(row_nbr:= 0) -> void:
 			else :
 				$Board.get_node(temp_name).visible = false
 
-func set_block_karma(karma: int, opponent_karma: int) -> void:
+func set_blocks(self_karma:int) -> void:
+	_self_karma = self_karma
+	var current_match = MatchManager.current_match
+	if not current_match:
+		_set_block_karma(self_karma)
+	else:
+		_set_block_karma(current_match.players["opponent"]["karma"])
+		_set_block_label(current_match.players["self"]["is_bottom"])
+
+func _set_block_karma(opponent_karma: int) -> void:
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
 			var block = $Board.get_node("block_" + str(col) + "_" + str(row))
-			block.set_block(opponent_karma, karma, row)
+			block.set_block(opponent_karma, _self_karma, row)
 
-func set_block_label() -> void:
-	var col_labels = Global.COLUMN_LABELS
-	var row_labels = Global.ROW_LABELS
+func _set_block_label(self_is_down :bool) -> void:
+	$Labels.visible = true
+	
+	var col_labels = Global.COLUMN_LABELS.duplicate()
+	var row_labels = Global.ROW_LABELS.duplicate()
+	
+	if self_is_down == false:
+		col_labels.reverse()
+		row_labels.reverse()
+	
+	print(col_labels)
+	
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
 			var block = $Board.get_node("block_" + str(col) + "_" + str(row))
@@ -52,9 +70,9 @@ func set_block_label() -> void:
 			
 			if row >= grid_size.x - 1:
 				var col_label = $Labels.get_node("Label_col_" + str(col))
-				col_label.text = Global.COLUMN_LABELS[col]
+				col_label.text = col_labels[col]
 		var row_label = $Labels.get_node("Label_row_" + str(row))
-		row_label.text = Global.ROW_LABELS[row]
+		row_label.text = row_labels[row]
 
 func _on_unselect() -> void:
 	for block in $Board.get_children():

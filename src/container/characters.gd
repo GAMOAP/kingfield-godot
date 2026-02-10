@@ -29,7 +29,7 @@ func init_team(team:= Global.SIDE.USER) -> void :
 		team_data = await DataManager.get_user_team()
 		$user_team.visible = true
 	elif team == Global.SIDE.OPPONENT:
-		team_data = MatchManager.current_match.players["opponent"].team_data
+		team_data = MatchManager.current_match.players["opponent"]["data"]
 		$opponent_team.visible = true
 	
 	for char in _chars:

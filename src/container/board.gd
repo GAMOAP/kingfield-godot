@@ -44,7 +44,7 @@ func open()-> void:
 		_:
 			pass
 	
-	set_blocks_karma()
+	_set_blocks()
 
 func close()-> void:
 	pass
@@ -54,12 +54,10 @@ func _on_char_clicked(name: String, team: Global.SIDE):
 		EventManager.emit_set_scene(Global.SCENES.BARRACK)
 
 func _on_deck_card_submit(card_id: String) -> void:
-	set_blocks_karma()
+	_set_blocks()
 
-func set_blocks_karma() -> void:
-	var karma: int= $Characters.get_team_karma(Global.SIDE.USER)
-	var opponent_karma: int = $Characters.get_team_karma(Global.SIDE.OPPONENT)
-	$Blocks.set_block_karma(karma, opponent_karma)
+func _set_blocks() -> void:
+	$Blocks.set_blocks($Characters.get_team_karma(Global.SIDE.USER))
 
 func _on_exit_btn_pressed() -> void:
 	if _scene == Global.SCENES.MATCH:
