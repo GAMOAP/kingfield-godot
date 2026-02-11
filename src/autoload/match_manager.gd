@@ -57,7 +57,6 @@ func _on_game_start(game_data):
 	
 	match_players["self"]["is_bottom"] = is_self_team_bottom
 	
-	
 	#init curent match players_data
 	for board_player in board_players:
 		for match_player in match_players:

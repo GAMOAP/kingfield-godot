@@ -3,6 +3,8 @@ extends Node2D
 var origin_grid_position: Vector2
 var origin_position: Vector2
 
+var chess_position: String
+
 @export var grid_position: Vector2
 @export var is_selected = false:
 	set = _set_selected
@@ -40,11 +42,15 @@ func init_char(char_data: Dictionary) -> void:
 	for card_id in _char_cards:
 		_set_texture(_char_cards[card_id])
 	
+	if MatchManager.current_match:
+		chess_position = _char_data["chess_position"]
+	
 	init_attributes()
 
 func reset() -> void:
 	grid_position = origin_grid_position
 	position = origin_position
+	
 # ----------------------------
 # EVENT ACTION
 # ----------------------------
