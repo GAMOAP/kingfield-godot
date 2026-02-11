@@ -50,7 +50,7 @@ func init_char(char_data: Dictionary) -> void:
 func reset() -> void:
 	grid_position = origin_grid_position
 	position = origin_position
-	
+	chess_position = ""
 # ----------------------------
 # EVENT ACTION
 # ----------------------------

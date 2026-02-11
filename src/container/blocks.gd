@@ -60,8 +60,6 @@ func _set_block_label(self_is_down :bool) -> void:
 		col_labels.reverse()
 		row_labels.reverse()
 	
-	print(col_labels)
-	
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
 			var block = $Board.get_node("block_" + str(col) + "_" + str(row))

@@ -147,12 +147,14 @@ func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 		"game_start":
 			EventManager.emit_game_start(data)
 		"player_left":
-			print("❌ ", data.player_name, " a quitté")
+			Console.log("❌ %s a quitté" % data.player_name, Console.LogLevel.WARNING)
+			EventManager.emit_player_left(data)
 		"game_over":
 			print("🏆 Partie terminée!")
 			print("   Raison: ", data.reason)
 			if data.winner:
 				print("   Gagnant: ", data.winner_name)
+			leave_match()
 		"error":
 			push_error("Erreur du serveur: " + data.message)
 
