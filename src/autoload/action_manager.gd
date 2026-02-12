@@ -2,11 +2,13 @@ extends Node
 
 var _action_map = {}
 
-var _is_game_unlocked = false:
+var is_game_unlocked = false:
 	set = _set_game_unlocked
 
 func resolve_action(actions) -> void:
-	_is_game_unlocked = false
+	is_game_unlocked = false
+	
+	print(actions)
 	
 	for act_temp in actions:
 		
@@ -17,7 +19,7 @@ func resolve_action(actions) -> void:
 		
 		var block = null
 		for block_temp in get_tree().get_nodes_in_group("blocks"):
-			if block_temp.id == act_temp["block_id"]:
+			if block_temp.match_label == act_temp["block_label"]:
 				block = block_temp
 		
 		var card_data = DataManager.get_card_data(act_temp["card_id"])
@@ -46,15 +48,15 @@ func resolve_action(actions) -> void:
 		var executor = _action_map[action_type]
 		await executor.execute(act)
 	
-	_is_game_unlocked = true
+	is_game_unlocked = true
 	EventManager.emit_game_turn_end()
 
 func _set_game_unlocked(value):
-	_is_game_unlocked = value
+	is_game_unlocked = value
 	
 	EventManager.emit_unselect_all()
 	
 	for char in get_tree().get_nodes_in_group("chars"):
-		char.is_selectable = _is_game_unlocked
+		char.is_selectable = is_game_unlocked
 	for block in get_tree().get_nodes_in_group("blocks"):
-		block.is_selectable = _is_game_unlocked
+		block.is_selectable = is_game_unlocked

@@ -116,7 +116,7 @@ func _resolve_slot():
 	var action = {
 			"char_name" = _char_selected.name,
 			"card_id" = _card_selected.id,
-			"block_id" = _block_selected.id,
+			"block_label" = _block_selected.match_label,
 			"action_id" = action_id
 		}
 	
@@ -124,12 +124,16 @@ func _resolve_slot():
 	_slot_selected += 1
 	
 	if not next_slot:
-		ServerManager.send_turn({
-			"turn" : _turn,
-			"actions" : _actions
-		})
-		
-		ActionManager.resolve_action(_actions)
+		if MatchManager.current_match:
+			ActionManager.is_game_unlocked = false
+			print(_actions)
+			ServerManager.send_turn({
+				"turn" : _turn,
+				"actions" : _actions
+			})
+			pass
+		else:
+			ActionManager.resolve_action(_actions)
 	else:
 		_set_selectables_block()
 

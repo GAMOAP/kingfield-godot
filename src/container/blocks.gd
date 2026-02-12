@@ -20,7 +20,7 @@ func _create_blocks():
 			var block_temp = block.instantiate()
 			var pos = Vector2(col, row)
 			block_temp.name = "block_" + str(col) + "_" + str(row)
-			block_temp.id = int(str(col) + str(row))
+			block_temp.match_label = Global.COLUMN_LABELS[col] + Global.ROW_LABELS[row]
 			block_temp.grid_position = pos
 			block_temp.position = pos * block_size
 			block_temp.visible = false
@@ -40,9 +40,11 @@ func set_blocks(self_karma:int) -> void:
 	var current_match = MatchManager.current_match
 	if not current_match:
 		_set_block_karma(self_karma)
+		$Labels.visible = false
 	else:
 		_set_block_karma(current_match.players["opponent"]["karma"])
 		_set_block_label(current_match.players["self"]["is_bottom"])
+		$Labels.visible = true
 
 func _set_block_karma(opponent_karma: int) -> void:
 	for row in range(grid_size.x):
@@ -51,8 +53,6 @@ func _set_block_karma(opponent_karma: int) -> void:
 			block.set_block(opponent_karma, _self_karma, row)
 
 func _set_block_label(self_is_down :bool) -> void:
-	$Labels.visible = true
-	
 	var col_labels = Global.COLUMN_LABELS.duplicate()
 	var row_labels = Global.ROW_LABELS.duplicate()
 	
@@ -63,8 +63,7 @@ func _set_block_label(self_is_down :bool) -> void:
 	for row in range(grid_size.x):
 		for col in range(grid_size.y):
 			var block = $Board.get_node("block_" + str(col) + "_" + str(row))
-			block.match_label["col"] = col_labels[col]
-			block.match_label["row"] = row_labels[row]
+			block.match_label = col_labels[col] + row_labels[row]
 			
 			if row >= grid_size.x - 1:
 				var col_label = $Labels.get_node("Label_col_" + str(col))

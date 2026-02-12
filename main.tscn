@@ -24,7 +24,7 @@ position = Vector2(512, 448)
 position = Vector2(512, 336)
 
 [node name="Board" parent="." instance=ExtResource("4_272bh")]
-position = Vector2(256, 208)
+position = Vector2(256, 176)
 
 [node name="Game_ui" parent="." instance=ExtResource("4_5vw27")]
 position = Vector2(512, 384)

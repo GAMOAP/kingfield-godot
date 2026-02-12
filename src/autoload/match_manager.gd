@@ -45,8 +45,6 @@ func _on_game_start(game_data):
 				Console.log("Match cards do not match",Console.LogLevel.ERROR)
 				end_match()
 	
-	#verfifier que les joueurs sont a la bonne place.
-	
 	#init karma and direction of the board
 	var is_self_team_bottom = true
 	if self_id != game_data["current_player"]:

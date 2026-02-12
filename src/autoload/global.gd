@@ -7,7 +7,7 @@ const VOID : int = -1
 const GRID_SIZE := Vector2(5, 5)
 const CELL_SIZE := Vector2(128.0, 128.0)
 const COLUMN_LABELS = ["A", "B", "C", "D", "E"]
-const ROW_LABELS = ["1", "2", "3", "4", "5"]
+const ROW_LABELS = ["5", "4", "3", "2", "1"]
 
 const NBR_BLOCK_VAR := 3
 

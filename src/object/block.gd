@@ -4,8 +4,7 @@ var _opponent_field :String
 var _user_field :String
 
 @export var grid_position: Vector2
-@export var id: int
-@export var match_label := {"col" = "", "row" = ""}
+@export var match_label: String = ""
 @export var is_selectable = true
 
 var original_pos: Vector2
@@ -58,6 +57,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 					Global.block_selected = self
 					EventManager.emit_block_clicked(name)
 					position = original_pos + offset
+					print(match_label)
 			else:
 				position = original_pos
 

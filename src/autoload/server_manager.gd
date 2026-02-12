@@ -154,7 +154,6 @@ func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 			print("   Raison: ", data.reason)
 			if data.winner:
 				print("   Gagnant: ", data.winner_name)
-			leave_match()
 		"error":
 			push_error("Erreur du serveur: " + data.message)
 
@@ -184,11 +183,11 @@ func create_match_manual() -> bool:
 # ----------------------------
 func leave_match() -> void:
 	if _socket and _match_id:
-		Console.log("Match leaved.")
 		await _socket.leave_match_async(_match_id)
+		Console.log("Match leaved.")
 	if _socket:
-		Console.log("Socket connected.")
 		await _socket.close()
+		Console.log("Socket closed.")
 
 func disconnect_socket() -> void:
 	"""Fermer complètement la connexion socket"""
