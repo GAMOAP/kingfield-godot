@@ -7,12 +7,12 @@ signal game_turn_end()
 signal set_scene(scene: Global.SCENES)
 
 # OBJECT CLICKED
-signal char_clicked(char_name: String, char_team: Global.SIDE)
+signal unit_clicked(unit_name: String, unit_team: Global.SIDE)
 signal card_clicked(card_id: String)
 signal block_clicked(block_id: String)
 
 # OBJECT UNSELECT
-signal unselect_chars()
+signal unselect_units()
 signal unselect_cards()
 signal unselect_blocks()
 
@@ -50,8 +50,8 @@ func emit_set_scene(scene: Global.SCENES) -> void:
 # ----------------------------
 #  OBJECT CLICKED
 # ----------------------------
-func emit_char_clicked(name: String, team: Global.SIDE) -> void:
-	char_clicked.emit(name, team)
+func emit_unit_clicked(name: String, team: Global.SIDE) -> void:
+	unit_clicked.emit(name, team)
 
 func emit_card_clicked(card_id: String) -> void:
 	card_clicked.emit(card_id)
@@ -61,15 +61,15 @@ func emit_block_clicked(block_id: String) -> void:
 
 
 func emit_unselect_all() -> void:
-	unselect_chars.emit()
+	unselect_units.emit()
 	unselect_cards.emit()
 	unselect_blocks.emit()
 
 func emit_unselect_cards() -> void:
 	unselect_cards.emit()
 
-func emit_unselect_chars() -> void:
-	unselect_chars.emit()
+func emit_unselect_units() -> void:
+	unselect_units.emit()
 
 func emit_unselect_bloks() -> void:
 	unselect_blocks.emit()

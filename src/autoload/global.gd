@@ -33,7 +33,7 @@ const TEAM := ["side_left", "center_left", "king", "center_right", "side_right"]
 
 const CARDS := ["breed", "job", "helmet", "item", "armor", "move", "spell", "weapon", "object"]
 
-const CHAR := ["front_leg", "back_leg", "armor", "head", "face", "helmet", "hand", "weapon", "arm" ]
+#const UNITS := ["front_leg", "back_leg", "armor", "head", "face", "helmet", "hand", "weapon", "arm" ]
 
 const LEVEL := [4, 8, 12]
 
@@ -43,6 +43,6 @@ const BOARD_BLOCK := [Vector2(0,0), Vector2(0,-1), Vector2(1,-1),
 
 #VARIABLES
 var scene_selected = null
-var char_selected = null
+var unit_selected = null
 var card_selected = null
 var block_selected = null

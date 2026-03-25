@@ -12,10 +12,10 @@ func resolve_action(actions) -> void:
 	
 	for act_temp in actions:
 		
-		var char = null
-		for char_temp in get_tree().get_nodes_in_group("chars"):
-			if char_temp.name == act_temp["char_name"]:
-				char = char_temp
+		var unit = null
+		for unit_temp in get_tree().get_nodes_in_group("units"):
+			if unit_temp.name == act_temp["unit_name"]:
+				unit = unit_temp
 		
 		var block = null
 		for block_temp in get_tree().get_nodes_in_group("blocks"):
@@ -39,7 +39,7 @@ func resolve_action(actions) -> void:
 					_action_map[action_type] = action.new()
 		
 		var act := {
-			"char" = char,
+			"unit" = unit,
 			"card_data" = card_data,
 			"block_pos" = block.grid_position,
 		}
@@ -56,7 +56,7 @@ func _set_game_unlocked(value):
 	
 	EventManager.emit_unselect_all()
 	
-	for char in get_tree().get_nodes_in_group("chars"):
-		char.is_selectable = is_game_unlocked
+	for unit in get_tree().get_nodes_in_group("units"):
+		unit.is_selectable = is_game_unlocked
 	for block in get_tree().get_nodes_in_group("blocks"):
 		block.is_selectable = is_game_unlocked

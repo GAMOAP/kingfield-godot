@@ -140,6 +140,7 @@ func send_turn(turn_data: Dictionary) -> bool:
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 	var data = JSON.parse_string(match_state.data)
+	print("_on_match_state",data)
 	
 	match data.type:
 		"player_joined":

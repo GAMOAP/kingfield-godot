@@ -1,0 +1,230 @@
+extends Node2D
+
+var origin_grid_position: Vector2
+var origin_position: Vector2
+
+var chess_position: String
+
+@export var grid_position: Vector2
+@export var is_selected = false:
+	set = _set_selected
+@export var is_selectable = true
+
+@export var id: int
+@export var team :Global.SIDE
+
+var _unit_data := {}
+var _unit_cards := {}
+
+var _attributes := {}
+
+var outline 
+
+func _ready() -> void:
+	is_selected = false
+	
+	add_to_group("units")
+	
+	origin_grid_position = grid_position
+	origin_position = position
+	
+	if team == Global.SIDE.OPPONENT:
+		$Sprite2D.scale = Vector2(-0.5, 0.5)
+	else:
+		$Sprite2D.scale = Vector2(0.5, 0.5)
+	$AnimationPlayer.play("idle")
+	
+	EventManager.deck_card_submit.connect(_on_deck_card_submit)
+
+func init_unit(unit_data: Dictionary) -> void:
+	_unit_data = unit_data
+	_unit_cards = _unit_data["cards"]
+	for card_id in _unit_cards:
+		_set_texture(_unit_cards[card_id])
+	
+	if MatchManager.current_match:
+		chess_position = _unit_data["chess_position"]
+	
+	init_attributes()
+
+func reset() -> void:
+	grid_position = origin_grid_position
+	position = origin_position
+	chess_position = ""
+# ----------------------------
+# EVENT ACTION
+# ----------------------------
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if is_selectable == true and self != Global.unit_selected :
+				Global.unit_selected = self
+				EventManager.emit_unit_clicked(name, team)
+
+func _on_deck_card_submit(card_id: String) -> void:
+	if Global.unit_selected.get_name() == name and team == Global.SIDE.USER:
+		_unit_cards = DataManager.get_unit_data(name)["cards"]
+		init_attributes()
+		_set_texture(card_id)
+
+# ----------------------------
+# SELECT
+# ----------------------------
+func _set_selected(value):
+	is_selected = value
+	if is_selected:
+		$Sprite2D/unit_display.scale = Vector2(1.1, 1.1)
+		$Unit_UI.visible = true
+		$Unit_UI.scale = Vector2(1.1, 1.1)
+		outline.set("shader_parameter/line_thickness", 2)
+		outline.set("shader_parameter/line_colour", Color(1,0,0)) #color red
+	else :
+		if not outline :
+			outline = ShaderMaterial.new()
+			outline.shader = load("res://src/shaders/outline.gdshader")
+			$Sprite2D/unit_display.material = outline
+			
+		$Sprite2D/unit_display.scale = Vector2(1, 1)
+		$Unit_UI.visible = false
+		$Unit_UI.scale = Vector2(1, 1)
+		outline.set("shader_parameter/line_thickness", 1)
+		outline.set("shader_parameter/line_colour", Color(0,0,0)) #color black
+
+# ----------------------------
+# TEXTURE
+# ----------------------------
+func _set_texture(card_id := "") -> void :
+	var card_identity = DataManager.get_card_identity(card_id)
+	var card = card_identity["type"]
+	var sign = card_identity["sign"]
+	var ascendant = card_identity["ascendant"]
+	match card :
+		0 : #BREED
+			$Sprite2D/unit_display/head.frame = sign
+			$Sprite2D/unit_display/face.frame = sign
+			$Sprite2D/unit_display/hand.frame = sign
+		1 : #JOB
+			pass
+		2 : #HELMET
+			$Sprite2D/unit_display/helmet.frame = sign
+		3 : #ITEM
+			pass
+		4 : #ARMOR
+			$Sprite2D/unit_display/armor.frame = sign
+			$Sprite2D/unit_display/arm.frame = sign
+		5 : #MOVE
+			$Sprite2D/unit_display/front_leg.frame = sign
+			$Sprite2D/unit_display/back_leg.frame = sign
+		6 : #SPELL
+			pass
+		7 : #WEAPON
+			$Sprite2D/unit_display/weapon.frame = sign
+		9 : #OBJECT
+			pass
+		_:
+			pass
+
+# ----------------------------
+# ACTION
+# ----------------------------
+func move_to_cell(target_grid: Vector2) -> void:
+	var target_pos = target_grid * Global.CELL_SIZE
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position",target_pos,0.3)
+	
+	await  tween.finished
+	grid_position = target_grid
+
+func consume_mana(mana: int) -> void:
+	var crystals = _attributes["crystals"] -  mana
+	if crystals <= 0 : crystals = 0
+	set_attributes("crystals", crystals)
+
+func add_mana(mana: int) -> void:
+	var crystals = _attributes["crystals"] +  mana
+	var crystals_max = _attributes["crystal_blue"] + _attributes["crystal_red"]
+	if crystals >= crystals_max : crystals = crystals_max
+	set_attributes("crystals", crystals)
+
+# ----------------------------
+# FUNCTION GET
+# ----------------------------
+func get_data() -> Dictionary:
+	return _unit_cards
+
+func get_karma() -> int:
+	var sign_count = {}
+	var min_hundreds = {}
+	
+	for str_value in _unit_cards.values():
+		var value = int(str_value)
+		var hundreds = int(value / 100)
+		var tens = int((value % 100) / 10)
+		
+		# Count the tens
+		sign_count[tens] = sign_count.get(tens, 0) + 1
+		# Keep the smallest hundreds digit for this ten
+		if not min_hundreds.has(tens) or hundreds < min_hundreds[tens]:
+			min_hundreds[tens] = hundreds
+	
+	# Determine the winning ten
+	var karma = null
+	var max_count = 0
+	for tens in sign_count:
+		var count = sign_count[tens]
+		var hundreds = min_hundreds[tens]
+		
+		if count > max_count or (count == max_count and hundreds < min_hundreds[karma]):
+			max_count = count
+			karma = tens
+	
+	return karma
+
+# ----------------------------
+# ATTRIBUTES
+# ----------------------------
+func init_attributes() -> void:
+	
+	_attributes = {
+		"karma" : 0,
+		"crystal_blue" : 0,
+		"crystal_red" : 0,
+		"crystals": 0,
+		"heart" : 0,
+		"life" : 0,
+		"defense" : 0,
+		"attack" : 0,
+		"xp" : 0,
+		"level" : 0
+	}
+	
+	for card_id in _unit_cards:
+		
+		var card_data = DataManager.get_card_data(_unit_cards[card_id])["data"]
+		
+		for data in card_data:
+			if data == "slot1" or data == "slot2" or data == "slot3":
+				#1-CRYSTAL_BLUE, 2-CRYSTAL_RED, 3-LIFE, 4-DEFENSE, 5-ATTACK,
+				match int(card_data[data]):
+					1 : _attributes["crystal_blue"] += 1
+					2 : _attributes["crystal_red"] += 1
+					3 : _attributes["heart"] += 1
+					4 : _attributes["defense"] += 1
+					5 : _attributes["attack"] += 1
+	
+	_attributes["karma"] = get_karma()
+	
+	_attributes["crystals"] =  _attributes["crystal_blue"] + _attributes["crystal_red"]
+	
+	_attributes["life"] = _attributes["heart"]
+	
+	
+	$Unit_UI.init(_attributes)
+
+func set_attributes(attribut: String, value: int) -> void:
+	_attributes[attribut] = value
+	$Unit_UI.init(_attributes)
+
+func get_attributes() -> Dictionary:
+	return _attributes

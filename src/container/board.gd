@@ -5,7 +5,7 @@ var _scene: Global.SCENES
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Exit_btn.visible = false
-	EventManager.char_clicked.connect(_on_char_clicked)
+	EventManager.unit_clicked.connect(_on_unit_clicked)
 	EventManager.deck_card_submit.connect(_on_deck_card_submit)
 	EventManager.player_left.connect(_on_player_left)
 
@@ -50,7 +50,7 @@ func open()-> void:
 func close()-> void:
 	pass
 
-func _on_char_clicked(name: String, team: Global.SIDE):
+func _on_unit_clicked(name: String, team: Global.SIDE):
 	if _scene == Global.SCENES.HOME:
 		EventManager.emit_set_scene(Global.SCENES.BARRACK)
 

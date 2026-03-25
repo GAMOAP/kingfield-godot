@@ -6,7 +6,7 @@ var _container := Global.CONTAINER.NONE
 
 var _card_data := {}
 
-var _char_selected = null
+var _unit_selected = null
 
 const _slot_size:int = 16
 
@@ -42,7 +42,7 @@ func set_card(card_id, container, card_size = 1) -> void:
 	$".".scale = Vector2(_card_size * 1, _card_size * 1)
 	
 	id = card_id
-	_char_selected = Global.char_selected
+	_unit_selected = Global.unit_selected
 	
 	var card = await DataManager.get_card_data(card_id)
 	_card_data = card["data"]
@@ -67,11 +67,11 @@ func set_card(card_id, container, card_size = 1) -> void:
 		set_board(_card_data["board"])
 		$board.visible = true
 		$board_spots.visible = true
-		$char_spot.visible = true
+		$unit_spot.visible = true
 	else:
 		$board.visible = false
 		$board_spots.visible = false
-		$char_spot.visible = false
+		$unit_spot.visible = false
 	
 	for slot_nbr in range(1, 4):
 		var slot_path := "Node2D/slot%d" % slot_nbr
@@ -109,7 +109,7 @@ func set_mana(value) -> void:
 	$crystal/number.frame = mana
 	$crystal/number.visible = true
 	
-	if _char_selected.get_attributes()["crystals"] < mana:
+	if _unit_selected.get_attributes()["crystals"] < mana:
 		$crystal.frame = 1
 		is_playable = false
 	else: 
@@ -146,7 +146,7 @@ func set_board(board):
 	_spot_outline.set("shader_parameter/line_thickness", 1.5)
 	_spot_outline.set("shader_parameter/line_colour", Color(1,0,0)) #color red
 	
-	if _char_selected.team == Global.SIDE.OPPONENT:
+	if _unit_selected.team == Global.SIDE.OPPONENT:
 		$board_spots.scale = Vector2(1, -1)
 	else:
 		$board_spots.scale = Vector2(1, 1)
@@ -160,7 +160,7 @@ func _set_obj_texture(obj, texture_path :String):
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if not is_selected and _char_selected.team == Global.SIDE.USER:
+			if not is_selected and _unit_selected.team == Global.SIDE.USER:
 				Global.card_selected = self
 				EventManager.emit_card_clicked(id)
 

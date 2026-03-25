@@ -12,11 +12,11 @@ var _container := Global.CONTAINER.DECK
 
 var _cards := []
 
-var _char_selected_data := {}
+var _unit_selected_data := {}
 
 func _ready() -> void:
 	switch_cards_active(true)
-	EventManager.char_clicked.connect(_on_char_clicked)
+	EventManager.unit_clicked.connect(_on_unit_clicked)
 	EventManager.card_clicked.connect(_on_card_clicked)
 	EventManager.library_page_change.connect(_on_library_page_change)
 	EventManager.deck_card_submit.connect(_on_deck_card_submit)
@@ -24,8 +24,8 @@ func _ready() -> void:
 
 func open() -> void:
 	$background.visible = true
-	if Global.char_selected != null:
-		_char_selected_data = Global.char_selected.get_data() 
+	if Global.unit_selected != null:
+		_unit_selected_data = Global.unit_selected.get_data() 
 
 func close() -> void:
 	$background.visible = false
@@ -37,14 +37,14 @@ func _init_cards() -> void:
 	# 5 à 9 = actives
 	for i in actives.size():
 		var type = 5 + i
-		var card_id = _char_selected_data[str(type)]
+		var card_id = _unit_selected_data[str(type)]
 		_cards.append(actives[i])
 		actives[i].set_card(card_id, _container, _card_size)
 
 	# 0 à 4 = passives
 	for j in passives.size():
 		var type = 0 + j
-		var card_id = _char_selected_data[str(type)]
+		var card_id = _unit_selected_data[str(type)]
 		_cards.append(passives[j])
 		passives[j].set_card(card_id, _container, _card_size)
 
@@ -54,7 +54,7 @@ func _set_cards() -> void:
 	else :
 		for card in _cards:
 			var type = int(card.get_id()) / 100
-			var card_id = _char_selected_data[str(type)]
+			var card_id = _unit_selected_data[str(type)]
 			card.set_card(card_id, _container, _card_size)
 	
 	if $background/passive.visible == false and $background/active.visible == false:
@@ -79,12 +79,12 @@ func switch_cards_active(active : bool) -> void:
 	card_active.visible = active
 	card_passive.visible = passive
 
-func _on_char_clicked(name: String, team: Global.SIDE) -> void:
-	_char_selected_data = Global.char_selected.get_data()
+func _on_unit_clicked(name: String, team: Global.SIDE) -> void:
+	_unit_selected_data = Global.unit_selected.get_data()
 	_set_cards()
 
 func _on_unselect():
-	if Global.char_selected == null:
+	if Global.unit_selected == null:
 		$background/passive.visible = false
 		$background/active.visible = false
 	
@@ -123,7 +123,7 @@ func _on_library_page_change(page: int) -> void:
 			_select_card(card_id)
 
 func _on_deck_card_submit(card_id: String) -> void:
-	_char_selected_data[str(card_id.to_int() / 100)] = card_id
+	_unit_selected_data[str(card_id.to_int() / 100)] = card_id
 	_set_cards()
 	_select_card(card_id)
 

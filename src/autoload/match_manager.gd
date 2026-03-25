@@ -38,10 +38,10 @@ func _on_game_start(game_data):
 	#checks that the player card matches
 	var self_team = await DataManager.get_user_team()
 	var self_id = DataManager.user_info["user_id"]
-	for char in Global.TEAM:
-		var char_cards = self_team[char]["cards"]
-		for card_type in char_cards:
-			if char_cards[card_type] != board_players[self_id][char]["cards"][card_type]:
+	for unit in Global.TEAM:
+		var unit_cards = self_team[unit]["cards"]
+		for card_type in unit_cards:
+			if unit_cards[card_type] != board_players[self_id][unit]["cards"][card_type]:
 				Console.log("Match cards do not match",Console.LogLevel.ERROR)
 				end_match()
 	
@@ -76,6 +76,7 @@ func end_match():
 	EventManager.emit_set_scene(Global.SCENES.HOME)
 
 func _on_player_joined(player_data: Dictionary) -> void:
+	print("Player_join")
 	pass
 
 func _on_player_left(player_data: Dictionary) -> void:
