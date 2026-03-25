@@ -125,12 +125,13 @@ func _on_match_presence_event(presence : NakamaRTAPI.MatchPresenceEvent) -> void
 # SEND/RECEIVED DATA
 # ----------------------------
 func send_turn(turn_data: Dictionary) -> bool:
+	print("\n____________send_turn________________________\n",turn_data,
+		"\n__________________________________________________________________\n")
 	if not _match_id:
 		Console.log("No active match.", Console.LogLevel.ERROR)
 		return false
 	
-	var payload = {"move": turn_data}
-	var result = await _socket.send_match_state_async(_match_id, 1, JSON.stringify(payload))
+	var result = await _socket.send_match_state_async(_match_id, 1, JSON.stringify(turn_data))
 	
 	if result.is_exception():
 		Console.log("Erreur envoi coup: %s" % result, Console.LogLevel.ERROR)
@@ -140,7 +141,8 @@ func send_turn(turn_data: Dictionary) -> bool:
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 	var data = JSON.parse_string(match_state.data)
-	print("_on_match_state",data)
+	print("\n____________on_match_state : ", data["type"], "________________________\n",data,
+		"\n__________________________________________________________________\n")
 	
 	match data.type:
 		"player_joined":

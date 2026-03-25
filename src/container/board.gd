@@ -18,27 +18,27 @@ func open()-> void:
 	_scene = Global.scene_selected
 	
 	$Exit_btn.visible = false
-	$Characters.remove_team(Global.SIDE.OPPONENT)
+	$Units.remove_team(Global.SIDE.OPPONENT)
 	match _scene:
 		Global.SCENES.HOME :
-			$Characters.init_team(Global.SIDE.USER)
+			$Units.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
 			EventManager.emit_unselect_all()
 		Global.SCENES.BARRACK :
-			$Characters.init_team(Global.SIDE.USER)
+			$Units.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
 		Global.SCENES.LOBBY :
-			$Characters.init_team(Global.SIDE.USER)
+			$Units.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
 			EventManager.emit_unselect_all()
 		Global.SCENES.MATCH :
-			$Characters.init_team(Global.SIDE.USER)
-			$Characters.init_team(Global.SIDE.OPPONENT)
+			$Units.init_team(Global.SIDE.USER)
+			$Units.init_team(Global.SIDE.OPPONENT)
 			$Blocks.show_nbr_row(5)
 			$Exit_btn.visible = true
 			EventManager.emit_unselect_all()
 		Global.SCENES.TRAINING :
-			$Characters.init_team(Global.SIDE.USER)
+			$Units.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(5)
 			$Exit_btn.visible = true
 			EventManager.emit_unselect_all()
@@ -58,7 +58,7 @@ func _on_deck_card_submit(card_id: String) -> void:
 	_set_blocks()
 
 func _set_blocks() -> void:
-	$Blocks.set_blocks($Characters.get_team_karma(Global.SIDE.USER))
+	$Blocks.set_blocks($Units.get_team_karma(Global.SIDE.USER))
 
 func _on_exit_btn_pressed() -> void:
 	_left_match()

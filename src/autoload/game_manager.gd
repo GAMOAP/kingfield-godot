@@ -39,7 +39,7 @@ func end_game():
 	#EventManager.game_turn_end.disconnect(_on_end_turn)
 
 # ----------------------------
-# START END
+# START/END
 # ----------------------------
 func _start_turn():
 	if not active: return
@@ -126,18 +126,15 @@ func _resolve_slot():
 	if not next_slot:
 		if MatchManager.current_match:
 			ActionManager.is_game_unlocked = false
-			print(_actions)
 			ServerManager.send_turn({
 				"turn" : _turn,
+				"type" : "action",
 				"actions" : _actions
 			})
 		else:
 			ActionManager.resolve_action(_actions)
 	else:
 		_set_selectables_block()
-
-
-
 
 
 func _set_selectables_block() -> void:
@@ -199,7 +196,6 @@ func _reset_selectable_blocks() -> void:
 		block.set_selectable(false)
 
 func _on_receive_turn(data) -> void:
-	print(data["actions"])
 	var actions = data["actions"]
 	
 	ActionManager.resolve_action(actions)

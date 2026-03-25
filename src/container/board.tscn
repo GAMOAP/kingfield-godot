@@ -11,7 +11,7 @@ script = ExtResource("1_52oga")
 
 [node name="Blocks" parent="." instance=ExtResource("1_2hycr")]
 
-[node name="Characters" parent="." instance=ExtResource("2_52oga")]
+[node name="Units" parent="." instance=ExtResource("2_52oga")]
 
 [node name="Exit_btn" type="TextureButton" parent="."]
 offset_left = 552.0
