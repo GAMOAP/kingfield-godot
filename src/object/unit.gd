@@ -12,6 +12,7 @@ var chess_position: String
 
 @export var id: int
 @export var team :Global.SIDE
+@export var camp = Global.CAMP.WHITE
 
 var _unit_data := {}
 var _unit_cards := {}

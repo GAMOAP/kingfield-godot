@@ -149,6 +149,8 @@ func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 			EventManager.emit_player_joined(data)
 		"game_start":
 			EventManager.emit_game_start(data)
+		"turn_received":
+			EventManager.emit_turn_recieved(data)
 		"player_left":
 			Console.log("❌ %s a quitté" % data.player_name, Console.LogLevel.WARNING)
 			EventManager.emit_player_left(data)

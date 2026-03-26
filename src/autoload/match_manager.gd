@@ -45,15 +45,15 @@ func _on_game_start(game_data):
 				Console.log("Match cards do not match",Console.LogLevel.ERROR)
 				end_match()
 	
-	#init karma and direction of the board
-	var is_self_team_bottom = true
+	#init karma and player side of the board
 	if self_id != game_data["current_player"]:
-		is_self_team_bottom = false
 		match_players["opponent"]["karma"] = game_data["karma_value"][0]
+		match_players["opponent"]["camp"] = Global.CAMP.WHITE
+		match_players["self"]["camp"] = Global.CAMP.BLACK
 	else :
 		match_players["opponent"]["karma"] = game_data["karma_value"][1]
-	
-	match_players["self"]["is_bottom"] = is_self_team_bottom
+		match_players["opponent"]["camp"] = Global.CAMP.BLACK
+		match_players["self"]["camp"] = Global.CAMP.WHITE
 	
 	#init curent match players_data
 	for board_player in board_players:
@@ -66,6 +66,8 @@ func _on_game_start(game_data):
 	EventManager.emit_set_scene(Global.SCENES.MATCH)
 
 func end_match():
+	Global.player_side = Global.CAMP.WHITE
+	
 	if current_match:
 		current_match.reset()
 	current_match = null

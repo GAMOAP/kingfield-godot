@@ -43,7 +43,7 @@ func set_blocks(self_karma:int) -> void:
 		$Labels.visible = false
 	else:
 		_set_block_karma(current_match.players["opponent"]["karma"])
-		_set_block_label(current_match.players["self"]["is_bottom"])
+		_set_block_label(current_match.players["self"]["camp"])
 		$Labels.visible = true
 
 func _set_block_karma(opponent_karma: int) -> void:
@@ -52,11 +52,11 @@ func _set_block_karma(opponent_karma: int) -> void:
 			var block = $Board.get_node("block_" + str(col) + "_" + str(row))
 			block.set_block(opponent_karma, _self_karma, row)
 
-func _set_block_label(self_is_down :bool) -> void:
+func _set_block_label(team_side :Global.CAMP) -> void:
 	var col_labels = Global.COLUMN_LABELS.duplicate()
 	var row_labels = Global.ROW_LABELS.duplicate()
 	
-	if self_is_down == false:
+	if team_side == Global.CAMP.WHITE:
 		col_labels.reverse()
 		row_labels.reverse()
 	

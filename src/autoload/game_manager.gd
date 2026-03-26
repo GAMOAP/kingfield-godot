@@ -5,8 +5,6 @@ const board_block = [Vector2(0,0), Vector2(0,-1), Vector2(1,-1),
 					Vector2(1,0), Vector2(1,1), Vector2(0,1), 
 					Vector2(-1,1), Vector2(-1,0), Vector2(-1,-1)]
 
-
-
 var _unit_selected = null
 var _card_selected = null
 var _block_selected = null
@@ -26,7 +24,7 @@ func start_game():
 	EventManager.unit_clicked.connect(_on_unit_selected)
 	EventManager.card_clicked.connect(_on_card_selected)
 	EventManager.block_clicked.connect(_on_block_selected)
-	#EventManager.turn_received.connect(_on_receive_turn)
+	EventManager.turn_received.connect(_on_receive_turn)
 	#EventManager.game_turn_end.connect(_on_end_turn)
 	
 	_start_turn()
@@ -36,6 +34,7 @@ func end_game():
 	EventManager.unit_clicked.disconnect(_on_unit_selected)
 	EventManager.card_clicked.disconnect(_on_card_selected)
 	EventManager.block_clicked.disconnect(_on_block_selected)
+	EventManager.turn_received.disconnect(_on_receive_turn)
 	#EventManager.game_turn_end.disconnect(_on_end_turn)
 
 # ----------------------------
@@ -115,6 +114,7 @@ func _resolve_slot():
 	
 	var action = {
 			"unit_name" = _unit_selected.name,
+			"unit_camp" = _unit_selected.camp,
 			"card_id" = _card_selected.id,
 			"block_label" = _block_selected.match_label,
 			"action_id" = action_id
@@ -135,7 +135,6 @@ func _resolve_slot():
 			ActionManager.resolve_action(_actions)
 	else:
 		_set_selectables_block()
-
 
 func _set_selectables_block() -> void:
 	_blocks_selectables = []

@@ -25,20 +25,24 @@ func _on_unit_clicked(unit_name: String, unit_team: Global.SIDE):
 
 func init_team(team:= Global.SIDE.USER) -> void :
 	var team_data = {}
+	var team_camp = Global.CAMP.WHITE
 	if team == Global.SIDE.USER:
 		if MatchManager.current_match:
 			team_data = MatchManager.current_match.players["self"]["data"]
+			team_camp = MatchManager.current_match.players["self"]["camp"]
 		else:
 			team_data = await DataManager.get_user_team()
 		$user_team.visible = true
 	elif team == Global.SIDE.OPPONENT:
 		team_data = MatchManager.current_match.players["opponent"]["data"]
+		team_camp = MatchManager.current_match.players["opponent"]["camp"]
 		$opponent_team.visible = true
 	
 	for unit in _units:
 		unit.reset()
 		if unit.team == team:
 			unit.init_unit(team_data[unit.name])
+			unit.camp = team_camp
 
 func remove_team(team: Global.SIDE) -> void :
 	if team == Global.SIDE.USER:

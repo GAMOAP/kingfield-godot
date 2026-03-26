@@ -14,7 +14,7 @@ func resolve_action(actions) -> void:
 		
 		var unit = null
 		for unit_temp in get_tree().get_nodes_in_group("units"):
-			if unit_temp.name == act_temp["unit_name"]:
+			if unit_temp.name == act_temp["unit_name"] and unit_temp.camp == act_temp["unit_camp"]:
 				unit = unit_temp
 		
 		var block = null
