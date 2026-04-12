@@ -8,9 +8,13 @@ func enter_lobby() -> void:
 	await ServerManager.start_matchmaking()
 	
 	EventManager.match_found.connect(_on_match_found)
-	EventManager.game_start.connect(_on_game_start)
+	
 	EventManager.player_joined.connect(_on_player_joined)
 	EventManager.player_left.connect(_on_player_left)
+	
+	EventManager.game_start.connect(_on_game_start)
+	EventManager.turn_processed.connect(_on_processed_turn)
+	EventManager.turn_error.connect(_on_error_turn)
 
 func _on_match_found(match_data) -> void:
 	var match_id = match_data["match_id"]
@@ -34,6 +38,9 @@ func create_match(match_id: String, self_data: Dictionary, opponent_data: Dictio
 func _on_game_start(game_data):
 	var board_players = game_data["units_state"]["units"]
 	var match_players = current_match.players
+	var current_player_id = game_data["current_player"]
+	
+	current_match.current_player_id = current_player_id
 	
 	#checks that the player card matches
 	var self_team = await DataManager.get_user_team()
@@ -46,7 +53,7 @@ func _on_game_start(game_data):
 				end_match()
 	
 	#init karma and player side of the board
-	if self_id != game_data["current_player"]:
+	if self_id != current_player_id:
 		match_players["opponent"]["karma"] = game_data["karma_value"][0]
 		match_players["opponent"]["camp"] = Global.CAMP.WHITE
 		match_players["self"]["camp"] = Global.CAMP.BLACK
@@ -65,9 +72,25 @@ func _on_game_start(game_data):
 	
 	EventManager.emit_set_scene(Global.SCENES.MATCH)
 
-func end_match():
-	Global.player_side = Global.CAMP.WHITE
+func send_turn(actions) -> void:
+	if current_match.current_player_id != DataManager.user_info["user_id"]:
+		GameManager.resolve_action(false)
 	
+	var result = await ServerManager.send_turn({
+		"turn" : current_match.turn,
+		"type" : "action",
+		"actions" : actions
+	})
+
+func _on_processed_turn(data) -> void:
+	var actions = data["actions"]
+	current_match.turn = data["turn"]
+	GameManager.resolve_action(true, actions)
+
+func _on_error_turn(data) -> void:
+	GameManager.resolve_action(false)
+
+func end_match():
 	if current_match:
 		current_match.reset()
 	current_match = null
@@ -75,6 +98,9 @@ func end_match():
 	await ServerManager.leave_match()
 	EventManager.match_found.disconnect(_on_match_found)
 	EventManager.game_start.disconnect(_on_game_start)
+	
+	GameManager.end_game()
+	
 	EventManager.emit_set_scene(Global.SCENES.HOME)
 
 func _on_player_joined(player_data: Dictionary) -> void:

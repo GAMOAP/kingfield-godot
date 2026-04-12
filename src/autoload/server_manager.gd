@@ -125,12 +125,10 @@ func _on_match_presence_event(presence : NakamaRTAPI.MatchPresenceEvent) -> void
 # SEND/RECEIVED DATA
 # ----------------------------
 func send_turn(turn_data: Dictionary) -> bool:
-	print("\n____________send_turn________________________\n",turn_data,
-		"\n__________________________________________________________________\n")
 	if not _match_id:
 		Console.log("No active match.", Console.LogLevel.ERROR)
 		return false
-	
+	print("TURN_DATA = ",turn_data)
 	var result = await _socket.send_match_state_async(_match_id, 1, JSON.stringify(turn_data))
 	
 	if result.is_exception():
@@ -141,16 +139,17 @@ func send_turn(turn_data: Dictionary) -> bool:
 
 func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 	var data = JSON.parse_string(match_state.data)
-	print("\n____________on_match_state : ", data["type"], "________________________\n",data,
-		"\n__________________________________________________________________\n")
 	
 	match data.type:
 		"player_joined":
 			EventManager.emit_player_joined(data)
 		"game_start":
 			EventManager.emit_game_start(data)
-		"turn_received":
-			EventManager.emit_turn_recieved(data)
+		"turn_processed":
+			EventManager.emit_turn_processed(data)
+		"turn_error":
+			Console.log("Erreur du serveur: " + data.message, Console.LogLevel.WARNING)
+			EventManager.emit_turn_error(data)
 		"player_left":
 			Console.log("❌ %s a quitté" % data.player_name, Console.LogLevel.WARNING)
 			EventManager.emit_player_left(data)
@@ -160,7 +159,7 @@ func _on_match_state(match_state : NakamaRTAPI.MatchData) -> void:
 			if data.winner:
 				print("   Gagnant: ", data.winner_name)
 		"error":
-			push_error("Erreur du serveur: " + data.message)
+			Console.log("Erreur du serveur: " + data.message)
 
 # ----------------------------
 # MATCH MANUEL (Alternative au matchmaking)

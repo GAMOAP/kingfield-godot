@@ -18,6 +18,7 @@ func open() -> void:
 	$background.visible = true
 	EventManager.card_clicked.connect(_on_card_clicked)
 	EventManager.unit_clicked.connect(_on_unit_clicked)
+	print("OPEN_LIBRARY", Global.unit_selected)
 	
 	_unit_selected_data = Global.unit_selected.get_data()
 	if DataManager.is_admin == true :
@@ -62,6 +63,7 @@ func select_card(card_id) -> void:
 			card.is_selected = false
 
 func _on_unit_clicked(name: String, team: Global.SIDE) -> void:
+	print("_on_unit_clicked")
 	_unit_selected_data = Global.unit_selected.get_data()
 	var card_select_id = _unit_selected_data[str(_library_page[0])]
 	init_cards(_library_page[0])

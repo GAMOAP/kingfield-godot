@@ -31,7 +31,8 @@ signal admin_card_subit(card_id: String)
 # MATCH
 signal match_found(match_data)
 signal game_start(game_data)
-signal turn_received(turn_data)
+signal turn_processed(turn_data)
+signal turn_error(error_data)
 signal player_joined(player_data)
 signal player_left(player_data)
 
@@ -105,8 +106,11 @@ func emit_match_found(match_data: Dictionary) -> void:
 func emit_game_start(game_data: Dictionary) -> void:
 	game_start.emit(game_data)
 
-func emit_turn_recieved(turn_data: Dictionary) -> void:
-	turn_received.emit(turn_data)
+func emit_turn_processed(turn_data: Dictionary) -> void:
+	turn_processed.emit(turn_data)
+
+func emit_turn_error(error_data: Dictionary) -> void:
+	turn_error.emit(error_data)
 
 func emit_player_joined(player_data: Dictionary) -> void:
 	player_joined.emit(player_data)

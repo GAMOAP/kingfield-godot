@@ -24,7 +24,7 @@ func open()-> void:
 			$Units.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
 			EventManager.emit_unselect_all()
-		Global.SCENES.BARRACK :
+		Global.SCENES.LIBRARY :
 			$Units.init_team(Global.SIDE.USER)
 			$Blocks.show_nbr_row(1)
 		Global.SCENES.LOBBY :
@@ -52,7 +52,9 @@ func close()-> void:
 
 func _on_unit_clicked(name: String, team: Global.SIDE):
 	if _scene == Global.SCENES.HOME:
-		EventManager.emit_set_scene(Global.SCENES.BARRACK)
+		print("BOARD", Global.unit_selected)
+		EventManager.emit_set_scene(Global.SCENES.LIBRARY)
+		print("BOARD_2", Global.unit_selected)
 
 func _on_deck_card_submit(card_id: String) -> void:
 	_set_blocks()

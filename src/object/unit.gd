@@ -60,6 +60,7 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if is_selectable == true and self != Global.unit_selected :
 				Global.unit_selected = self
+				print("UNIT SELECTED", Global.unit_selected.get_data())
 				EventManager.emit_unit_clicked(name, team)
 
 func _on_deck_card_submit(card_id: String) -> void:

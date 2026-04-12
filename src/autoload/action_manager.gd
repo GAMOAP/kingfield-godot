@@ -2,13 +2,11 @@ extends Node
 
 var _action_map = {}
 
-var is_game_unlocked = false:
-	set = _set_game_unlocked
+var game_locked = true:
+	set = _set_game_locked
 
 func resolve_action(actions) -> void:
-	is_game_unlocked = false
-	
-	print(actions)
+	game_locked = true
 	
 	for act_temp in actions:
 		
@@ -44,19 +42,17 @@ func resolve_action(actions) -> void:
 			"block_pos" = block.grid_position,
 		}
 		
-		
 		var executor = _action_map[action_type]
 		await executor.execute(act)
 	
-	is_game_unlocked = true
-	EventManager.emit_game_turn_end()
+	GameManager.end_turn()
 
-func _set_game_unlocked(value):
-	is_game_unlocked = value
+func _set_game_locked(value):
+	game_locked = value
 	
 	EventManager.emit_unselect_all()
 	
 	for unit in get_tree().get_nodes_in_group("units"):
-		unit.is_selectable = is_game_unlocked
+		unit.is_selectable = not game_locked
 	for block in get_tree().get_nodes_in_group("blocks"):
-		block.is_selectable = is_game_unlocked
+		block.is_selectable = not game_locked

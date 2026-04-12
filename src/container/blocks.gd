@@ -56,7 +56,7 @@ func _set_block_label(team_side :Global.CAMP) -> void:
 	var col_labels = Global.COLUMN_LABELS.duplicate()
 	var row_labels = Global.ROW_LABELS.duplicate()
 	
-	if team_side == Global.CAMP.WHITE:
+	if team_side == Global.CAMP.BLACK:
 		col_labels.reverse()
 		row_labels.reverse()
 	

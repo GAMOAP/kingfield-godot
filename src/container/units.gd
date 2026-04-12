@@ -5,7 +5,7 @@ var _units : Array[Node]
 
 func _ready() -> void:
 	_set_units()
-	#Global.unit_selected = $user_team.get_node("king")
+	Global.unit_selected = $user_team.get_node("king")
 	EventManager.unit_clicked.connect(_on_unit_clicked)
 	EventManager.unselect_units.connect(_on_unselect)
 

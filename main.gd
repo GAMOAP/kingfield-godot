@@ -24,8 +24,6 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 	var library = false
 	var players = false
 	
-	GameManager.end_game()
-	
 	match _scene:
 		Global.SCENES.CONNECTION :
 			connexion = true
@@ -35,7 +33,7 @@ func _on_set_scene(scene: Global.SCENES) -> void:
 			board = true
 		Global.SCENES.SETTINGS :
 			players = true
-		Global.SCENES.BARRACK :
+		Global.SCENES.LIBRARY :
 			board = true
 			library = true
 			deck = true

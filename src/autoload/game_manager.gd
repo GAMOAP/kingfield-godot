@@ -1,6 +1,5 @@
 extends Node
 
-
 const board_block = [Vector2(0,0), Vector2(0,-1), Vector2(1,-1),
 					Vector2(1,0), Vector2(1,1), Vector2(0,1), 
 					Vector2(-1,1), Vector2(-1,0), Vector2(-1,-1)]
@@ -11,7 +10,6 @@ var _block_selected = null
 var _blocks_selectables := []
 var _slot_selected := 1
 var _unit_position_temp := Vector2(0, 0)
-var _turn := 0
 var _actions := []
 
 var active = false
@@ -24,23 +22,20 @@ func start_game():
 	EventManager.unit_clicked.connect(_on_unit_selected)
 	EventManager.card_clicked.connect(_on_card_selected)
 	EventManager.block_clicked.connect(_on_block_selected)
-	EventManager.turn_received.connect(_on_receive_turn)
-	#EventManager.game_turn_end.connect(_on_end_turn)
 	
-	_start_turn()
+	start_turn()
 
 func end_game():
 	active = false
+	ActionManager.game_locked = false
 	EventManager.unit_clicked.disconnect(_on_unit_selected)
 	EventManager.card_clicked.disconnect(_on_card_selected)
 	EventManager.block_clicked.disconnect(_on_block_selected)
-	EventManager.turn_received.disconnect(_on_receive_turn)
-	#EventManager.game_turn_end.disconnect(_on_end_turn)
 
 # ----------------------------
 # START/END
 # ----------------------------
-func _start_turn():
+func start_turn():
 	if not active: return
 	_unit_selected = null
 	_card_selected = null
@@ -50,13 +45,14 @@ func _start_turn():
 	_reset_selectable_blocks()
 	
 	EventManager.emit_unselect_all()
+	ActionManager.game_locked = false
 
-func _on_end_turn():
+func end_turn():
 	#var mana = _card_selected.get_data().get('mana')
 	#_unit_selected.consume_mana(mana)
 	
 	print("END_TURN")
-	_start_turn()
+	start_turn()
 	
 # ----------------------------
 # SELECT OBJECT
@@ -103,7 +99,7 @@ func _on_block_selected(block_name):
 		_resolve_slot()
 		
 	elif block_empty == true :
-		_start_turn()
+		start_turn()
 		
 # ----------------------------
 # RESOLVE
@@ -124,17 +120,21 @@ func _resolve_slot():
 	_slot_selected += 1
 	
 	if not next_slot:
-		if MatchManager.current_match:
-			ActionManager.is_game_unlocked = false
-			ServerManager.send_turn({
-				"turn" : _turn,
-				"type" : "action",
-				"actions" : _actions
-			})
+		ActionManager.game_locked = true
+		#Match Scecne
+		if MatchManager.current_match :
+			MatchManager.send_turn(_actions)
+		#Training Scene
 		else:
-			ActionManager.resolve_action(_actions)
+			resolve_action(true, _actions)
 	else:
 		_set_selectables_block()
+
+func resolve_action(resolve : bool, actions = {}) -> void :
+	if resolve == true:
+		ActionManager.resolve_action(actions)
+	else :
+		start_turn()
 
 func _set_selectables_block() -> void:
 	_blocks_selectables = []
@@ -191,10 +191,6 @@ func _set_selectables_block() -> void:
 
 func _reset_selectable_blocks() -> void:
 	_blocks_selectables = []
+	_slot_selected = 1
 	for block in get_tree().get_nodes_in_group("blocks"):
 		block.set_selectable(false)
-
-func _on_receive_turn(data) -> void:
-	var actions = data["actions"]
-	
-	ActionManager.resolve_action(actions)
